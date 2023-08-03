@@ -99,27 +99,6 @@
 			ownerdraw CG_CURSORHINT
 		}
 	}
-
-	//	STANCE
-	menuDef 
-	{
-    	name 		"stance"
-    	fullScreen 	MENU_FALSE
-    	visible 	when( !flashbanged() && !ui_active());
-		rect 		100 0 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
-
-		itemDef 
-		{
-			name 		"chRect"
-			rect 		0 0 60 60 // 64x64
-			ownerdraw 	CG_PLAYER_STANCE
-			forecolor 	0.5 0.5 0.5 0.5
-			visible 	MENU_TRUE
-			textscale 	.21
-			textstyle 	ITEM_TEXTSTYLE_SHADOWED
-			decoration
-		}
-	}
 	
 	#define HUD_ALPHA 0.65
 	#define HUD_FOREGROUND_ALPHA 0.75
@@ -135,78 +114,7 @@
 		rect			BOTTOM_RECT_X BOTTOM_RECT_Y 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
 		exp				rect Y( BOTTOM_RECT_Y - (ONLINEGAME * ONLINEGAME_OFFSET) );
 		fullScreen		0
-		visible			when( !inkillcam() && dvarBool( ammoCounterHide ) == 0 && !flashbanged() && !ui_active() && dvarint( ui_hud_hardcore ) == 0 && NOT_SPECTATING );
-
-		itemDef
-		{
-			name			"clipGraphic"
-			rect			(WEAPINFO_X - 30) (WEAPINFO_Y + 32 -6) 1 1
-			forecolor		1 1 1 HUD_ALPHA
-			ownerdraw		CG_PLAYER_WEAPON_AMMO_CLIP_GRAPHIC
-			visible			1
-			decoration
-		}
-
-		itemDef
-		{
-			name			"ammoStock"
-			rect			(WEAPINFO_X - 30) (WEAPINFO_Y + 34) 1 1
-			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_OBJECTIVE
-			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
-			ownerdraw		CG_PLAYER_WEAPON_AMMO_STOCK
-			visible			1
-			decoration
-		}
-
-		itemDef
-		{
-			name			"offhandFragIcon"
-			rect			(WEAPINFO_X -36) (WEAPINFO_Y -5) 24 24
-			forecolor		1 1 1 HUD_ALPHA
-			ownerdraw		CG_OFFHAND_WEAPON_ICON_FRAG
-			background		"hud_us_grenade" // default texture
-			visible			1
-			decoration
-		}
-
-		itemDef
-		{
-			name			"offhandSmokeIcon"
-			rect			(WEAPINFO_X -66) (WEAPINFO_Y -5) 24 24
-			forecolor		1 1 1 HUD_ALPHA
-			ownerdraw		CG_OFFHAND_WEAPON_ICON_SMOKEFLASH
-			background		"hud_us_smokegrenade" // default texture
-			visible			1
-			decoration
-		}
-		itemDef
-		{
-			name			"offHandSmokeAmmo"
-			rect			(WEAPINFO_X -45) (WEAPINFO_Y +20) 25 25
-			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_OBJECTIVE
-			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
-			ownerdraw		CG_OFFHAND_WEAPON_AMMO_SMOKEFLASH
-			visible			1
-			decoration
-		}
-
-		itemDef
-		{
-			name			"offHandFragAmmo"
-			rect			(WEAPINFO_X -14) (WEAPINFO_Y +20) 25 25
-			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textfont		UI_FONT_OBJECTIVE
-			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
-			ownerdraw		CG_OFFHAND_WEAPON_AMMO_FRAG
-			visible			1
-			decoration
-		}
-
+		visible			when( !ui_active() && NOT_SPECTATING );
 		itemDef
 		{
 			name			"weapname"
@@ -221,30 +129,174 @@
 			decoration
 		}
 	}
-	
-	// LOW HEALTH OVERLAY
-	menuDef
-	{
-		name "Low Health"
-		fullScreen MENU_FALSE
-		visible MENU_TRUE
-		rect 0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
-		
-		itemDef
-		{
-			name "healthoverlay"
-			rect 0 0 640 480
-			forecolor 1.0 1.0 1.0 1.0
-			background "overlay_low_health"
-			ownerdraw CG_PLAYER_LOW_HEALTH_OVERLAY
-			visible MENU_TRUE
-			decoration
-		}
-	}
+    
+    // Vote menu
+    menuDef
+    {
+        name "Vote"
+        fullScreen MENU_FALSE
+        visible MENU_TRUE
+        rect -200 -100 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+        itemDef
+        {
+            name             "openCJ voteBackground"
+            rect            0 -20 200 120
+            origin            0 0
+            visible            MENU_TRUE
+            style            WINDOW_STYLE_SHADER
+            background        "white"
+            forecolor        0.2 0.2 0.2 0.5
+            dvartest         "openCJ_voteString"
+            hidedvar         { "" }
+            decoration
+        }
+        itemDef
+        {
+            name "openCJ voteString"
+            visible MENU_TRUE
+            rect 0 0 0 0
+            origin 5 0
+            forecolor 1.0 1.0 1.0 1.0
+            dvar "openCJ_voteString"
+            textfont UI_FONT_NORMAL
+            textscale 0.25
+            textstyle ITEM_TEXTSTYLE_SHADOWED
+            textaligny 0
+            dvartest "openCJ_voteString"
+            hidedvar { "" }
+            decoration
+        }
+        itemDef
+        {
+            name        "openCJ_mapImage"
+            rect        0 0 160 90
+            origin        5 5
+            visible        MENU_TRUE
+            style        WINDOW_STYLE_DVAR_SHADER
+            dvar        "openCJ_mapvoteImage"
+            dvarTest    "openCJ_mapvoteImage"
+            hideDvar    { "" }
+            decoration
+        }
+        itemDef
+        {
+            name "openCJ voteCount"
+            visible MENU_TRUE
+            rect 0 0 0 0
+            origin 170 20
+            forecolor 1.0 1.0 1.0 1.0
+            dvar "openCJ_voteCounts"
+            textfont UI_FONT_NORMAL
+            textscale 0.25
+            textstyle ITEM_TEXTSTYLE_SHADOWED
+            textaligny 0
+            dvartest "openCJ_voteString"
+            hidedvar { "" }
+            decoration
+        }
+    }
 
 	#define RECT_COMPASS	0 0 COMPASS_SIZE_MP COMPASS_SIZE_MP HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
 	#undef MINIMAP_ORIGIN
 	#define MINIMAP_ORIGIN 	6 6 //2 2
+
+	// Compass
+	menuDef
+	{
+		name			"Compass_old"
+		rect			RECT_COMPASS
+		fullScreen		0
+		visible			when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
+
+		itemDef
+		{
+			name			"minimapBG"
+			rect			(MINIMAP_X_MP - 14) (MINIMAP_Y_MP - 6) COMPASS_SIZE_MP COMPASS_SIZE_MP
+			origin			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"minimap_background"
+			ownerdraw		CG_PLAYER_COMPASS_BACK
+			visible when ( !selecting_location() );
+			decoration
+		}
+		itemDef
+		{
+			name			"minimapTickerBorder"
+			rect			MINIMAP_X_MP (MINIMAP_Y_MP - 15) MINIMAP_W_MP 14
+	 		origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"minimap_tickertape_background"
+			ownerdraw		CG_PLAYER_COMPASS_BACK
+			visible when ( !selecting_location() );
+			decoration
+		}
+		// compass without obj points
+		itemDef
+		{
+			name			"minimapTicker"
+			rect			MINIMAP_X_MP (MINIMAP_Y_MP - 12) MINIMAP_W_MP 9
+			origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"minimap_tickertape_mp"
+			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE_NO_OBJ
+			visible when ( !selecting_location() );
+			decoration
+		}
+		itemDef
+		{
+			name			"mini_map"
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+			origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"compass_map_default"
+			ownerdraw		CG_PLAYER_COMPASS_MAP
+			visible when ( !selecting_location() );
+			decoration
+		}
+		// Objective pointers
+		itemDef
+		{
+			name			"compasspointers"
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+			origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			background		"objective_line"
+			ownerdraw		CG_PLAYER_COMPASS_POINTERS
+			visible when ( !selecting_location() );
+			decoration
+		}
+		// Friendlies pointers
+		itemDef
+		{
+			name			"compassfriendlies"
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+	 	   	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_FRIENDS
+			visible when ( !selecting_location() );
+		}
+		// Enemy pings
+		itemDef
+		{
+			name			"compassenemies"
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+			origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1
+			ownerdraw		CG_PLAYER_COMPASS_ENEMIES
+			visible when (  !selecting_location() );
+		}
+		// Player direction indicator
+		itemDef
+		{
+			name			"compassplayer"
+			rect			MINIMAP_X_MP MINIMAP_Y_MP MINIMAP_W_MP MINIMAP_H_MP
+		 	origin 			MINIMAP_ORIGIN
+			forecolor		1 1 1 1//HUD_FOREGROUND_ALPHA
+			background		"compassping_player"
+			ownerdraw		CG_PLAYER_COMPASS_PLAYER
+			visible when ( !selecting_location() );
+		}
+	}
 
 	// game messages
 	menuDef
