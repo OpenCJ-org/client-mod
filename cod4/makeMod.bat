@@ -73,7 +73,7 @@ copy "%ZONE_DIR%\english\mod.ff" "%OPENCJ_DIR%\"
 @Rem ..and zip all folders to the iwd
 @set /A nr_folders_zip=0
 @setlocal enabledelayedexpansion
-@for %%x in (images materials material_properties weapons) do (
+@for %%x in (images weapons) do (
     @if exist %%x\ (
         @set /A nr_folders_zip+=1
         start /W 7za a -r -tzip "%OPENCJ_DIR%\%OPENCJ_IWD%" %%x

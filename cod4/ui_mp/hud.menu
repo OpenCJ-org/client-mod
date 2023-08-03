@@ -44,21 +44,29 @@
 			textaligny 0
 			decoration
 		}
-		itemDef
+	}
+
+    menuDef
+    {
+		name "Statistics"
+		fullScreen MENU_FALSE
+		visible MENU_TRUE
+		rect 0 0 0 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+        itemDef
 		{
 			name "statistics"
 			visible MENU_TRUE
 			rect 0 0 0 0
-			origin -75 200
+			origin 6 -40
 			forecolor 1.0 1.0 1.0 1.0
 			dvar "openCJ_statistics"
 			textfont UI_FONT_NORMAL
-			textscale 0.25
+			textscale 0.20
 			textstyle ITEM_TEXTSTYLE_SHADOWED
 			textaligny 0
 			decoration
 		}
-	}
+    }
 	
 	// Mantle Hint
 	menuDef 
@@ -345,10 +353,10 @@
 	//	Local Talking Status
 	menuDef 
 	{
-    		name "amitalking"
-    		fullScreen MENU_FALSE
-    		visible MENU_TRUE
-			rect 100 5 24 24 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+        name "amitalking"
+        fullScreen MENU_FALSE
+        visible MENU_TRUE
+        rect 100 5 24 24 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
 
 		itemDef 
 		{
@@ -366,9 +374,9 @@
 	// Remote Talking Status
 	menuDef 
 	{
-    		name "talkers"
-    		fullScreen MENU_FALSE
-    		visible MENU_TRUE
+        name "talkers"
+        fullScreen MENU_FALSE
+        visible MENU_TRUE
 		rect 60 30 16 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
 
 		itemDef 
