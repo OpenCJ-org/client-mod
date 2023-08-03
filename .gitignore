@@ -1,0 +1,10 @@
+cod*/LICENSE
+cod*/README.md
+cod*/config_mp_server.cfg
+*.log
+*.iwd
+*.ff
+missingasset.csv
+cod*/.gitignore
+cod*/maps
+cod*/opencj
