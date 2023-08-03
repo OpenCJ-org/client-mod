@@ -1,4 +1,5 @@
 menufile,ui_mp\hud.menu
+menufile,ui_mp\hud.txt
 menufile,ui_mp\menuitems.menu
 menufile,ui_mp\scriptmenus\opencj_clientcmd.menu
 menufile,ui_mp\scriptmenus\opencj_ingame.menu
