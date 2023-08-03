@@ -1,0 +1,604 @@
+#ifndef DRAW_SHADER
+#define DRAW_SHADER(_name, _origin, _size, _shader, _alignment, _color) \
+		itemDef\
+		{\
+			name 			_name \
+			style			WINDOW_STYLE_SHADER\
+			rect			_size _alignment\
+			background		_shader\
+			origin	_origin\
+			forecolor		_color\
+			visible			1\
+			decoration\
+		}
+#endif
+
+#ifndef DRAW_SHADER_SHOWDVAR
+#define DRAW_SHADER_SHOWDVAR(_name, _origin, _size, _shader, _alignment, _color, _cvar, _show) \
+		itemDef\
+		{\
+			name 			_name \
+			style			WINDOW_STYLE_SHADER\
+			rect			_size _alignment\
+			background		_shader\
+			origin	_origin\
+			forecolor		_color\
+			dvartest _cvar \
+			showdvar _show \
+			visible			1\
+			decoration\
+		}
+#endif
+
+#ifndef DRAW_SHADER_HIDEDVAR
+#define DRAW_SHADER_HIDEDVAR(_name, _origin, _size, _shader, _alignment, _color, _cvar, _hide) \
+		itemDef\
+		{\
+			name 			_name \
+			style			WINDOW_STYLE_SHADER\
+			rect			_size _alignment\
+			background		_shader\
+			origin	_origin\
+			forecolor		_color\
+			dvartest _cvar \
+			hidedvar _hide \
+			visible			1\
+			decoration\
+		}
+#endif
+
+#ifndef MAKE_CHECKBOX
+#define MAKE_CHECKBOX(_text, _cvar, _function, _origin, _show) \
+	itemDef \
+	{ \
+		type ITEM_TYPE_MULTI \
+		text _text \
+		dvar _cvar \
+		dvarStrList _function \
+		rect		-100 0 100 18 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+		origin _origin \
+		textscale	0.4 \
+		textalignx 75 \
+		textaligny 17.5 \
+		textalign ITEM_ALIGN_RIGHT \
+		style		WINDOW_STYLE_FILLED \
+		visible		1 \
+		action \
+		{ \
+			play "mouse_click"; \
+			exec "vstr " ## _cvar; \
+		} \
+		mouseEnter \
+		{ \
+			play "mouse_over"; \
+			setItemColor "" ## _text forecolor 1 1 1 1 \
+		} \
+		mouseExit \
+		{ \
+			setItemColor "" ## _text forecolor 1 1 1 0 \
+		} \
+	} \
+	DRAW_SHADER("underline", _origin, -100 18 77.5 0.25, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 1 1 0.5) \
+	itemDef\
+	{\
+		style			WINDOW_STYLE_SHADER\
+		rect			-18 0 18 18 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+		background		"button_unclicked_bg" \
+		origin	_origin\
+		forecolor		1 1 1 1\
+		visible			1\
+		decoration\
+	} \
+	itemDef\
+	{\
+		name _text \
+		style			WINDOW_STYLE_SHADER\
+		rect			-18 0 18 18 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+		background		"button_clicked_bg" \
+		origin	_origin\
+		forecolor		1 1 1 0\
+		visible			1\
+		decoration\
+	} \
+	itemDef\
+	{\
+		style			WINDOW_STYLE_SHADER\
+		rect			-14 4 10 10 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+		background		"white" \
+		origin	_origin\
+		forecolor		1 1 1 1\
+		visible			1\
+		dvartest _cvar \
+		showdvar _show \
+		decoration\
+	}
+#endif
+
+#ifndef MAKE_MULTICHOICE
+#define MAKE_MULTICHOICE(_text, _cvar, _function, _origin) \
+	itemDef \
+	{ \
+		type ITEM_TYPE_MULTI \
+		text _text \
+		dvar _cvar \
+		dvarStrList _function \
+		rect		-100 0 180 18 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+		origin _origin \
+		textscale	0.4 \
+		textalignx 75 \
+		textaligny 17.5 \
+		textalign ITEM_ALIGN_RIGHT \
+		style		WINDOW_STYLE_FILLED \
+		visible		1 \
+		action \
+		{ \
+			play "mouse_click"; \
+			exec "vstr " ## _cvar; \
+		} \
+		mouseEnter \
+		{ \
+			play "mouse_over"; \
+		} \
+		mouseExit \
+		{ \
+		} \
+	} \
+	DRAW_SHADER("underline", _origin, -100 18 77.5 0.25, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 1 1 0.5) 
+#endif
+
+#ifndef DRAW_BUTTON_SMALL
+#define DRAW_BUTTON_SMALL(_shader_normal, _origin, _text, _action) \
+	DRAW_SHADER("background_border", _origin, -1 -1 72 72, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 1 1 1) \
+	DRAW_SHADER("bgidle", _origin, 0 0 70 70, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 0.06 0.6 0.06 1) \
+	DRAW_SHADER(_text, _origin, 0 0 70 70, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 0 0 0) \
+	DRAW_SHADER("bgidle", _origin, 0 0 70 70, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 0.06 0.6 0.06 0.5) \
+	DRAW_SHADER("iconidle", _origin, 4 4 62 52, _shader_normal, HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 1 1 1) \
+		itemDef\
+		{\
+			name			"button_small" \
+			visible		1 \
+			rect 			-1 -1 72 72 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			origin _origin \
+			text _text \
+			textalign ITEM_ALIGN_CENTER \
+			textaligny 70 \
+			textalignx 35 \
+			textscale 0.25 \
+			type			ITEM_TYPE_BUTTON \
+			action \
+			{\
+				play "mouse_click"; \
+				_action; \
+			}\
+			mouseEnter \
+			{\
+				play "mouse_over"; \
+				setItemColor "" ## _text forecolor 0 1 0 1 \
+			}\
+			mouseExit \
+			{\
+				setItemColor "" ## _text forecolor 0 1 0 0 \
+			}\
+		}
+#endif
+		
+#ifndef DRAW_BUTTON_BIG
+#define DRAW_BUTTON_BIG(_shader_normal, _origin, _text, _action) \
+	DRAW_SHADER("background_border", _origin, -1 -1 252 72, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 1 1 1) \
+	DRAW_SHADER("bgidle", _origin,0 0 250 70, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 0.06 0.6 0.06 1) \
+	DRAW_SHADER(_text, _origin, 0 0 250 70, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 0 0 0) \
+	DRAW_SHADER("bgidle", _origin,0 0 250 70, "white", HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 0.06 0.6 0.06 0.5) \
+	DRAW_SHADER("iconidle", _origin, 4 4 74 62, _shader_normal, HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER, 1 1 1 1) \
+		itemDef\
+		{\
+			name			"button_big" \
+			visible		1 \
+			rect 			-1 -1 252 72 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			origin _origin \
+			text _text \
+			textalignx 90 \
+			textalign ITEM_ALIGN_LEFT \
+			textaligny 55 \
+			textscale 0.75 \
+			type			ITEM_TYPE_BUTTON \
+			action \
+			{\
+				play "mouse_click"; \
+				_action; \
+			}\
+			mouseEnter \
+			{\
+				play "mouse_over"; \
+				setItemColor "" ## _text forecolor 0 1 0 1 \
+			}\
+			mouseExit \
+			{\
+				setItemColor "" ## _text forecolor 0 1 0 0 \
+			}\
+		}
+#endif
+
+#ifndef ADD_SERVER
+#define ADD_SERVER(_name, _numstr, _num, _y) \
+		itemDef \
+		{ \
+			name 			"select_server_bg" \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			180 0 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_arrow" \
+			forecolor		1 1 1 1 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"select_server_bg_unclicked" \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			180 0 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_arrow_unclicked" \
+			forecolor		1 1 1 1 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"select_server_bg_unclicked" \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 190 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_highlight_unclicked" \
+			forecolor		1 1 1 1 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			_name \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 200 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"button_clicked_bg" \
+			forecolor		1 1 1 0 \
+			origin 0 _y \
+			visible			1 \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			_name \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			180 0 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_arrow_clicked" \
+			forecolor		1 1 1 0 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			_name \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 190 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_highlight_clicked" \
+			forecolor		1 1 1 0 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"flag_server" \ 
+			style			WINDOW_STYLE_DVAR_SHADER \
+			rect			0 0.5 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			dvar		"flag_server_" ## _numstr \
+			origin 5 _y \
+			visible			1 \
+			dvartest "flag_server_" ## _numstr \
+			hidedvar {""; "-1"} \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name			"button_server_select" \
+			visible		1 \
+			rect			0 0 199 19.9 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			origin 0 _y \
+			type			ITEM_TYPE_BUTTON \
+			background "white" \
+			dvartest "flag_server_" ## _numstr \
+			hidedvar {""; "-1"} \
+			action \
+			{ \
+				execnow "set selected_this 0"; \
+				execnow "set hide_this 0"; \
+				execnowondvarintvalue selected_server _num "set selected_this 1"; \
+				execnowondvarintvalue clicked_server 1 "setfromdvar hide_this selected_this"; \
+				execnowondvarintvalue hide_this 1 "set clicked_server 0"; \
+				execnowondvarintvalue hide_this 0 "set clicked_server 1"; \
+				execnow "set selected_server " ## _numstr; \
+				play "mouse_click"; \
+			} \
+			mouseEnter  \
+			{ \
+				execondvarintvalue clicked_server 0 "set selected_server " ## _numstr; \
+				setItemColor "" ## _name forecolor 1 1 1 1; \
+				play "mouse_over"; \
+			} \
+			mouseExit \
+			{ \
+				execnow "set hide_serv 0" \
+				execnowondvarintvalue selected_server _num "set hide_serv 1"; \
+				execnowondvarintvalue clicked_server 1 "set hide_serv 0"; \
+				execnowondvarintvalue hide_serv 1 "set selected_server -1"; \
+				setItemColor "" ## _name forecolor 1 1 1 0; \
+			} \
+		} \
+		itemDef \
+		{ \
+			name 			"mapimage" \ 
+			style			WINDOW_STYLE_DVAR_SHADER \
+			rect			0 0 181 112 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			dvar		"mapimage_server_" ## _numstr \
+			origin 210 35 \
+			visible			1 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"mapimage_bar_top" \
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 181 18 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"button_clicked_bg" \
+			forecolor 1 1 1 0.75 \
+			origin 210 35 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			visible			1 \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"mapimage_bar_bottom" \
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 181 18 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"button_clicked_bg" \
+			forecolor 1 1 1 0.75 \
+			origin 210 129 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			visible			1 \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"mapinfo_text_top" \
+			textstyle	ITEM_TEXTSTYLE_SHADOWED \
+			textscale 0.375 \
+			dvar			"mapinfo_mapname_" ## _numstr \
+			rect			0 0 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			forecolor		1 1 1 1 \
+			textalign ITEM_ALIGN_CENTER \
+			origin 303 52 \ 
+			visible			1 \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"mapinfo_text_bottom" \
+			textstyle	ITEM_TEXTSTYLE_SHADOWED \
+			textscale 0.375 \
+			dvar 			"mapinfo_author_" ## _numstr \
+			rect			0 0 0 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			forecolor		1 1 1 1 \
+			origin 303 146.5 \
+			visible			1 \
+			textalign ITEM_ALIGN_CENTER \
+			dvartest "selected_server" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef\
+		{\
+			name			"button_box_join" \
+			visible		1 \
+			rect 			305 156 86 75 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			origin 0 0 \
+			text "Join" \
+			textalignx 43 \
+			textaligny 75 \
+			textscale 0.25 \
+			textalign  ITEM_ALIGN_CENTER \
+			type			ITEM_TYPE_BUTTON \
+			dvartest "selected_server" \
+			showdvar {_numstr} \
+			action \
+			{\
+				play "mouse_click"; \
+				exec "vstr servers_join_" ## _numstr; \
+			}\
+			mouseEnter \
+			{\
+				play "mouse_over"; \
+				setItemColor "background_box_join" forecolor 1 1 1 1; \
+			}\
+			mouseExit \
+			{\
+				setItemColor "background_box_join" forecolor 1 1 1 0; \
+			}\
+		}
+#endif
+
+
+
+#ifndef ADD_SAVE
+#define ADD_SAVE(_name, _numstr, _num, _y) \
+		itemDef \
+		{ \
+			name 			"select_save_bg" \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			180 0 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_arrow_clicked" \
+			forecolor		1 1 1 1 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_save" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"select_save_bg_unclicked" \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			180 0 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_arrow_unclicked" \
+			forecolor		1 1 1 1 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_save" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"select_save_bg_unclicked" \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 190 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_highlight_unclicked" \
+			forecolor		1 1 1 1 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_save" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			_name \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 200 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"button_clicked_bg" \
+			forecolor		1 1 1 0 \
+			origin 0 _y \
+			visible			1 \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			_name \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			180 0 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_arrow_clicked" \
+			forecolor		1 1 1 0 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_save" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			_name \ 
+			style			WINDOW_STYLE_SHADER \
+			rect			0 0 190 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			background		"jh_servers_highlight_clicked" \
+			forecolor		1 1 1 0 \
+			origin 0 _y \
+			visible			1 \
+			dvartest "selected_save" \
+			showdvar { _numstr } \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name 			"icon_save" \ 
+			style			WINDOW_STYLE_DVAR_SHADER \
+			rect			0 0.5 20 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			dvar		"icon_save_" ## _numstr \
+			origin 5 _y \
+			visible			1 \
+			dvartest "icon_save_" ## _numstr \
+			hidedvar {""; "-1"} \
+			decoration \
+		} \
+		itemDef \
+		{ \
+			name			"button_save_select" \
+			visible		1 \
+			rect			0 0 199 19.9 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			origin 0 _y \
+			type			ITEM_TYPE_BUTTON \
+			background "white" \
+			dvartest "icon_save_" ## _numstr \
+			hidedvar {""; "-1"} \
+			action \
+			{ \
+				execnow "set selected_this 0"; \
+				execnow "set hide_this 0"; \
+				execnowondvarintvalue selected_save _num "set selected_this 1"; \
+				execnowondvarintvalue clicked_save 1 "setfromdvar hide_this selected_this"; \
+				execnowondvarintvalue hide_this 1 "set clicked_save 0"; \
+				execnowondvarintvalue hide_this 0 "set clicked_save 1"; \
+				execnow "set selected_save " ## _numstr; \
+				play "mouse_click"; \
+			} \
+			mouseEnter  \
+			{ \
+				execondvarintvalue clicked_save 0 "set selected_save " ## _numstr; \
+				setItemColor "" ## _name forecolor 1 1 1 1; \
+				play "mouse_over"; \
+			} \
+			mouseExit \
+			{ \
+				execnow "set hide_save 0" \
+				execnowondvarintvalue selected_save _num "set hide_save 1"; \
+				execnowondvarintvalue clicked_save 1 "set hide_save 0"; \
+				execnowondvarintvalue hide_save 1 "set selected_save -1"; \
+				setItemColor "" ## _name forecolor 1 1 1 0; \
+			} \
+		} \
+		itemDef\
+		{\
+			name			"button_box_load" \
+			visible		1 \
+			rect 			305 156 86 75 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			origin 0 0 \
+			text "Load" \
+			textalignx 43 \
+			textaligny 75 \
+			textscale 0.25 \
+			textalign  ITEM_ALIGN_CENTER \
+			type			ITEM_TYPE_BUTTON \
+			dvartest "selected_save" \
+			showdvar {_numstr} \
+			action \
+			{\
+				play "mouse_click"; \
+				exec "jhset loadpos_item_selected " ## _numstr; \
+				close saves; \
+			}\
+			mouseEnter \
+			{\
+				play "mouse_over"; \
+				setItemColor "background_box_load" forecolor 1 1 1 1; \
+			}\
+			mouseExit \
+			{\
+				setItemColor "background_box_load" forecolor 1 1 1 0; \
+			}\
+		}
+#endif

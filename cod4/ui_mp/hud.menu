@@ -1,0 +1,370 @@
+#include "ui/menudef.h"
+
+#define WEAPON_TEXTSCALE .3
+
+{
+	assetGlobalDef
+	{
+		fadeClamp 1.0					// sets the fadeup alpha
+		fadeCycle 1						// how often fade happens in milliseconds
+		fadeAmount 0.1					// amount to adjust alpha per cycle
+	}
+	menuDef
+	{
+		name "Onscreen Records"
+		fullScreen MENU_FALSE
+		visible MENU_TRUE
+		rect 0 0 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
+		itemDef
+		{
+			name "checkpointRecords"
+			visible MENU_TRUE
+			//rect -200 50 60 20
+			rect 0 0 0 0
+			origin -200 50
+			forecolor 1.0 1.0 1.0 1.0
+			dvar "openCJ_records_names"
+			textfont UI_FONT_NORMAL
+			textscale 0.25
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			textaligny 0
+			decoration
+		}
+		itemDef
+		{
+			name "checkpointRecordsTime"
+			visible MENU_TRUE
+			rect 0 0 0 0
+			origin -50 50
+			forecolor 1.0 1.0 1.0 1.0
+			dvar "openCJ_records_times"
+			textfont UI_FONT_NORMAL
+			textscale 0.25
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			textaligny 0
+			decoration
+		}
+		itemDef
+		{
+			name "statistics"
+			visible MENU_TRUE
+			rect 0 0 0 0
+			origin -75 200
+			forecolor 1.0 1.0 1.0 1.0
+			dvar "openCJ_statistics"
+			textfont UI_FONT_NORMAL
+			textscale 0.25
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			textaligny 0
+			decoration
+		}
+	}
+	
+	// Mantle Hint
+	menuDef 
+	{
+    	name "MantleHint"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+      	rect 0 130 40 40 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+
+		itemDef 
+		{
+			name "chRect"
+			decoration
+			visible MENU_TRUE
+			rect 0 0 40 40
+			textscale .21
+			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
+			ownerdraw CG_MANTLE_HINT
+		}
+	}
+
+	//	CURSOR HINTS
+	menuDef 
+	{
+    	name "Cursorhints"
+    	fullScreen MENU_FALSE
+    	visible MENU_TRUE
+      	rect 0 70 40 40 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+
+		itemDef 
+		{
+			name "chRect"
+			decoration
+			visible MENU_TRUE
+			rect 0 0 40 40 // 64x64
+			textscale .21
+			textstyle ITEM_TEXTSTYLE_SHADOWEDMORE
+			ownerdraw CG_CURSORHINT
+		}
+	}
+
+	//	STANCE
+	menuDef 
+	{
+    	name 		"stance"
+    	fullScreen 	MENU_FALSE
+    	visible 	when( !flashbanged() && !ui_active());
+		rect 		100 0 40 40 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+
+		itemDef 
+		{
+			name 		"chRect"
+			rect 		0 0 60 60 // 64x64
+			ownerdraw 	CG_PLAYER_STANCE
+			forecolor 	0.5 0.5 0.5 0.5
+			visible 	MENU_TRUE
+			textscale 	.21
+			textstyle 	ITEM_TEXTSTYLE_SHADOWED
+			decoration
+		}
+	}
+	
+	#define HUD_ALPHA 0.65
+	#define HUD_FOREGROUND_ALPHA 0.75
+	#define	BOTTOM_RECT_X 0
+	#define	BOTTOM_RECT_Y 0
+
+	#define WEAPINFO_X -4
+	#define WEAPINFO_Y -36
+
+	menuDef
+	{
+		name			"weaponinfo"
+		rect			BOTTOM_RECT_X BOTTOM_RECT_Y 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+		exp				rect Y( BOTTOM_RECT_Y - (ONLINEGAME * ONLINEGAME_OFFSET) );
+		fullScreen		0
+		visible			when( !inkillcam() && dvarBool( ammoCounterHide ) == 0 && !flashbanged() && !ui_active() && dvarint( ui_hud_hardcore ) == 0 && NOT_SPECTATING );
+
+		itemDef
+		{
+			name			"clipGraphic"
+			rect			(WEAPINFO_X - 30) (WEAPINFO_Y + 32 -6) 1 1
+			forecolor		1 1 1 HUD_ALPHA
+			ownerdraw		CG_PLAYER_WEAPON_AMMO_CLIP_GRAPHIC
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			name			"ammoStock"
+			rect			(WEAPINFO_X - 30) (WEAPINFO_Y + 34) 1 1
+			textscale		TEXTSIZE_SMALL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_OBJECTIVE
+			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
+			ownerdraw		CG_PLAYER_WEAPON_AMMO_STOCK
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			name			"offhandFragIcon"
+			rect			(WEAPINFO_X -36) (WEAPINFO_Y -5) 24 24
+			forecolor		1 1 1 HUD_ALPHA
+			ownerdraw		CG_OFFHAND_WEAPON_ICON_FRAG
+			background		"hud_us_grenade" // default texture
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			name			"offhandSmokeIcon"
+			rect			(WEAPINFO_X -66) (WEAPINFO_Y -5) 24 24
+			forecolor		1 1 1 HUD_ALPHA
+			ownerdraw		CG_OFFHAND_WEAPON_ICON_SMOKEFLASH
+			background		"hud_us_smokegrenade" // default texture
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			name			"offHandSmokeAmmo"
+			rect			(WEAPINFO_X -45) (WEAPINFO_Y +20) 25 25
+			textscale		TEXTSIZE_SMALL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_OBJECTIVE
+			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
+			ownerdraw		CG_OFFHAND_WEAPON_AMMO_SMOKEFLASH
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			name			"offHandFragAmmo"
+			rect			(WEAPINFO_X -14) (WEAPINFO_Y +20) 25 25
+			textscale		TEXTSIZE_SMALL
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textfont		UI_FONT_OBJECTIVE
+			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
+			ownerdraw		CG_OFFHAND_WEAPON_AMMO_FRAG
+			visible			1
+			decoration
+		}
+
+		itemDef
+		{
+			name			"weapname"
+			rect			(WEAPINFO_X - 40) (WEAPINFO_Y + 20) 1 1
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textscale		TEXTSIZE_SMALL
+			textfont		UI_FONT_OBJECTIVE
+			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
+			ownerdraw		CG_PLAYER_WEAPON_NAME
+//			visible when ( dvarBool( hiDef ) == 1 );
+			visible 		1
+			decoration
+		}
+	}
+	
+	// LOW HEALTH OVERLAY
+	menuDef
+	{
+		name "Low Health"
+		fullScreen MENU_FALSE
+		visible MENU_TRUE
+		rect 0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+		
+		itemDef
+		{
+			name "healthoverlay"
+			rect 0 0 640 480
+			forecolor 1.0 1.0 1.0 1.0
+			background "overlay_low_health"
+			ownerdraw CG_PLAYER_LOW_HEALTH_OVERLAY
+			visible MENU_TRUE
+			decoration
+		}
+	}
+
+	#define RECT_COMPASS	0 0 COMPASS_SIZE_MP COMPASS_SIZE_MP HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+	#undef MINIMAP_ORIGIN
+	#define MINIMAP_ORIGIN 	6 6 //2 2
+
+	// game messages
+	menuDef
+	{
+		name			"gamemessages"
+		// (todo: use VERTICAL_ALIGN_TOP in SP)
+		rect			6 -105 10 10 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+		fullScreen		0
+		visible			when( !inkillcam() );
+		
+		itemDef
+		{
+			origin				0 0
+			type				ITEM_TYPE_GAME_MESSAGE_WINDOW
+			gamemsgwindowindex	0
+			gamemsgwindowmode	MODE_BOTTOMUP_ALIGN_BOTTOM
+			textfont			UI_FONT_DEFAULT
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textalign			ITEM_ALIGN_LEFT
+			textscale			(TEXTSIZE_SMALL*0.75)
+			visible				when ( dvarint( ui_hud_obituaries ) == 1 && !ui_active() );
+		}
+	}
+	menuDef
+	{
+		name			"boldgamemessages"
+		// (todo: use VERTICAL_ALIGN_TOP in SP, origin 0 180)
+		rect			0 -60 10 10 HORIZONTAL_ALIGN_CENTER_SAFEAREA VERTICAL_ALIGN_CENTER_SAFEAREA
+		fullScreen		0
+		visible			when( !inkillcam() );
+		
+		itemDef
+		{
+			origin				0 0
+			type				ITEM_TYPE_GAME_MESSAGE_WINDOW
+			gamemsgwindowindex	1
+			gamemsgwindowmode	MODE_BOTTOMUP_ALIGN_BOTTOM
+			textfont			UI_FONT_OBJECTIVE
+			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textalign			ITEM_ALIGN_CENTER
+			textscale			0.417 // SP: 0.5
+			visible				when ( dvarint( ui_hud_obituaries ) == 1 && !ui_active() );
+		}
+	}
+
+	//	Local Talking Status
+	menuDef 
+	{
+    		name "amitalking"
+    		fullScreen MENU_FALSE
+    		visible MENU_TRUE
+			rect 100 5 24 24 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+
+		itemDef 
+		{
+			name "talkingRect"
+			decoration
+			visible MENU_TRUE
+			rect 0 0 24 24 
+			forecolor 1.0 1.0 1.0 1.0
+			textscale .21
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw UI_AMITALKING
+		}
+	}
+
+	// Remote Talking Status
+	menuDef 
+	{
+    		name "talkers"
+    		fullScreen MENU_FALSE
+    		visible MENU_TRUE
+		rect 60 30 16 16 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+
+		itemDef 
+		{
+			name "talker1Rect"
+			decoration
+			visible MENU_TRUE
+			rect 0 0 16 16
+			forecolor 1.0 1.0 1.0 1.0
+			textscale .21
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw UI_TALKER1
+		}
+
+		itemDef 
+		{
+			name "talker2Rect"
+			decoration
+			visible MENU_TRUE
+			rect 0 16 16 16
+			forecolor 1.0 1.0 1.0 1.0
+			textscale .21
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw UI_TALKER2
+		}
+
+		itemDef 
+		{
+			name "talker3Rect"
+			decoration
+			visible MENU_TRUE
+			rect 0 32 16 16
+			forecolor 1.0 1.0 1.0 1.0
+			textscale .21
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw UI_TALKER3
+		}
+
+		itemDef 
+		{
+			name "talker4Rect"
+			decoration
+			visible MENU_TRUE
+			rect 0 48 16 16
+			forecolor 1.0 1.0 1.0 1.0
+			textscale .21
+			textstyle ITEM_TEXTSTYLE_SHADOWED
+			ownerdraw UI_TALKER4
+		}
+	}
+}

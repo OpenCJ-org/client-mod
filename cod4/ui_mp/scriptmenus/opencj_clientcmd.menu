@@ -1,0 +1,16 @@
+#include "ui/menudef.h"
+
+{
+	menuDef
+	{
+		name			"openCJ_clientcmd"
+		rect			0 0 640 480
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		onopen
+		{
+			exec "vstr openCJ_clientcmd";
+			close openCJ_clientcmd;
+		}
+	}
+}
