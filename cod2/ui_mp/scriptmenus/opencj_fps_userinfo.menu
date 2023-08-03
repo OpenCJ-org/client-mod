@@ -1,0 +1,18 @@
+#include "ui_mp/menudef.h"
+
+{
+	menuDef
+	{
+		name			"opencj_fps_userinfo"
+		rect			0 0 640 480
+		focuscolor		GLOBAL_FOCUSED_COLOR
+		style			WINDOW_STYLE_EMPTY
+		onOpen
+		{
+			execnow "setfromdvar temp com_maxfps";
+			execnow "setu com_maxfps 999";
+			exec "wait 1; writeconfig temp.cfg; exec accounts/openCJ.cfg; vstr openCJ_login; unbind all; exec temp; login failed; setfromdvar com_maxfps temp;";
+			close login;
+		}
+	}
+}
