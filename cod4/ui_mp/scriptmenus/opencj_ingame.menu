@@ -5,14 +5,14 @@
 {
 	menuDef
 	{
-		name			"ingame"
+		name			"openCJ_ingame"
 		rect			0 0 640 480
 		focuscolor		COLOR_FOCUSED
 		style			WINDOW_STYLE_EMPTY
 		blurWorld		5.0
 		onEsc 
 		{
-			close self;
+			close openCJ_ingame;
 		}
 
 		// background overlay
@@ -25,8 +25,8 @@
 			visible			1
 			decoration
 		}
-		execKey "1" { play "mouse_click"; close self; open opencj_leaderboard }
-		execKey "2" { play "mouse_click"; close self; exec opencj_leaderboard }
+		execKey "1" { play "mouse_click"; close openCJ_ingame; exec "spawn" }
+		execKey "2" { play "mouse_click"; close openCJ_ingame; exec "spectate" }
 
 		#define ORIGIN_BANNER		108 48
 
@@ -84,8 +84,8 @@
 			decoration
 		}
 
-		DRAW_BUTTON_BIG("white", -280 -140, "Jump", close self; open opencj_leaderboard)
-		DRAW_BUTTON_BIG("white", -280 -50, "Spectate", close self; open opencj_leaderboard)
+		DRAW_BUTTON_BIG("white", -280 -140, "Jump", close openCJ_ingame; exec "spawn")
+		DRAW_BUTTON_BIG("white", -280 -50, "Spectate", close openCJ_ingame; exec "spectate")
 		
 	}
 }

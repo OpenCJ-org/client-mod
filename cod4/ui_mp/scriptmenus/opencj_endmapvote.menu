@@ -124,6 +124,10 @@
         focuscolor  COLOR_UNFOCUSED
         style       WINDOW_STYLE_EMPTY
         blurWorld   5.0
+        onEsc
+        {
+            // Don't allow closing
+        }
     
     // Outer background
         itemDef

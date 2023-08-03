@@ -1,7 +1,7 @@
 // ingame menu defs
 // 
 {	
- 	loadMenu { "ui_mp/scriptmenus/ingame.menu" }
+ 	loadMenu { "ui_mp/scriptmenus/opencj_ingame.menu" }
 	loadMenu { "ui_mp/scriptmenus/ingame_controls.menu" }
 	loadMenu { "ui_mp/scriptmenus/ingame_options.menu" }
 	loadMenu { "ui_mp/scriptmenus/popup_leavegame.menu" }
