@@ -86,6 +86,6 @@
 
 		DRAW_BUTTON_BIG("white", -280 -140, "Jump", close openCJ_ingame; exec "spawn")
 		DRAW_BUTTON_BIG("white", -280 -50, "Spectate", close openCJ_ingame; exec "spectate")
-		
+		DRAW_BUTTON_BIG("white", -280  40, "Leaderboard", close openCJ_ingame; exec "openleaderboard")
 	}
 }
