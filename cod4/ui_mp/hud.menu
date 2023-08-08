@@ -13,7 +13,7 @@
 	{
 		name "Onscreen Records"
 		fullScreen MENU_FALSE
-		visible MENU_TRUE
+		visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
 		rect 0 0 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
 		itemDef
 		{
@@ -50,18 +50,18 @@
     {
 		name "Statistics"
 		fullScreen MENU_FALSE
-		visible MENU_TRUE
+		visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
 		rect 0 0 0 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
         itemDef
 		{
 			name "statistics"
 			visible MENU_TRUE
 			rect 0 0 0 0
-			origin 6 -40
+			origin 6 -60
 			forecolor 1.0 1.0 1.0 1.0
 			dvar "openCJ_statistics"
 			textfont UI_FONT_NORMAL
-			textscale 0.20
+			textscale 0.25
 			textstyle ITEM_TEXTSTYLE_SHADOWED
 			textaligny 0
 			decoration
@@ -73,7 +73,7 @@
 	{
     	name "MantleHint"
     	fullScreen MENU_FALSE
-    	visible MENU_TRUE
+    	visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
       	rect 0 130 40 40 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
 
 		itemDef 
@@ -93,7 +93,7 @@
 	{
     	name "Cursorhints"
     	fullScreen MENU_FALSE
-    	visible MENU_TRUE
+    	visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
       	rect 0 70 40 40 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
 
 		itemDef 
@@ -122,7 +122,7 @@
 		rect			BOTTOM_RECT_X BOTTOM_RECT_Y 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
 		exp				rect Y( BOTTOM_RECT_Y - (ONLINEGAME * ONLINEGAME_OFFSET) );
 		fullScreen		0
-		visible			when( !ui_active() && NOT_SPECTATING );
+		visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on" && NOT_SPECTATING) );
 		itemDef
 		{
 			name			"weapname"

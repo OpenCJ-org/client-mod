@@ -8,6 +8,7 @@ menufile,ui_mp\scriptmenus\opencj_fps_userinfo.menu
 menufile,ui_mp\scriptmenus\opencj_leaderboard.menu
 menufile,ui_mp\scriptmenus\opencj_lb_fps.menu
 menufile,ui_mp\scriptmenus\opencj_endmapvote.menu
+menufile,ui_mp\scriptmenus\opencj_runsboard.menu
 material,opencj_key_a
 material,opencj_key_d
 material,opencj_key_s
@@ -40,3 +41,6 @@ material,opencj_icon_fps125
 material,opencj_icon_fpshax
 material,opencj_icon_fpsmix
 material,default
+material,opencj_logo_nobg
+material,opencj_icon_exit
+material,opencj_icon_gear

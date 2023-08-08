@@ -1,91 +1,282 @@
 #include "ui/menudef.h"
-#include "ui_mp/menuitems.menu"
-#define ORIGIN_CHOICE1	80 84
-#define ORIGIN_CHOICE2	80 108
+
+#include "ui_mp/scriptmenus/opencj_common.inc"
+
+#define ADDPREFIX(val)  OPENCJDVAR("ig_")val
+
+#define BORDER_ORG_FIX(val)       (val-1)
+#define BORDER_SIZE_FIX(val)      (val+1)
+
+// Outer frame things
+
+#define ELEMENT_SPACING           2 // Spacing between each part (left, center, right)
+
+#define OUTER_FRAME_SIZE_X        400
+#define OUTER_FRAME_SIZE_Y        268
+#define OUTER_FRAME_ORG_X         ((FULLSCREEN_X - OUTER_FRAME_SIZE_X) / 2)
+#define OUTER_FRAME_ORG_Y         ((FULLSCREEN_Y - OUTER_FRAME_SIZE_Y) / 2)
+
+// Left frame things
+
+#define LEFT_SPACING              10
+
+    // Background
+#define LEFT_FRAME_SIZE_X         80
+#define LEFT_FRAME_SIZE_Y         (OUTER_FRAME_SIZE_Y - (2 * ELEMENT_SPACING))
+#define LEFT_FRAME_ORG_X          (OUTER_FRAME_ORG_X + ELEMENT_SPACING)
+#define LEFT_FRAME_ORG_Y          (OUTER_FRAME_ORG_Y + ELEMENT_SPACING)
+
+    // Logo
+#define OPENCJ_LOGO_SIZE_X        (50 - (2 * LEFT_SPACING))
+#define OPENCJ_LOGO_SIZE_Y        OPENCJ_LOGO_SIZE_X // Square
+#define OPENCJ_LOGO_OFFSET_X      ((LEFT_FRAME_SIZE_X - OPENCJ_LOGO_SIZE_X) / 2)
+#define OPENCJ_LOGO_ORG_X         (LEFT_FRAME_ORG_X + OPENCJ_LOGO_OFFSET_X)
+#define OPENCJ_LOGO_ORG_Y         (LEFT_FRAME_ORG_Y + 0)
+
+    // Buttons
+#define ACTION_COMMON          play "mouse_click"; close self
+#define ACTION_PLAY            ACTION_COMMON; exec "spawn"
+#define ACTION_SPEC            ACTION_COMMON; exec "spectate"
+#define ACTION_RUN             ACTION_COMMON; exec "openrunsboard"
+#define ACTION_LB              ACTION_COMMON; exec "openleaderboard"
+
+#define BTN_SIZE_X            (LEFT_FRAME_SIZE_X - (2 * LEFT_SPACING))
+#define BTN_SIZE_Y            20
+#define BTN_SPACING           1
+#define BTN_GROUP_SPACING     10
+    // For active buttons:
+#define BTN_BACKCOLOR         ALICE_BLUE_COLOR
+#define BTN_FORECOLOR         BLACK_COLOR
+#define BTN_FONT              UI_FONT_NORMAL
+#define BTN_FONTSIZE          0.24
+    // For inactive buttons:
+#define IBTN_BACKCOLOR        LIGHTGREY_COLOR
+
+#define GRP_BG_SPACING        1
+    // Group 1: play & spectate
+
+#define GRP1_BG_SIZE_X         (BTN_SIZE_X + (2 * GRP_BG_SPACING))
+#define GRP1_BG_SIZE_Y         ((2 * BTN_SIZE_Y) + (2 * GRP_BG_SPACING) + BTN_SPACING)
+#define GRP1_BG_ORG_X          (LEFT_FRAME_ORG_X + LEFT_SPACING - GRP_BG_SPACING)
+#define GRP1_BG_ORG_Y          (OPENCJ_LOGO_ORG_Y + OPENCJ_LOGO_SIZE_Y - GRP_BG_SPACING)
+
+#define BTN_PLAY_SIZE_X        BTN_SIZE_X
+#define BTN_PLAY_SIZE_Y        BTN_SIZE_Y
+#define BTN_PLAY_ORG_X         (LEFT_FRAME_ORG_X + LEFT_SPACING)
+#define BTN_PLAY_ORG_Y         (OPENCJ_LOGO_ORG_Y + OPENCJ_LOGO_SIZE_Y)
+
+#define BTN_SPEC_SIZE_X        BTN_SIZE_X
+#define BTN_SPEC_SIZE_Y        BTN_SIZE_Y
+#define BTN_SPEC_ORG_X         BTN_PLAY_ORG_X
+#define BTN_SPEC_ORG_Y         (BTN_PLAY_ORG_Y + BTN_PLAY_SIZE_Y + BTN_SPACING)
+
+    // Group 2: runs, leaderboard, playbacks & challenges
+#define GRP2_BG_SIZE_X         GRP1_BG_SIZE_X
+#define GRP2_BG_SIZE_Y         ((4 * BTN_SIZE_Y) + (2 * GRP_BG_SPACING) + (3 * BTN_SPACING))
+#define GRP2_BG_ORG_X          GRP1_BG_ORG_X
+#define GRP2_BG_ORG_Y          (BTN_SPEC_ORG_Y + BTN_SPEC_SIZE_Y + BTN_GROUP_SPACING - GRP_BG_SPACING)
+
+#define BTN_RUNS_SIZE_X        BTN_SIZE_X
+#define BTN_RUNS_SIZE_Y        BTN_SIZE_Y
+#define BTN_RUNS_ORG_X         BTN_PLAY_ORG_X
+#define BTN_RUNS_ORG_Y         (BTN_SPEC_ORG_Y + BTN_SPEC_SIZE_Y + BTN_GROUP_SPACING)
+
+#define BTN_LB_SIZE_X          BTN_SIZE_X
+#define BTN_LB_SIZE_Y          BTN_SIZE_Y
+#define BTN_LB_ORG_X           BTN_RUNS_ORG_X
+#define BTN_LB_ORG_Y           (BTN_RUNS_ORG_Y + BTN_RUNS_SIZE_Y + BTN_SPACING)
+
+#define BTN_PLAYBA_SIZE_X      BTN_SIZE_X
+#define BTN_PLAYBA_SIZE_Y      BTN_SIZE_Y
+#define BTN_PLAYBA_ORG_X       BTN_LB_ORG_X
+#define BTN_PLAYBA_ORG_Y       (BTN_LB_ORG_Y + BTN_LB_SIZE_Y + BTN_SPACING)
+
+#define BTN_CHALL_SIZE_X       BTN_SIZE_X
+#define BTN_CHALL_SIZE_Y       BTN_SIZE_Y
+#define BTN_CHALL_ORG_X        BTN_PLAYBA_ORG_X
+#define BTN_CHALL_ORG_Y        (BTN_PLAYBA_ORG_Y + BTN_PLAYBA_SIZE_Y + BTN_SPACING)
+
+    // Group 3: shop
+#define GRP3_BG_SIZE_X         GRP2_BG_SIZE_X
+#define GRP3_BG_SIZE_Y         ((1 * BTN_SIZE_Y) + (2 * GRP_BG_SPACING))
+#define GRP3_BG_ORG_X          GRP2_BG_ORG_X
+#define GRP3_BG_ORG_Y          (BTN_CHALL_ORG_Y + BTN_CHALL_SIZE_Y + BTN_GROUP_SPACING - GRP_BG_SPACING)
+
+#define BTN_SHOP_SIZE_X        BTN_SIZE_X
+#define BTN_SHOP_SIZE_Y        BTN_SIZE_Y
+#define BTN_SHOP_ORG_X         BTN_CHALL_ORG_X
+#define BTN_SHOP_ORG_Y         (BTN_CHALL_ORG_Y + BTN_CHALL_SIZE_Y + BTN_GROUP_SPACING)
+
+    // Group 4: map list & servers
+#define GRP4_BG_SIZE_X         GRP3_BG_SIZE_X
+#define GRP4_BG_SIZE_Y         ((2 * BTN_SIZE_Y) + (2 * GRP_BG_SPACING) + BTN_SPACING)
+#define GRP4_BG_ORG_X          GRP3_BG_ORG_X
+#define GRP4_BG_ORG_Y          (BTN_SHOP_ORG_Y + BTN_SHOP_SIZE_Y + BTN_GROUP_SPACING - GRP_BG_SPACING)
+
+#define BTN_MAPLIST_SIZE_X     BTN_SIZE_X
+#define BTN_MAPLIST_SIZE_Y     BTN_SIZE_Y
+#define BTN_MAPLIST_ORG_X      BTN_SHOP_ORG_X
+#define BTN_MAPLIST_ORG_Y      (BTN_SHOP_ORG_Y + BTN_SHOP_SIZE_Y + BTN_GROUP_SPACING)
+
+#define BTN_SERVERS_SIZE_X     BTN_SIZE_X
+#define BTN_SERVERS_SIZE_Y     BTN_SIZE_Y
+#define BTN_SERVERS_ORG_X      BTN_MAPLIST_ORG_X
+#define BTN_SERVERS_ORG_Y      (BTN_MAPLIST_ORG_Y + BTN_MAPLIST_SIZE_Y + BTN_SPACING)
+
+// Center frame things
+#define CENTER_SPACING            15
+    // Background
+#define CENTER_FRAME_SIZE_X       280
+#define CENTER_FRAME_SIZE_Y       LEFT_FRAME_SIZE_Y
+#define CENTER_FRAME_ORG_X        (LEFT_FRAME_ORG_X + LEFT_FRAME_SIZE_X + ELEMENT_SPACING)
+#define CENTER_FRAME_ORG_Y        LEFT_FRAME_ORG_Y
+
+    // MOTD: title
+#define MOTD_TITLE_ORG_X          (LEFT_FRAME_ORG_X + LEFT_FRAME_SIZE_X + CENTER_SPACING + ELEMENT_SPACING)
+#define MOTD_TITLE_ORG_Y          (OPENCJ_LOGO_ORG_Y + (OPENCJ_LOGO_SIZE_Y / 2))
+#define MOTD_TITLE_SIZE_X         50
+#define MOTD_TITLE_SIZE_Y         25
+
+    // MOTD: content
+#define MOTD_CONTENT_SIZE_X       (CENTER_FRAME_SIZE_X - (2 * CENTER_SPACING))
+#define MOTD_CONTENT_SIZE_Y       20
+#define MOTD_CONTENT_ORG_X        MOTD_TITLE_ORG_X
+#define MOTD_CONTENT_ORG_Y        (MOTD_TITLE_ORG_Y + MOTD_TITLE_SIZE_Y + CENTER_SPACING)
+
+    // MOTD: date
+#define MOTD_DATE_SIZE_X          40
+#define MOTD_DATE_SIZE_Y          10
+#define MOTD_DATE_ORG_X           MOTD_CONTENT_ORG_X
+#define MOTD_DATE_ORG_Y           (CENTER_FRAME_ORG_Y + CENTER_FRAME_SIZE_Y - 50 - CENTER_SPACING)
+
+    // Button: give feedback
+#define BTN_FEEDBACK_SIZE_X    BTN_PLAY_SIZE_X
+#define BTN_FEEDBACK_SIZE_Y    BTN_PLAY_SIZE_Y
+#define BTN_FEEDBACK_ORG_X     MOTD_DATE_ORG_X
+#define BTN_FEEDBACK_ORG_Y     BTN_SERVERS_ORG_Y
+
+// Right frame things
+#define RIGHT_SPACING             LEFT_SPACING
+    // Background
+#define RIGHT_FRAME_SIZE_X        (OUTER_FRAME_SIZE_X - LEFT_FRAME_SIZE_X - CENTER_FRAME_SIZE_X - (4 * ELEMENT_SPACING))
+#define RIGHT_FRAME_SIZE_Y        CENTER_FRAME_SIZE_Y
+#define RIGHT_FRAME_ORG_X         (CENTER_FRAME_ORG_X + CENTER_FRAME_SIZE_X + ELEMENT_SPACING)
+#define RIGHT_FRAME_ORG_Y         CENTER_FRAME_ORG_Y
+
+    // Icon: rank
+#define RANK_ICON_SIZE_X          15
+#define RANK_ICON_SIZE_Y          RANK_ICON_SIZE_X // Square
+#define RANK_ICON_ORG_X           (RIGHT_FRAME_ORG_X + ((RIGHT_FRAME_SIZE_X - RANK_ICON_SIZE_X) / 2))
+#define RANK_ICON_ORG_Y           (OPENCJ_LOGO_ORG_Y + RIGHT_SPACING)
+
+    // Button: leave game
+#define BTN_LEAVE_SIZE_X    20
+#define BTN_LEAVE_SIZE_Y    BTN_LEAVE_SIZE_X // Square
+#define BTN_LEAVE_ORG_X     (RIGHT_FRAME_ORG_X + ((RIGHT_FRAME_SIZE_X - BTN_LEAVE_SIZE_X) / 2))
+#define BTN_LEAVE_ORG_Y     (RIGHT_FRAME_ORG_Y + RIGHT_FRAME_SIZE_Y - BTN_LEAVE_SIZE_Y - RIGHT_SPACING)
+
+    // Button: settings
+#define BTN_SETTINGS_SIZE_X       BTN_LEAVE_SIZE_X
+#define BTN_SETTINGS_SIZE_Y       BTN_LEAVE_SIZE_Y
+#define BTN_SETTINGS_ORG_X        BTN_LEAVE_ORG_X
+#define BTN_SETTINGS_ORG_Y        (BTN_LEAVE_ORG_Y - RIGHT_SPACING - BTN_LEAVE_SIZE_Y)
+
 {
-	menuDef
-	{
-		name			"openCJ_ingame"
-		rect			0 0 640 480
-		focuscolor		COLOR_FOCUSED
-		style			WINDOW_STYLE_EMPTY
-		blurWorld		5.0
-		onEsc 
-		{
-			close openCJ_ingame;
-		}
+    menuDef
+    {
+        name        opencj_ingame
+        rect        DEFAULT_RECT(0 0 FULLSCREEN_X FULLSCREEN_Y)
+        focuscolor  COLOR_UNFOCUSED
+        style       WINDOW_STYLE_EMPTY
+        blurWorld   5.0
+        onEsc
+        {
+            close self;
+        }
+        execKey "1" { ACTION_PLAY }
+        execKey "2" { ACTION_SPEC }
+        execKey "l" { ACTION_LB }
 
-		// background overlay
-		itemDef
-		{
-			style			WINDOW_STYLE_SHADER
-			rect			0 0 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
-			background "gradient"
-			forecolor 0.25 0.25 0.25 1
-			visible			1
-			decoration
-		}
-		execKey "1" { play "mouse_click"; close openCJ_ingame; exec "spawn" }
-		execKey "2" { play "mouse_click"; close openCJ_ingame; exec "spectate" }
+    // Frame background
+        FIXED_RECT(BLACK_COLOR, OUTER_FRAME_ORG_X, OUTER_FRAME_ORG_Y, OUTER_FRAME_SIZE_X, OUTER_FRAME_SIZE_Y)
 
-		#define ORIGIN_BANNER		108 48
+    // Left side frame
+        // Background
+        FIXED_RECT(YINMN_BLUE_COLOR, LEFT_FRAME_ORG_X, LEFT_FRAME_ORG_Y, LEFT_FRAME_SIZE_X, LEFT_FRAME_SIZE_Y)
 
-		itemDef
-		{
-			style			WINDOW_STYLE_SHADER
-			rect			ORIGIN_BANNER 400 0.5
-			background		"line_horizontal"
-			forecolor		1 1 1 0.85
-			visible			1
-			decoration
-		}
-		itemDef
-		{
-			style			WINDOW_STYLE_SHADER
-			rect			ORIGIN_BANNER 340 10
-			origin			30 1
-			background		"line_horizontal"
-			forecolor		0.08 0.7 0.08 1
-			visible			1
-			decoration
-		}
-		itemDef
-		{
-			style			WINDOW_STYLE_SHADER
-			rect			ORIGIN_BANNER 400 0.5
-			origin			0 12
-			background		"line_horizontal"
-			forecolor		1 1 1 0.85
-			visible			1
-			decoration
-		}
-			
-		itemDef
-		{
-			rect			0 64 640 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		0.4583
-			textalign		ITEM_ALIGN_CENTER
-			forecolor		1 1 1 0.85
-			text			"OpenCJ"
-			visible			1
-			decoration
-		}
-		itemDef
-		{
-			rect			0 84 640 0 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		0.375
-			textalign		ITEM_ALIGN_CENTER
-			forecolor		1 1 1 0.75
-			text 			"An open-source CodJumper implementation"
-			autowrapped
-			visible			1
-			decoration
-		}
+        // OpenCJ logo
+        SHADER_RECT_ALWAYS(opencj_logo, opencj_logo_nobg, OPENCJ_LOGO_ORG_X, OPENCJ_LOGO_ORG_Y, OPENCJ_LOGO_SIZE_X, OPENCJ_LOGO_SIZE_Y)
 
-		DRAW_BUTTON_BIG("white", -280 -140, "Jump", close openCJ_ingame; exec "spawn")
-		DRAW_BUTTON_BIG("white", -280 -50, "Spectate", close openCJ_ingame; exec "spectate")
-		DRAW_BUTTON_BIG("white", -280  40, "Leaderboard", close openCJ_ingame; exec "openleaderboard")
-	}
+        // Group 1
+            // Background
+            FIXED_RECT(BLACK_COLOR, GRP1_BG_ORG_X, GRP1_BG_ORG_Y, GRP1_BG_SIZE_X, GRP1_BG_SIZE_Y)
+            // Buttons: play
+        BUTTON_RECT_TXT_ACTION(btn_play, "Play", ACTION_PLAY, PERIWINKLE_COLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_PLAY_ORG_X, BTN_PLAY_ORG_Y, BTN_PLAY_SIZE_X, BTN_PLAY_SIZE_Y)
+            // Buttons: spectate
+        BUTTON_RECT_TXT_ACTION(btn_spec, "Spectate", ACTION_SPEC, BTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_SPEC_ORG_X, BTN_SPEC_ORG_Y, BTN_SPEC_SIZE_X, BTN_SPEC_SIZE_Y)
+
+        // Group 2
+            // Background
+            FIXED_RECT(BLACK_COLOR, GRP2_BG_ORG_X, GRP2_BG_ORG_Y, GRP2_BG_SIZE_X, GRP2_BG_SIZE_Y)
+            // Buttons: runs
+        BUTTON_RECT_TXT_ACTION(btn_runs, "Runs", ACTION_RUN, BTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_RUNS_ORG_X, BTN_RUNS_ORG_Y, BTN_RUNS_SIZE_X, BTN_RUNS_SIZE_Y)
+            // Buttons: leaderboard
+        BUTTON_RECT_TXT_ACTION(btn_lb, "Leaderboard", ACTION_LB, BTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_LB_ORG_X, BTN_LB_ORG_Y, BTN_LB_SIZE_X, BTN_LB_SIZE_Y)
+            // Buttons: playbacks
+        BUTTON_RECT_TXT_ACTION(btn_playba, "Playbacks", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_PLAYBA_ORG_X, BTN_PLAYBA_ORG_Y, BTN_PLAYBA_SIZE_X, BTN_PLAYBA_SIZE_Y)
+            // Buttons: challenges
+        BUTTON_RECT_TXT_ACTION(btn_chall, "Challenges", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_CHALL_ORG_X, BTN_CHALL_ORG_Y, BTN_CHALL_SIZE_X, BTN_CHALL_SIZE_Y)
+
+        // Group 3
+            // Background
+            FIXED_RECT(BLACK_COLOR, GRP3_BG_ORG_X, GRP3_BG_ORG_Y, GRP3_BG_SIZE_X, GRP3_BG_SIZE_Y)
+            // Buttons: shop
+        BUTTON_RECT_TXT_ACTION(btn_shop, "Shop", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_SHOP_ORG_X, BTN_SHOP_ORG_Y, BTN_SHOP_SIZE_X, BTN_SHOP_SIZE_Y)
+
+        // Group 4
+            // Background
+            FIXED_RECT(BLACK_COLOR, GRP4_BG_ORG_X, GRP4_BG_ORG_Y, GRP4_BG_SIZE_X, GRP4_BG_SIZE_Y)
+            // Buttons: map list
+        BUTTON_RECT_TXT_ACTION(btn_maplist, "Maplist", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_MAPLIST_ORG_X, BTN_MAPLIST_ORG_Y, BTN_MAPLIST_SIZE_X, BTN_MAPLIST_SIZE_Y)
+            // Button: servers
+        BUTTON_RECT_TXT_ACTION(btn_servers, "Servers", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_SERVERS_ORG_X, BTN_SERVERS_ORG_Y, BTN_SERVERS_SIZE_X, BTN_SERVERS_SIZE_Y)
+
+
+    // Center frame
+        // Background
+        FIXED_RECT(RAISIN_COLOR, CENTER_FRAME_ORG_X, CENTER_FRAME_ORG_Y, CENTER_FRAME_SIZE_X, CENTER_FRAME_SIZE_Y)
+
+        // MOTD: title
+        FIXED_RECT_DVARLEFT_STYLED(ADDPREFIX("motd_title"), UI_FONT_DEFAULT, 0.38, NO_COLOR, ALICE_BLUE_COLOR, MOTD_TITLE_ORG_X, MOTD_TITLE_ORG_Y, MOTD_TITLE_SIZE_X, MOTD_TITLE_SIZE_Y)
+
+        // MOTD: content
+        FIXED_RECT_DVARLEFT_STYLED(ADDPREFIX("motd_content"), UI_FONT_DEFAULT, 0.23, NO_COLOR, ALICE_BLUE_COLOR, MOTD_CONTENT_ORG_X, MOTD_CONTENT_ORG_Y, MOTD_CONTENT_SIZE_X, MOTD_CONTENT_SIZE_Y)
+
+        // MOTD: date
+        FIXED_RECT_DVARLEFT_STYLED(ADDPREFIX("motd_date"), UI_FONT_NORMAL, 0.19, NO_COLOR, ALICE_BLUE_COLOR, MOTD_DATE_ORG_X, MOTD_DATE_ORG_Y, MOTD_DATE_SIZE_X, MOTD_DATE_SIZE_Y)
+
+        // Page button: forward in time (not implemented yet)
+
+        // Page button: backward in time(not implemented yet)
+
+        // Page button: give feedback
+        //BUTTON_RECT_TXT(btn_feedback, "Give feedback", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_FEEDBACK_ORG_X, BTN_FEEDBACK_ORG_Y, BTN_FEEDBACK_SIZE_X, BTN_FEEDBACK_SIZE_Y)
+
+        // Page button: contribute (not implemented yet)
+
+
+    // Right side frame
+        // Background
+        FIXED_RECT(YINMN_BLUE_COLOR, RIGHT_FRAME_ORG_X, RIGHT_FRAME_ORG_Y, RIGHT_FRAME_SIZE_X, RIGHT_FRAME_SIZE_Y)
+
+        // Icon: rank
+        SEL_DVARSHADER_RECT(rank_icon, ADDPREFIX("rank"), RANK_ICON_ORG_X, RANK_ICON_ORG_Y, RANK_ICON_SIZE_X, RANK_ICON_SIZE_Y)
+
+        // Button: settings
+        SEL_SHADER_RECT_ALWAYS(btn_settings, opencj_icon_gear, BTN_SETTINGS_ORG_X, BTN_SETTINGS_ORG_Y, BTN_SETTINGS_SIZE_X, BTN_SETTINGS_SIZE_Y)
+
+        // Button: leave game
+        SEL_SHADER_RECT_ALWAYS_ACTION(btn_leave, exec "disconnect", opencj_icon_exit, BTN_LEAVE_ORG_X, BTN_LEAVE_ORG_Y, BTN_LEAVE_SIZE_X, BTN_LEAVE_SIZE_Y)
+
+    } // menuDef
 }

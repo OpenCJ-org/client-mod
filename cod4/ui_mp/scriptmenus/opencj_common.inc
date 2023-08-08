@@ -11,12 +11,14 @@
 #define MID_BLUE_COLOR      .0 .8 1.0 .8
 #define BLUE_COLOR          .0 .1 0.5 1
 
+// Main OpenCJ theme colors
 #define RAISIN_COLOR        0.08235 0.08627 0.1451 1
 #define YINMN_BLUE_COLOR    0.2862 0.3059 0.4118 1
 #define GLAUCOUS_COLOR      0.4078 0.4392 0.5843 1
 #define ALICE_BLUE_COLOR    0.8745 0.9294 1 1
 #define PERIWINKLE_COLOR    0.7490 0.7961 1 1
 
+// Other colors
 #define MILD_GREEN_COLOR    0.2 0.7490 0.2 1
 #define RED_COLOR           1.0 0.1 0.1 0.95
 #define GREEN_COLOR         0.1 1.0 0.1 0.95
@@ -36,33 +38,49 @@
 
 #define LEADERBOARD_ORG_X           0
 #define LEADERBOARD_ORG_Y           120
-#define LEADERBOARD_SIZE_X          (FULLSCREEN_X-LEADERBOARD_ORG_X-115)
+#define LEADERBOARD_SIZE_X          (FULLSCREEN_X-LEADERBOARD_ORG_X-95)
 #define LEADERBOARD_SIZE_Y          (FULLSCREEN_Y-LEADERBOARD_ORG_Y-140)
 
 
-#define BUTTON_RECT_BASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+#define BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     name            _name \
     style           WINDOW_STYLE_FILLED \
-    rect            DEFAULT_RECT(0 0 (sizeX+2) (sizeY)) \
-    origin          (orgX-2) (orgY-2) \
+    rect            DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin          orgX orgY \
     backcolor       _backColor \
     foreColor       _foreColor \
-    border          WINDOW_BORDER_FULL \
-    bordercolor     NO_COLOR \
-    bordersize      1 \
     type            ITEM_TYPE_BUTTON \
     textfont        _font \
     textscale       _txtScale \
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
-    action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction } \
-    mouseEnter      { setitemcolor _name bordercolor GREYISH_COLOR; play "mouse_over" } \
-    mouseExit       { setitemcolor _name bordercolor NO_COLOR } \
     visible         1
+
+#define BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    name            _name \
+    style           WINDOW_STYLE_FILLED \
+    rect            DEFAULT_RECT(0 0 (sizeX+2) (sizeY+2)) \
+    origin          (orgX-2) (orgY-2) \
+    backcolor       _backColor \
+    foreColor       _foreColor \
+    type            ITEM_TYPE_BUTTON \
+    textfont        _font \
+    textscale       _txtScale \
+    textalign       ITEM_ALIGN_MIDDLE_CENTER \
+    visible         1 \
+    border          WINDOW_BORDER_FULL \
+    bordercolor     NO_COLOR \
+    bordersize      1 \
+    mouseEnter      { setitemcolor _name bordercolor GREYISH_COLOR; play "mouse_over" } \
+    mouseExit       { setitemcolor _name bordercolor NO_COLOR }
+
+#define BUTTON_RECT_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
 #define BUTTON_RECT_DVAR(_name, _dvar, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        BUTTON_RECT_BASE(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        BUTTON_RECT_ACTIONBASE(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
         dvar            _dvar \
         dvartest        _dvar \
         hidedvar        { "" } \
@@ -71,7 +89,7 @@
 #define BUTTON_RECT_DVAR_WHEN(_name, _dvar, _visibility, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        BUTTON_RECT_BASE(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        BUTTON_RECT_ACTIONBASE(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
         dvar            _dvar \
         dvartest        _dvar \
         hidedvar        { "" } \
@@ -81,7 +99,15 @@
 #define BUTTON_RECT_TXT(_name, _text, _onAction, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        BUTTON_RECT_BASE(_name, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        BUTTON_RECT_ACTIONBASE(_name, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        text            _text \
+    }
+
+#define BUTTON_RECT_TXT_ACTION(_name, _text, _action, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        action          { _action } \
         text            _text \
     }
 
@@ -112,23 +138,30 @@
     rect        DEFAULT_RECT(0 0 sizeX sizeY) \
     origin      orgX orgY
 
-#define SEL_SHADER_RECT_BASE(_name, _shader, orgX, orgY, sizeX, sizeY) \
+#define SEL_SHADER_RECT_BASE(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
     SHADER_RECT_BASE(_name, _shader, orgX, orgY, sizeX, sizeY) \
     type        ITEM_TYPE_BUTTON \
-    action      { scriptMenuResponse "click_"#_name; play "mouse_click" } \
+    action      { scriptMenuResponse "click_"#_name; play "mouse_click"; _extraAction } \
     mouseEnter  { play "mouse_over" }
 
 #define SEL_SHADER_RECT_ALWAYS(_name, _shader, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        SEL_SHADER_RECT_BASE(_name, _shader, orgX, orgY, sizeX, sizeY) \
+        SEL_SHADER_RECT_BASE(_name, "", _shader, orgX, orgY, sizeX, sizeY) \
+        visible 1 \
+    }
+
+#define SEL_SHADER_RECT_ALWAYS_ACTION(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        SEL_SHADER_RECT_BASE(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
         visible 1 \
     }
 
 #define SEL_SHADER_RECT_WHEN(_name, _shader, _foreColor, _visibility, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        SEL_SHADER_RECT_BASE(_name, _shader, orgX, orgY, sizeX, sizeY) \
+        SEL_SHADER_RECT_BASE(_name, "", _shader, orgX, orgY, sizeX, sizeY) \
         forecolor   _foreColor \
         visible     when( _visibility ) \
     }
@@ -152,6 +185,13 @@
     { \
         SHADER_RECT_BASE(_name, _shader, orgX, orgY, sizeX, sizeY) \
         visible     when( _visibility ) \
+    }
+
+#define SHADER_RECT_ALWAYS(_name, _shader, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        SHADER_RECT_BASE(_name, _shader, orgX, orgY, sizeX, sizeY) \
+        visible     1 \
     }
 
 #define DROPDOWN_RECT(_menu, _text, _font, _color, orgX, orgY, sizeX, sizeY) \
@@ -250,6 +290,9 @@
 
 #define FIXED_RECT_DVARLEFT(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_LEFT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
+#define FIXED_RECT_DVARLEFT_STYLED(_dvar, _font, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_DVAR(_dvar, _font, ITEM_TEXTSTYLE_SHADOWED, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_DVARCENTER(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
