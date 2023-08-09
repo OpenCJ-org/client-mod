@@ -2,6 +2,34 @@
 
 #define WEAPON_TEXTSCALE .3
 
+// Voting
+#define VOTE_BG_SIZE_X      120
+#define VOTE_BG_SIZE_Y      70
+#define VOTE_BG_ORG_X       ((-1 * VOTE_BG_SIZE_X) - 10)
+#define VOTE_BG_ORG_Y       ((-1 * VOTE_BG_SIZE_Y) - 15) //  Progress bar takes up some space
+
+#define VOTE_HEADER_SIZE_X  VOTE_BG_SIZE_X
+#define VOTE_HEADER_SIZE_Y  20
+#define VOTE_HEADER_ORG_X   (VOTE_BG_ORG_X + 5)
+#define VOTE_HEADER_ORG_Y   (VOTE_BG_ORG_Y + 13)
+
+#define VOTE_TIME_SIZE_X    20
+#define VOTE_TIME_SIZE_Y    20
+#define VOTE_TIME_ORG_X     (VOTE_BG_ORG_X + VOTE_BG_SIZE_X - 15)
+#define VOTE_TIME_ORG_Y     VOTE_HEADER_ORG_Y
+
+#define VOTE_COUNT_SIZE_X   30
+#define VOTE_COUNT_SIZE_Y   30
+#define VOTE_COUNT_ORG_X    VOTE_HEADER_ORG_X
+#define VOTE_COUNT_ORG_Y    (VOTE_BG_ORG_Y + VOTE_BG_SIZE_Y - 15)
+
+#define VOTE_IMAGE_SIZE_X   53
+#define VOTE_IMAGE_SIZE_Y   30
+#define VOTE_IMAGE_ORG_X    (VOTE_BG_ORG_X + VOTE_BG_SIZE_X - VOTE_IMAGE_SIZE_X - 5)
+#define VOTE_IMAGE_ORG_Y    (VOTE_BG_ORG_Y + VOTE_BG_SIZE_Y - VOTE_IMAGE_SIZE_Y - 5)
+
+
+// Menu and itemDefs
 {
 	assetGlobalDef
 	{
@@ -143,63 +171,79 @@
     {
         name "Vote"
         fullScreen MENU_FALSE
-        visible MENU_TRUE
-        rect -200 -100 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+        visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
+        rect 0 0 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
         itemDef
         {
-            name             "openCJ voteBackground"
-            rect            0 -20 200 120
-            origin            0 0
-            visible            MENU_TRUE
-            style            WINDOW_STYLE_SHADER
-            background        "white"
-            forecolor        0.2 0.2 0.2 0.5
-            dvartest         "openCJ_voteString"
-            hidedvar         { "" }
-            decoration
-        }
-        itemDef
-        {
-            name "openCJ voteString"
-            visible MENU_TRUE
-            rect 0 0 0 0
-            origin 5 0
-            forecolor 1.0 1.0 1.0 1.0
-            dvar "openCJ_voteString"
-            textfont UI_FONT_NORMAL
-            textscale 0.25
-            textstyle ITEM_TEXTSTYLE_SHADOWED
-            textaligny 0
-            dvartest "openCJ_voteString"
-            hidedvar { "" }
+            name            "openCJ voteBackground"
+            rect            0 0 VOTE_BG_SIZE_X VOTE_BG_SIZE_Y
+            origin          VOTE_BG_ORG_X VOTE_BG_ORG_Y
+            style           WINDOW_STYLE_SHADER
+            background      "white"
+            forecolor       0.1 0.1 0.1 0.9
+            dvartest        "openCJ_voteHeaderString"
+            hidedvar        { "" }
+            visible         MENU_TRUE
             decoration
         }
         itemDef
         {
             name        "openCJ_mapImage"
-            rect        0 0 160 90
-            origin        5 5
-            visible        MENU_TRUE
-            style        WINDOW_STYLE_DVAR_SHADER
+            rect        0 0 VOTE_IMAGE_SIZE_X VOTE_IMAGE_SIZE_Y
+            origin      VOTE_IMAGE_ORG_X VOTE_IMAGE_ORG_Y
+            style       WINDOW_STYLE_DVAR_SHADER
             dvar        "openCJ_mapvoteImage"
-            dvarTest    "openCJ_mapvoteImage"
+            dvarTest    "openCJ_voteHeaderString"
             hideDvar    { "" }
+            visible     MENU_TRUE
             decoration
         }
         itemDef
         {
-            name "openCJ voteCount"
-            visible MENU_TRUE
-            rect 0 0 0 0
-            origin 170 20
-            forecolor 1.0 1.0 1.0 1.0
-            dvar "openCJ_voteCounts"
-            textfont UI_FONT_NORMAL
-            textscale 0.25
-            textstyle ITEM_TEXTSTYLE_SHADOWED
-            textaligny 0
-            dvartest "openCJ_voteString"
-            hidedvar { "" }
+            name        "openCJ voteHeaderString"
+            rect        0 0 VOTE_HEADER_SIZE_X VOTE_HEADER_SIZE_Y
+            origin      VOTE_HEADER_ORG_X VOTE_HEADER_ORG_Y
+            forecolor   1.0 1.0 1.0 1.0
+            textfont    UI_FONT_NORMAL
+            textscale   0.24
+            textstyle   ITEM_TEXTSTYLE_SHADOWED
+            textaligny  0
+            dvar        "openCJ_voteHeaderString"
+            dvartest    "openCJ_voteHeaderString"
+            hidedvar    { "" }
+            visible     MENU_TRUE
+            decoration
+        }
+        itemDef
+        {
+            name        "openCJ timeString"
+            rect        0 0 VOTE_TIME_SIZE_X VOTE_TIME_SIZE_Y
+            origin      VOTE_TIME_ORG_X VOTE_TIME_ORG_Y
+            forecolor   1.0 1.0 1.0 1.0
+            textfont    UI_FONT_NORMAL
+            textscale   0.25
+            textstyle   ITEM_TEXTSTYLE_SHADOWED
+            textaligny  0
+            dvar        "openCJ_voteTimeString"
+            dvartest    "openCJ_voteHeaderString"
+            hidedvar    { "" }
+            visible     MENU_TRUE
+            decoration
+        }
+        itemDef
+        {
+            name        "openCJ voteCount"
+            visible     MENU_TRUE
+            rect        0 0 VOTE_COUNT_SIZE_X VOTE_COUNT_SIZE_Y
+            origin      VOTE_COUNT_ORG_X VOTE_COUNT_ORG_Y
+            forecolor   1.0 1.0 1.0 1.0
+            dvar        "openCJ_voteCounts"
+            textfont    UI_FONT_NORMAL
+            textscale   0.25
+            textstyle   ITEM_TEXTSTYLE_SHADOWED
+            textaligny  0
+            dvartest    "openCJ_voteHeaderString"
+            hidedvar    { "" }
             decoration
         }
     }
