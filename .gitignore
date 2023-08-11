@@ -1,10 +1,10 @@
 cod*/LICENSE
 cod*/README.md
 cod*/config_mp_server.cfg
+cod*/maps
 *.log
 *.iwd
 *.ff
 missingasset.csv
 cod*/.gitignore
-cod*/maps
 cod*/opencj

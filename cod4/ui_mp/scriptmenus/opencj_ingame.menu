@@ -169,6 +169,8 @@
 #define RANK_ICON_ORG_X           (RIGHT_FRAME_ORG_X + ((RIGHT_FRAME_SIZE_X - RANK_ICON_SIZE_X) / 2))
 #define RANK_ICON_ORG_Y           (OPENCJ_LOGO_ORG_Y + RIGHT_SPACING)
 
+// The following buttons are from bottom to top
+
     // Button: leave game
 #define BTN_LEAVE_SIZE_X    20
 #define BTN_LEAVE_SIZE_Y    BTN_LEAVE_SIZE_X // Square
@@ -180,6 +182,12 @@
 #define BTN_SETTINGS_SIZE_Y       BTN_LEAVE_SIZE_Y
 #define BTN_SETTINGS_ORG_X        BTN_LEAVE_ORG_X
 #define BTN_SETTINGS_ORG_Y        (BTN_LEAVE_ORG_Y - RIGHT_SPACING - BTN_LEAVE_SIZE_Y)
+
+    // Button: controls
+#define BTN_CONTROLS_SIZE_X       BTN_SETTINGS_SIZE_X
+#define BTN_CONTROLS_SIZE_Y       BTN_SETTINGS_SIZE_Y
+#define BTN_CONTROLS_ORG_X        BTN_SETTINGS_ORG_X
+#define BTN_CONTROLS_ORG_Y        (BTN_SETTINGS_ORG_Y - RIGHT_SPACING - BTN_SETTINGS_SIZE_Y)
 
 {
     menuDef
@@ -272,8 +280,11 @@
         // Icon: rank
         SEL_DVARSHADER_RECT(rank_icon, ADDPREFIX("rank"), RANK_ICON_ORG_X, RANK_ICON_ORG_Y, RANK_ICON_SIZE_X, RANK_ICON_SIZE_Y)
 
+        // Button: controls
+        SEL_SHADER_RECT_ALWAYS_ACTION(btn_controls, close self; open main_controls, opencj_icon_gear, BTN_CONTROLS_ORG_X, BTN_CONTROLS_ORG_Y, BTN_CONTROLS_SIZE_X, BTN_CONTROLS_SIZE_Y)
+
         // Button: settings
-        SEL_SHADER_RECT_ALWAYS(btn_settings, opencj_icon_gear, BTN_SETTINGS_ORG_X, BTN_SETTINGS_ORG_Y, BTN_SETTINGS_SIZE_X, BTN_SETTINGS_SIZE_Y)
+        SEL_SHADER_RECT_ALWAYS_ACTION(btn_settings, close self; open main_options, opencj_icon_gear, BTN_SETTINGS_ORG_X, BTN_SETTINGS_ORG_Y, BTN_SETTINGS_SIZE_X, BTN_SETTINGS_SIZE_Y)
 
         // Button: leave game
         SEL_SHADER_RECT_ALWAYS_ACTION(btn_leave, exec "disconnect", opencj_icon_exit, BTN_LEAVE_ORG_X, BTN_LEAVE_ORG_Y, BTN_LEAVE_SIZE_X, BTN_LEAVE_SIZE_Y)
