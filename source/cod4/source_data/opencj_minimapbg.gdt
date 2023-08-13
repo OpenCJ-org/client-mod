@@ -85,7 +85,7 @@
 		"customTemplate" ""
 		"customString" ""
 		"colorTint" "1.000000 1.000000 1.000000 1.000000"
-		"colorMap" "texture_source\\opencj_minimapbg.tga"
+		"colorMap" "texture_assets\\opencj_minimapbg.tga"
 		"detailMap" ""
 		"normalMap" ""
 		"specColorMap" ""

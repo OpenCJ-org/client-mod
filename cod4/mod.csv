@@ -37,9 +37,9 @@ material,opencj_icon_leftarrow
 material,opencj_icon_rightarrow
 material,opencj_icon_uparrow
 material,opencj_icon_downarrow
-material,opencj_icon_fps125
-material,opencj_icon_fpshax
-material,opencj_icon_fpsmix
+material,opencj_icon_fps_any
+material,opencj_icon_fps_classic125
+material,opencj_icon_fps_standard
 material,default
 material,opencj_logo_nobg
 material,opencj_icon_exit

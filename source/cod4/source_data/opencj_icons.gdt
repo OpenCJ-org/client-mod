@@ -604,7 +604,7 @@
 		"stencilFunc2" "Always"
 		"stencil" "Disable"
 	}
-	"opencj_icon_fps125" ( "material.gdf" )
+	"opencj_icon_fps_any" ( "material.gdf" )
 	{
 		"template" "material.template"
 		"materialType" "2d"
@@ -689,7 +689,7 @@
 		"customTemplate" ""
 		"customString" ""
 		"colorTint" "1.000000 1.000000 1.000000 1.000000"
-		"colorMap" "texture_assets\\opencj_icon_fps125.tga"
+		"colorMap" "texture_assets\\opencj_icon_fps_any.tga"
 		"detailMap" ""
 		"normalMap" ""
 		"specColorMap" ""
@@ -755,7 +755,7 @@
 		"stencilFunc2" "Always"
 		"stencil" "Disable"
 	}
-	"opencj_icon_fpshax" ( "material.gdf" )
+	"opencj_icon_fps_classic125" ( "material.gdf" )
 	{
 		"template" "material.template"
 		"materialType" "2d"
@@ -840,7 +840,7 @@
 		"customTemplate" ""
 		"customString" ""
 		"colorTint" "1.000000 1.000000 1.000000 1.000000"
-		"colorMap" "texture_assets\\opencj_icon_fpshax.tga"
+		"colorMap" "texture_assets\\opencj_icon_fps_classic125.tga"
 		"detailMap" ""
 		"normalMap" ""
 		"specColorMap" ""
@@ -906,7 +906,7 @@
 		"stencilFunc2" "Always"
 		"stencil" "Disable"
 	}
-	"opencj_icon_fpsmix" ( "material.gdf" )
+	"opencj_icon_fps_standard" ( "material.gdf" )
 	{
 		"template" "material.template"
 		"materialType" "2d"
@@ -991,7 +991,7 @@
 		"customTemplate" ""
 		"customString" ""
 		"colorTint" "1.000000 1.000000 1.000000 1.000000"
-		"colorMap" "texture_assets\\opencj_icon_fpsmix.tga"
+		"colorMap" "texture_assets\\opencj_icon_fps_standard.tga"
 		"detailMap" ""
 		"normalMap" ""
 		"specColorMap" ""

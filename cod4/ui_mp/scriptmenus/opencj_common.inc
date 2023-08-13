@@ -38,7 +38,7 @@
 
 #define LEADERBOARD_ORG_X           0
 #define LEADERBOARD_ORG_Y           120
-#define LEADERBOARD_SIZE_X          (FULLSCREEN_X-LEADERBOARD_ORG_X-95)
+#define LEADERBOARD_SIZE_X          (FULLSCREEN_X-LEADERBOARD_ORG_X-75)
 #define LEADERBOARD_SIZE_Y          (FULLSCREEN_Y-LEADERBOARD_ORG_Y-140)
 
 
@@ -297,6 +297,9 @@
 #define FIXED_RECT_DVARCENTER(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
+#define FIXED_RECT_DVARRIGHT(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_RIGHT, -3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
 #define FIXED_RECT_DVARCENTER_STYLED(_dvar, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_DEFAULT, ITEM_TEXTSTYLE_SHADOWED, _txtScale, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
@@ -313,6 +316,9 @@
 
 #define FIXED_RECT_TXTCENTER(_text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
+#define FIXED_RECT_TXTRIGHT(_text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_RIGHT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_TXTCENTER_WHEN(_visibility, _text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_TXT(when ( _visibility ), _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)

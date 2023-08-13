@@ -100,7 +100,7 @@
 // Category column: FPS
 #define CAT_FPS_ORG_X              (DATE_ORG_X+DATE_CELL_SIZE_X+1) // for small black line
 #define CAT_FPS_ORG_Y              DATE_ORG_Y
-#define CAT_FPS_CELL_SIZE_X        35
+#define CAT_FPS_CELL_SIZE_X        55
 #define CAT_FPS_CELL_SIZE_Y        DATE_CELL_SIZE_Y
 #define CAT_FPS_ORG_X_IDX(_idx)    (CAT_FPS_ORG_X) // right below each other
 #define CAT_FPS_ORG_Y_IDX(_idx)    (CAT_FPS_ORG_Y+(CAT_FPS_CELL_SIZE_Y*_idx)+_idx) // Small black line
@@ -387,6 +387,7 @@
         // FPS
             // Header
             DROPDOWN_RECT     (opencj_lb_fps, "FPS", UI_FONT_NORMAL, HEADER_COLOR, CAT_FPS_ORG_X_IDX(0), CAT_FPS_ORG_Y_IDX(0), CAT_FPS_CELL_SIZE_X, CAT_FPS_CELL_SIZE_Y)
+            FIXED_RECT_DVARRIGHT(ADDPREFIX("fpsselected"), NO_COLOR, RAISIN_COLOR, CAT_FPS_ORG_X_IDX(0), CAT_FPS_ORG_Y_IDX(0), CAT_FPS_CELL_SIZE_X, CAT_FPS_CELL_SIZE_Y)
             // Cells
             FIXED_RECT_DVARLEFT(ADDPREFIX("fps1"),    ALICE_BLUE_COLOR, BLACK_COLOR, CAT_FPS_ORG_X_IDX(1),  CAT_FPS_ORG_Y_IDX(1),  CAT_FPS_CELL_SIZE_X, CAT_FPS_CELL_SIZE_Y)
             FIXED_RECT_DVARLEFT(ADDPREFIX("fps2"),    ALICE_BLUE_COLOR, BLACK_COLOR, CAT_FPS_ORG_X_IDX(2),  CAT_FPS_ORG_Y_IDX(2),  CAT_FPS_CELL_SIZE_X, CAT_FPS_CELL_SIZE_Y)
