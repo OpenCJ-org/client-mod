@@ -44,3 +44,6 @@ material,default
 material,opencj_logo_nobg
 material,opencj_icon_exit
 material,opencj_icon_gear
+xmodel,body_mp_usmc_specops
+xmodel,head_mp_usmc_tactical_mich_stripes_nomex
+xmodel,viewmodel_base_viewhands
