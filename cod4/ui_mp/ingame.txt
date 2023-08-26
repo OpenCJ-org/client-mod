@@ -32,6 +32,7 @@
 	loadMenu { "ui_mp/controls_multi.menu" }
 	loadMenu { "ui_mp/vid_restart.menu" }
 
+	loadMenu { "ui_mp/scriptmenus/quickresponses.menu" }
 	loadMenu { "ui_mp/scriptmenus/popup_summary.menu" }
 	loadMenu { "ui_mp/scriptmenus/popup_unlock_page1.menu" }
 	loadMenu { "ui_mp/scriptmenus/popup_unlock_page2.menu" }

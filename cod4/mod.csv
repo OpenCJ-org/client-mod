@@ -1,9 +1,11 @@
 menufile,ui_mp\hud.menu
 menufile,ui_mp\hud.txt
 menufile,ui_mp\menuitems.menu
+menufile,ui_mp\ingame.txt
+menufile,ui_mp\wm_quickmessage.menu
+menufile,ui_mp\scriptmenus\quickresponses.menu
 menufile,ui_mp\scriptmenus\opencj_ingame.menu
 menufile,ui_mp\scriptmenus\opencj_clientcmd.menu
-menufile,ui_mp\ingame.txt
 menufile,ui_mp\scriptmenus\opencj_fps_userinfo.menu
 menufile,ui_mp\scriptmenus\opencj_leaderboard.menu
 menufile,ui_mp\scriptmenus\opencj_lb_fps.menu
