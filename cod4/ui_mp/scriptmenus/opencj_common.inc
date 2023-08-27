@@ -55,7 +55,7 @@
 
 #define LEADERBOARD_ORG_X           0
 #define LEADERBOARD_ORG_Y           120
-#define LEADERBOARD_SIZE_X          (FULLSCREEN_X-LEADERBOARD_ORG_X-75)
+#define LEADERBOARD_SIZE_X          (FULLSCREEN_X-LEADERBOARD_ORG_X-60)
 #define LEADERBOARD_SIZE_Y          (FULLSCREEN_Y-LEADERBOARD_ORG_Y-140)
 
 #define LEFT_FRAME_SIZE_X         (250 / 2)
@@ -66,7 +66,7 @@
     // LB pages
 #define MAIN_CONTENT_X          (OUTER_FRAME_ORG_X + MR_CELL_SIZE_X + 18)
 #define MAIN_CONTENT_Y          (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y + (10 * 2) - 8)
-#define MAIN_CONTENT_X_SIZE     458
+#define MAIN_CONTENT_X_SIZE     473
 #define MAIN_CONTENT_Y_SIZE     195
 
 

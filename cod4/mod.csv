@@ -40,8 +40,9 @@ material,opencj_icon_rightarrow
 material,opencj_icon_uparrow
 material,opencj_icon_downarrow
 material,opencj_icon_fps_any
-material,opencj_icon_fps_classic125
+material,opencj_icon_fps_classic
 material,opencj_icon_fps_standard
+material,opencj_icon_halfbeat
 material,default
 material,opencj_logo_nobg
 material,opencj_icon_exit
