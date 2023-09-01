@@ -7,9 +7,26 @@
 #define GREYISH_COLOR       .5 .5 .5 1
 #define DARK_COLOR          .0 .0 .0 1
 #define BLACK_COLOR         .0 .0 .0 1
-#define WHITE_COLOR         1.0 1.0 1.0 1
+#define WHITE_COLOR         1 1 1 1
 #define MID_BLUE_COLOR      .0 .8 1.0 .8
 #define BLUE_COLOR          .0 .1 0.5 1
+#define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.7
+#define WHITE_TRANSPARENT_COLOR  1.0 1.0 1.0 0.1
+
+#define BLACK_TRANSPARENT_COLOR  0 0 0 .5
+
+#define BG_COLOR            0.13 0.14 0.16 0.70
+#define BT_COLOR            0.13 0.14 0.16 0.20
+#define BG_NAV_COLOR        0.13 0.14 0.16 1
+#define BG_NAVSEP_COLOR     1 1 1 0.1
+#define HIGHLIGHT_COLOR     0.00 0.80 0.85 1
+
+#define OUTER_FRAME_SIZE_X        600//400
+#define OUTER_FRAME_SIZE_Y        360//268
+#define OUTER_FRAME_ORG_X         ((FULLSCREEN_X - OUTER_FRAME_SIZE_X) / 2)
+#define OUTER_FRAME_ORG_Y         ((FULLSCREEN_Y - OUTER_FRAME_SIZE_Y) / 2)
+
+#define H_SEP_ORG_Y             50
 
 // Main OpenCJ theme colors
 #define RAISIN_COLOR        0.08235 0.08627 0.1451 1
@@ -41,6 +58,17 @@
 #define LEADERBOARD_SIZE_X          (FULLSCREEN_X-LEADERBOARD_ORG_X-75)
 #define LEADERBOARD_SIZE_Y          (FULLSCREEN_Y-LEADERBOARD_ORG_Y-140)
 
+#define LEFT_FRAME_SIZE_X         (250 / 2)
+#define LEFT_FRAME_SIZE_Y         (OUTER_FRAME_SIZE_Y - (2 * ELEMENT_SPACING))
+#define LEFT_FRAME_ORG_X          OUTER_FRAME_ORG_X
+#define LEFT_FRAME_ORG_Y          OUTER_FRAME_ORG_Y
+
+    // LB pages
+#define MAIN_CONTENT_X          (OUTER_FRAME_ORG_X + MR_CELL_SIZE_X + 18)
+#define MAIN_CONTENT_Y          (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y + (10 * 2) - 8)
+#define MAIN_CONTENT_X_SIZE     458
+#define MAIN_CONTENT_Y_SIZE     195
+
 
 #define BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     name            _name \
@@ -55,7 +83,7 @@
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
     visible         1
 
-#define BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+#define BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     name            _name \
     style           WINDOW_STYLE_FILLED \
     rect            DEFAULT_RECT(0 0 (sizeX+2) (sizeY+2)) \
@@ -68,14 +96,19 @@
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
     visible         1 \
     border          WINDOW_BORDER_FULL \
-    bordercolor     NO_COLOR \
-    bordersize      1 \
-    mouseEnter      { setitemcolor _name bordercolor GREYISH_COLOR; play "mouse_over" } \
-    mouseExit       { setitemcolor _name bordercolor NO_COLOR }
+    bordercolor     _borderColor \
+    bordersize      _borderSize \
+    mouseEnter      { setitemcolor _name bordercolor HIGHLIGHT_COLOR; play "mouse_over" } \
+    mouseExit       { setitemcolor _name bordercolor _borderColor }
 
 #define BUTTON_RECT_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
+
+#define BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
+
 
 #define BUTTON_RECT_DVAR(_name, _dvar, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
@@ -103,6 +136,13 @@
         text            _text \
     }
 
+#define BUTTON_RECT_BORDER_TXT(_name, _text, _onAction, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    itemDef \
+    { \
+        BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+        text            _text \
+    }
+
 #define BUTTON_RECT_TXT_ACTION(_name, _text, _action, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
@@ -119,7 +159,7 @@
         style       WINDOW_STYLE_FILLED \
         rect        DEFAULT_RECT(0 0 sizeX sizeY) \
         origin      orgX orgY \
-        forecolor   BLACK_COLOR \
+        forecolor   WHITE_COLOR \
         backcolor   _color \
         text        _text \
         textfont    UI_FONT_NORMAL \
@@ -202,7 +242,7 @@
             origin      orgX orgY \
             visible     MENU_TRUE \
             backcolor   _color \
-            forecolor   BLACK_COLOR \
+            forecolor   WHITE_COLOR \
             type        ITEM_TYPE_BUTTON \
             textfont    _font \
             textscale   0.25 \
@@ -218,6 +258,16 @@
     rect        DEFAULT_RECT(0 0 sizeX sizeY) \
     origin      orgX orgY \
     backcolor   _backColor \
+    decoration
+
+#define FIXED_RECT_BASE_BORDER(_backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
+    style       WINDOW_STYLE_FILLED \
+    rect        DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin      orgX orgY \
+    backcolor   _backColor \
+    border      WINDOW_BORDER_FULL \
+    bordercolor _borderColor \
+    bordersize  _borderSize \
     decoration
 
 #define FIXED_RECT_TEXT_BASE(_font, _txtStyle, _txtScale, _txtAlign, _txtAlignX, _txtAlignY, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
@@ -237,6 +287,14 @@
         FIXED_RECT_BASE(_backColor, orgX, orgY, sizeX, sizeY) \
         visible     1 \
     }
+
+#define FIXED_RECT_BORDER(_backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        FIXED_RECT_BASE_BORDER(_backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
+        visible     1 \
+    }
+
 
 #define FIXED_RECT_WHEN(_visibility, _backColor, orgX, orgY, sizeX, sizeY) \
     itemDef \
@@ -291,14 +349,26 @@
 #define FIXED_RECT_DVARLEFT(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_LEFT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
+#define FIXED_RECT_DVARLEFT_SCALED(_dvar, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
+#define FIXED_RECT_DVARLEFT_SCALED_BLINK(_dvar, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_BLINK, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
 #define FIXED_RECT_DVARLEFT_STYLED(_dvar, _font, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, _font, ITEM_TEXTSTYLE_SHADOWED, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_DVARCENTER(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
+#define FIXED_RECT_DVARCENTER_SCALED(_dvar, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, _txtScale, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
 #define FIXED_RECT_DVARRIGHT(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
-    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_RIGHT, -3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_RIGHT, -5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
+#define FIXED_RECT_DVARRIGHT_SCALED(_dvar, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, _txtScale, ITEM_ALIGN_MIDDLE_RIGHT, -5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_DVARCENTER_STYLED(_dvar, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_DEFAULT, ITEM_TEXTSTYLE_SHADOWED, _txtScale, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
@@ -312,13 +382,16 @@
     }
 
 #define FIXED_RECT_TXTLEFT(_text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
-    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_LEFT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_LEFT, 5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
+#define FIXED_RECT_TXTLEFT_SCALED(_text, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
+    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 10, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_TXTCENTER(_text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
-    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_TXTRIGHT(_text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
-    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_RIGHT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_RIGHT, -5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_TXTCENTER_WHEN(_visibility, _text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_TXT(when ( _visibility ), _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)

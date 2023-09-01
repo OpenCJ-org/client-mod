@@ -1,0 +1,248 @@
+#include "ui/menudef.h"
+#include "ui_mp/scriptmenus/opencj_common.inc"
+
+#define ADDPREFIX(val)          OPENCJDVAR("board_")
+
+// Map route "column"
+#define MR_ORG_X                (LEADERBOARD_ORG_X+10)
+#define MR_ORG_Y                (LEADERBOARD_ORG_Y+10)
+#define MR_SIZE_X               80
+#define MR_SIZE_Y               (LEADERBOARD_SIZE_Y-60+1) // +1 for BORDER_FIX
+#define MR_CELL_SIZE_X          MR_SIZE_X
+#define MR_CELL_SIZE_Y          15
+#define MR_ORG_X_IDX(_idx)      (MR_ORG_X) // They're right below each other
+#define MR_ORG_Y_IDX(_idx)      (MR_ORG_Y+(MR_CELL_SIZE_Y*_idx)+_idx) // +_idx for small black line without wasting itemDef
+
+// Run # column
+#define NR_ORG_X                (MR_ORG_X+MR_CELL_SIZE_X+10)
+#define NR_ORG_Y                MR_ORG_Y
+#define NR_CELL_SIZE_X          25
+#define NR_CELL_SIZE_Y          MR_CELL_SIZE_Y
+#define NR_ORG_X_IDX(_idx)      (NR_ORG_X) // They're right below each other
+#define NR_ORG_Y_IDX(_idx)      (NR_ORG_Y+(NR_CELL_SIZE_Y*_idx)+_idx) // +_idx for small black line without wasting itemDef
+
+// Run name column
+#define NAME_ORG_X              (NR_ORG_X+NR_CELL_SIZE_X+1) // for small black line
+#define NAME_ORG_Y              NR_ORG_Y
+#define NAME_CELL_SIZE_X        100
+#define NAME_CELL_SIZE_Y        NR_CELL_SIZE_Y
+#define NAME_ORG_X_IDX(_idx)    (NAME_ORG_X) // right below each other
+#define NAME_ORG_Y_IDX(_idx)    (NAME_ORG_Y+(NAME_CELL_SIZE_Y*_idx)+_idx) // Small black line
+
+// Run time column
+#define TIME_ORG_X              (NAME_ORG_X+NAME_CELL_SIZE_X+1) // for small black line
+#define TIME_ORG_Y              NAME_ORG_Y
+#define TIME_CELL_SIZE_X        60
+#define TIME_CELL_SIZE_Y        NAME_CELL_SIZE_Y
+#define TIME_ORG_X_IDX(_idx)    (TIME_ORG_X) // right below each other
+#define TIME_ORG_Y_IDX(_idx)    (TIME_ORG_Y+(TIME_CELL_SIZE_Y*_idx)+_idx) // Small black line
+#define TIME_ORDER_FRAME_SIZE_X MR_CELL_SIZE_Y // Not a typo, cause we want the icon square at all times
+#define TIME_ORDER_FRAME_SIZE_Y MR_CELL_SIZE_Y
+#define TIME_ORDER_SPACING      4 // How much room there is around the icon. This is because we want icon smaller than the frame
+#define TIME_ORDER_ICON_ORG_X   (TIME_ORG_X+TIME_CELL_SIZE_X-TIME_ORDER_FRAME_SIZE_X+TIME_ORDER_SPACING)
+#define TIME_ORDER_ICON_ORG_Y   (TIME_ORG_Y+TIME_ORDER_SPACING)
+#define TIME_ORDER_ICON_SIZE_X  (TIME_ORDER_FRAME_SIZE_X-(2*TIME_ORDER_SPACING))
+#define TIME_ORDER_ICON_SIZE_Y  (TIME_ORDER_FRAME_SIZE_Y-(2*TIME_ORDER_SPACING))
+#define WHEN_TIME_ASC           (dvarInt(ADDPREFIX("sort_time")) == 1)
+#define WHEN_TIME_DESC          (dvarInt(ADDPREFIX("sort_time")) == 2)
+
+// Run RPG column
+#define RPG_ORG_X              (TIME_ORG_X+TIME_CELL_SIZE_X+1) // for small black line
+#define RPG_ORG_Y              TIME_ORG_Y
+#define RPG_CELL_SIZE_X        40
+#define RPG_CELL_SIZE_Y        TIME_CELL_SIZE_Y
+#define RPG_ORG_X_IDX(_idx)    (RPG_ORG_X) // right below each other
+#define RPG_ORG_Y_IDX(_idx)    (RPG_ORG_Y+(RPG_CELL_SIZE_Y*_idx)+_idx) // Small black line
+#define RPG_ORDER_FRAME_SIZE_X TIME_ORDER_FRAME_SIZE_X
+#define RPG_ORDER_FRAME_SIZE_Y TIME_ORDER_FRAME_SIZE_Y
+#define RPG_ORDER_SPACING      TIME_ORDER_SPACING
+#define RPG_ORDER_ICON_ORG_X   (RPG_ORG_X+RPG_CELL_SIZE_X-RPG_ORDER_FRAME_SIZE_X+RPG_ORDER_SPACING)
+#define RPG_ORDER_ICON_ORG_Y   (RPG_ORG_Y+RPG_ORDER_SPACING)
+#define RPG_ORDER_ICON_SIZE_X  (RPG_ORDER_FRAME_SIZE_X-(2*RPG_ORDER_SPACING))
+#define RPG_ORDER_ICON_SIZE_Y  (RPG_ORDER_FRAME_SIZE_Y-(2*RPG_ORDER_SPACING))
+#define WHEN_RPG_ASC           (dvarInt(ADDPREFIX("sort_rpgs")) == 1)
+#define WHEN_RPG_DESC          (dvarInt(ADDPREFIX("sort_rpgs")) == 2)
+
+// Run loads column
+#define LOAD_ORG_X              (RPG_ORG_X+RPG_CELL_SIZE_X+1) // for small black line
+#define LOAD_ORG_Y              RPG_ORG_Y
+#define LOAD_CELL_SIZE_X        40
+#define LOAD_CELL_SIZE_Y        RPG_CELL_SIZE_Y
+#define LOAD_ORG_X_IDX(_idx)    (LOAD_ORG_X) // right below each other
+#define LOAD_ORG_Y_IDX(_idx)    (LOAD_ORG_Y+(LOAD_CELL_SIZE_Y*_idx)+_idx) // Small black line
+#define LOAD_ORDER_FRAME_SIZE_X RPG_ORDER_FRAME_SIZE_X
+#define LOAD_ORDER_FRAME_SIZE_Y RPG_ORDER_FRAME_SIZE_Y
+#define LOAD_ORDER_SPACING      RPG_ORDER_SPACING
+#define LOAD_ORDER_ICON_ORG_X   (LOAD_ORG_X+LOAD_CELL_SIZE_X-LOAD_ORDER_FRAME_SIZE_X+LOAD_ORDER_SPACING)
+#define LOAD_ORDER_ICON_ORG_Y   (LOAD_ORG_Y+LOAD_ORDER_SPACING)
+#define LOAD_ORDER_ICON_SIZE_X  (LOAD_ORDER_FRAME_SIZE_X-(2*LOAD_ORDER_SPACING))
+#define LOAD_ORDER_ICON_SIZE_Y  (LOAD_ORDER_FRAME_SIZE_Y-(2*LOAD_ORDER_SPACING))
+#define WHEN_LOAD_ASC           (dvarInt(ADDPREFIX("sort_loads")) == 1)
+#define WHEN_LOAD_DESC          (dvarInt(ADDPREFIX("sort_loads")) == 2)
+
+// Run date column
+#define DATE_ORG_X              (LOAD_ORG_X+LOAD_CELL_SIZE_X+1) // for small black line
+#define DATE_ORG_Y              LOAD_ORG_Y
+#define DATE_CELL_SIZE_X        80
+#define DATE_CELL_SIZE_Y        LOAD_CELL_SIZE_Y
+#define DATE_ORG_X_IDX(_idx)    (DATE_ORG_X) // right below each other
+#define DATE_ORG_Y_IDX(_idx)    (DATE_ORG_Y+(DATE_CELL_SIZE_Y*_idx)+_idx) // Small black line
+#define DATE_ORDER_FRAME_SIZE_X LOAD_ORDER_FRAME_SIZE_X
+#define DATE_ORDER_FRAME_SIZE_Y LOAD_ORDER_FRAME_SIZE_Y
+#define DATE_ORDER_SPACING      LOAD_ORDER_SPACING
+#define DATE_ORDER_ICON_ORG_X   (DATE_ORG_X+DATE_CELL_SIZE_X-DATE_ORDER_FRAME_SIZE_X+DATE_ORDER_SPACING)
+#define DATE_ORDER_ICON_ORG_Y   (DATE_ORG_Y+DATE_ORDER_SPACING)
+#define DATE_ORDER_ICON_SIZE_X  (DATE_ORDER_FRAME_SIZE_X-(2*DATE_ORDER_SPACING))
+#define DATE_ORDER_ICON_SIZE_Y  (DATE_ORDER_FRAME_SIZE_Y-(2*DATE_ORDER_SPACING))
+#define WHEN_DATE_ASC           (dvarInt(ADDPREFIX("sort_date")) == 1)
+#define WHEN_DATE_DESC          (dvarInt(ADDPREFIX("sort_date")) == 2)
+
+// Category column: FPS
+#define CAT_FPS_ORG_X              (DATE_ORG_X+DATE_CELL_SIZE_X+1) // for small black line
+#define CAT_FPS_ORG_Y              DATE_ORG_Y
+#define CAT_FPS_CELL_SIZE_X        55
+#define CAT_FPS_CELL_SIZE_Y        DATE_CELL_SIZE_Y
+#define CAT_FPS_ORG_X_IDX(_idx)    (CAT_FPS_ORG_X) // right below each other
+#define CAT_FPS_ORG_Y_IDX(_idx)    (CAT_FPS_ORG_Y+(CAT_FPS_CELL_SIZE_Y*_idx)+_idx) // Small black line
+
+// Category column: elevator
+#define CAT_ELE_ORG_X              (CAT_FPS_ORG_X+CAT_FPS_CELL_SIZE_X+1) // for small black line
+#define CAT_ELE_ORG_Y              CAT_FPS_ORG_Y
+#define CAT_ELE_CELL_SIZE_X        15
+#define CAT_ELE_CELL_SIZE_Y        CAT_FPS_CELL_SIZE_Y
+#define CAT_ELE_ORG_X_IDX(_idx)    (CAT_ELE_ORG_X) // right below each other
+#define CAT_ELE_ORG_Y_IDX(_idx)    (CAT_ELE_ORG_Y+(CAT_ELE_CELL_SIZE_Y*_idx)+_idx) // Small black line
+#define WHEN_ELE_YES               (dvarInt(ADDPREFIX("ele_allow")) != 0)
+#define WHEN_ELE_NO                (dvarInt(ADDPREFIX("ele_allow")) == 0)
+
+// Category column: shortcuts
+#define CAT_ANYPCT_ORG_X           (CAT_ELE_ORG_X+CAT_ELE_CELL_SIZE_X+1) // for small black line
+#define CAT_ANYPCT_ORG_Y           CAT_ELE_ORG_Y
+#define CAT_ANYPCT_CELL_SIZE_X     15
+#define CAT_ANYPCT_CELL_SIZE_Y     CAT_ELE_CELL_SIZE_Y
+#define CAT_ANYPCT_ORG_X_IDX(_idx) (CAT_ANYPCT_ORG_X) // right below each other
+#define CAT_ANYPCT_ORG_Y_IDX(_idx) (CAT_ANYPCT_ORG_Y+(CAT_ANYPCT_CELL_SIZE_Y*_idx)+_idx) // Small black line
+#define WHEN_ANYPCT_YES            (dvarInt(ADDPREFIX("any_allow")) != 0)
+#define WHEN_ANYPCT_NO             (dvarInt(ADDPREFIX("any_allow")) == 0)
+
+// Category column: TAS
+#define CAT_TAS_ORG_X              (CAT_ANYPCT_ORG_X+CAT_ANYPCT_CELL_SIZE_X+1) // for small black line
+#define CAT_TAS_ORG_Y              CAT_ANYPCT_ORG_Y
+#define CAT_TAS_CELL_SIZE_X        15
+#define CAT_TAS_CELL_SIZE_Y        CAT_ANYPCT_CELL_SIZE_Y
+#define CAT_TAS_ORG_X_IDX(_idx)    (CAT_TAS_ORG_X) // right below each other
+#define CAT_TAS_ORG_Y_IDX(_idx)    (CAT_TAS_ORG_Y+(CAT_TAS_CELL_SIZE_Y*_idx)+_idx) // Small black line
+#define WHEN_TAS_YES               (dvarInt(ADDPREFIX("tas_allow")) != 0)
+#define WHEN_TAS_NO                (dvarInt(ADDPREFIX("tas_allow")) == 0)
+
+// Page button sizes and locations
+    // General
+#define PAGE_BUTTON_SIZE_X          15
+#define PAGE_BUTTON_SIZE_Y          15
+#define PAGE_TEXT_SIZE_X            (MR_SIZE_X-(2*PAGE_BUTTON_SIZE_X))
+#define PAGE_TEXT_SIZE_Y            PAGE_BUTTON_SIZE_Y
+
+    // Route pages
+#define ROUTE_PAGE_IDX              10
+#define ROUTE_PREV_PAGE_BTN_ORG_X   MR_ORG_X_IDX(ROUTE_PAGE_IDX)
+#define ROUTE_PREV_PAGE_BTN_ORG_Y   MR_ORG_Y_IDX(ROUTE_PAGE_IDX)
+#define ROUTE_NEXT_PAGE_BTN_ORG_X   (ROUTE_PREV_PAGE_BTN_ORG_X+MR_CELL_SIZE_X-PAGE_BUTTON_SIZE_X)
+#define ROUTE_NEXT_PAGE_BTN_ORG_Y   ROUTE_PREV_PAGE_BTN_ORG_Y
+#define ROUTE_PAGE_TXT_ORG_X        (ROUTE_PREV_PAGE_BTN_ORG_X+PAGE_BUTTON_SIZE_X)
+#define ROUTE_PAGE_TXT_ORG_Y        ROUTE_NEXT_PAGE_BTN_ORG_Y
+
+#define WHEN_RTPAGE_S_MAX           (dvarInt(ADDPREFIX("rtpage")) < dvarInt(ADDPREFIX("rtpagemax")))
+#define WHEN_RTPAGE_G_ONE           (dvarInt(ADDPREFIX("rtpage")) > 1)
+#define WHEN_RTSELECTED(val)        (dvarInt(ADDPREFIX("rtselected")) == val)
+#define WHEN_RTSELECTED_NOT(val)    (dvarInt(ADDPREFIX("rtselected")) != val)
+
+    // LB pages
+#define LB_PAGE_IDX                 12
+#define LB_PREV_PAGE_BTN_ORG_X      (LEADERBOARD_ORG_X+(LEADERBOARD_SIZE_X/2)-(PAGE_TEXT_SIZE_X/2)-PAGE_BUTTON_SIZE_X)
+#define LB_PREV_PAGE_BTN_ORG_Y      MR_ORG_Y_IDX(LB_PAGE_IDX)
+#define LB_NEXT_PAGE_BTN_ORG_X      (LB_PREV_PAGE_BTN_ORG_X+MR_CELL_SIZE_X-PAGE_BUTTON_SIZE_X)
+#define LB_NEXT_PAGE_BTN_ORG_Y      MR_ORG_Y_IDX(LB_PAGE_IDX)
+#define LB_PAGE_TXT_ORG_X           (LB_PREV_PAGE_BTN_ORG_X+PAGE_BUTTON_SIZE_X)
+#define LB_PAGE_TXT_ORG_Y           LB_PREV_PAGE_BTN_ORG_Y
+
+#define WHEN_LBPAGE_S_MAX     (dvarInt(ADDPREFIX("page")) < dvarInt(ADDPREFIX("pagemax")))
+#define WHEN_LBPAGE_G_ONE     (dvarInt(ADDPREFIX("page")) > 1)
+
+// Exit button
+#define EXITBTN_ORG_X           (OUTER_FRAME_ORG_X + OUTER_FRAME_SIZE_X - EXITBTN_SIZE_X - 10)
+#define EXITBTN_ORG_Y           (OUTER_FRAME_ORG_Y + (H_SEP_ORG_Y / 2) - (EXITBTN_SIZE_Y / 2) )
+#define EXITBTN_SIZE_X          100
+#define EXITBTN_SIZE_Y          20
+
+#define H_SEP_ORG_Y             50
+
+
+{
+    menuDef
+    {
+        name        opencj_maplist
+        rect        DEFAULT_RECT(0 0 FULLSCREEN_X FULLSCREEN_Y)
+        focuscolor  COLOR_UNFOCUSED
+        style       WINDOW_STYLE_EMPTY
+        blurWorld   5.0
+        onOpen
+        {
+            scriptMenuResponse "open_maplist"
+        }
+        onEsc
+        {
+            close self;
+        }
+
+        // Background
+        FIXED_RECT(BG_COLOR, OUTER_FRAME_ORG_X, OUTER_FRAME_ORG_Y, OUTER_FRAME_SIZE_X, OUTER_FRAME_SIZE_Y)
+        
+        // Header Bar Blue
+        itemDef
+        {
+            style       WINDOW_STYLE_FILLED
+            backcolor   HIGHLIGHT_COLOR
+            rect        DEFAULT_RECT(0 0 OUTER_FRAME_SIZE_X 5)
+            origin      OUTER_FRAME_ORG_X (OUTER_FRAME_ORG_Y - 5)
+            visible     1
+            decoration
+        }
+
+        FIXED_RECT_TXTLEFT_SCALED("Maplist", 0.40, NO_COLOR, WHITE_COLOR, OUTER_FRAME_ORG_X, (OUTER_FRAME_ORG_Y) , 300, 50)
+
+        BUTTON_RECT_BORDER_TXT(exit, "Back", close self, BT_COLOR, WHITE_COLOR, UI_FONT_DEFAULT, 0.30, EXITBTN_ORG_X, EXITBTN_ORG_Y, EXITBTN_SIZE_X, EXITBTN_SIZE_Y,WHITE_TRANSPARENT_COLOR , 0.5)
+
+        FIXED_RECT(BG_NAVSEP_COLOR, OUTER_FRAME_ORG_X, (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y), OUTER_FRAME_SIZE_X, 1)
+        
+        itemDef
+		{
+			name                        "update_button"
+			text                        "Reload menu"
+			style                       WINDOW_STYLE_FILLED
+			border                      WINDOW_BORDER_FULL
+			borderSize                  0
+			foreColor                   1 1 1 0.8
+			backcolor                   0 0 0 0.4
+			borderColor                 0 0 0 0.05
+			outlineColor                0 0 0 0
+			type                        1
+			rect                        0 0 80 25 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+			origin                      221 0
+			style                       1
+			textfont                    UI_FONT_DEFAULT
+			textscale                   0.24
+			textalign                   1
+			textaligny                  17
+			textstyle                   3
+			visible                     1
+
+			mouseEnter                  { play "mouse_over"; }
+			mouseExit                   { }
+			action                      
+			{
+				play "mouse_click";
+				execnow "menu_closebyname opencj_maplist; menu_loadlist_raw raw.txt; menu_open_ingame opencj_maplist";
+			}
+
+    } // menuDef
+}
