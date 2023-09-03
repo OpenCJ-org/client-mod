@@ -16,13 +16,13 @@
 #define BLACK_TRANSPARENT_COLOR  0 0 0 .5
 
 #define BG_COLOR            0.13 0.14 0.16 0.70
-#define BT_COLOR            0.13 0.14 0.16 0.20
+#define BT_COLOR            0.26 0.28 0.32 0.20
 #define BG_NAV_COLOR        0.13 0.14 0.16 1
 #define BG_NAVSEP_COLOR     1 1 1 0.1
 #define HIGHLIGHT_COLOR     0.00 0.80 0.85 1
 
-#define OUTER_FRAME_SIZE_X        600//400
-#define OUTER_FRAME_SIZE_Y        360//268
+#define OUTER_FRAME_SIZE_X        591
+#define OUTER_FRAME_SIZE_Y        240
 #define OUTER_FRAME_ORG_X         ((FULLSCREEN_X - OUTER_FRAME_SIZE_X) / 2)
 #define OUTER_FRAME_ORG_Y         ((FULLSCREEN_Y - OUTER_FRAME_SIZE_Y) / 2)
 
@@ -66,8 +66,8 @@
     // LB pages
 #define MAIN_CONTENT_X          (OUTER_FRAME_ORG_X + MR_CELL_SIZE_X + 18)
 #define MAIN_CONTENT_Y          (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y + (10 * 2) - 8)
-#define MAIN_CONTENT_X_SIZE     473
-#define MAIN_CONTENT_Y_SIZE     195
+#define MAIN_CONTENT_X_SIZE     479
+#define MAIN_CONTENT_Y_SIZE     129
 
 
 #define BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
@@ -94,7 +94,6 @@
     textfont        _font \
     textscale       _txtScale \
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
-    visible         1 \
     border          WINDOW_BORDER_FULL \
     bordercolor     _borderColor \
     bordersize      _borderSize \
@@ -103,12 +102,18 @@
 
 #define BUTTON_RECT_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    visible         1 \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
 #define BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    visible         1 \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
+#define BUTTON_RECT_BORDER_BASE_VIS(_name, _font, _visibility, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    visible         when (_visibility) \
+    action          { play "mouse_click"; scriptMenuResponse "click_"#_name; }
 
 #define BUTTON_RECT_DVAR(_name, _dvar, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
@@ -141,6 +146,12 @@
     { \
         BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
         text            _text \
+    }
+
+#define BUTTON_RECT_BORDER_WHEN(_name, _visibility, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    itemDef \
+    { \
+        BUTTON_RECT_BORDER_BASE_VIS(_name, _font, _visibility, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     }
 
 #define BUTTON_RECT_TXT_ACTION(_name, _text, _action, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
@@ -347,7 +358,7 @@
     }
 
 #define FIXED_RECT_DVARLEFT(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
-    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_LEFT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.23, ITEM_ALIGN_MIDDLE_LEFT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_DVARLEFT_SCALED(_dvar, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
@@ -359,7 +370,7 @@
     FIXED_RECT_DVAR(_dvar, _font, ITEM_TEXTSTYLE_SHADOWED, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_DVARCENTER(_dvar, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
-    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+    FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.23, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
 
 #define FIXED_RECT_DVARCENTER_SCALED(_dvar, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_DVAR(_dvar, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, _txtScale, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
@@ -382,7 +393,15 @@
     }
 
 #define FIXED_RECT_TXTLEFT(_text, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
-    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_LEFT, 5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+    FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.23, ITEM_ALIGN_MIDDLE_LEFT, 3, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
+#define FIXED_RECT_TXTLEFT_WHEN(_text, _visibility, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        FIXED_RECT_TEXT_BASE(UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.20, ITEM_ALIGN_MIDDLE_LEFT, 5, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
+        text _text \
+        visible when ( _visibility ) \
+    }
 
 #define FIXED_RECT_TXTLEFT_SCALED(_text, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_TXT(1, _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, _txtScale, ITEM_ALIGN_MIDDLE_LEFT, 10, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
