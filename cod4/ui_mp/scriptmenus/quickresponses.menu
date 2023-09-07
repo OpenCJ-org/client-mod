@@ -76,7 +76,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"1. Yes"
 			decoration
@@ -93,7 +93,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"2. No"
 			decoration
@@ -110,7 +110,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"3. Follow Me"
 			decoration
@@ -127,7 +127,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"4. On My Way"
 			decoration
@@ -144,7 +144,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"5. Sorry"
 			decoration
@@ -161,7 +161,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"6. Stay Here"
 			decoration
@@ -178,7 +178,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"7. Are You Crazy?"
 			decoration
@@ -195,7 +195,7 @@
 			forecolor		1 1 1 1
 			textfont		UI_FONT_NORMAL
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textscale		TEXTSIZE_SMALL
+			textscale		0.32
 			textaligny		8
 			text			"8. Come On"
 			decoration
