@@ -10,10 +10,15 @@
 #define WHITE_COLOR         1 1 1 1
 #define MID_BLUE_COLOR      .0 .8 1.0 .8
 #define BLUE_COLOR          .0 .1 0.5 1
-#define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.7
-#define WHITE_TRANSPARENT_COLOR  1.0 1.0 1.0 0.1
+#define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.1
 
+#define BRIGHT_BLUE_COLOR_02   0.00 0.80 0.85 0.02
+#define BRIGHT_BLUE_COLOR_01   0.00 0.80 0.85 0.1
+
+
+#define WHITE_TRANSPARENT_COLOR  1.0 1.0 1.0 0.1
 #define BLACK_TRANSPARENT_COLOR  0 0 0 .5
+#define BLACK_TRANSPARENT_COLOR_03  0 0 0 .3
 
 #define BG_COLOR            0.13 0.14 0.16 0.70
 #define BT_COLOR            0.26 0.28 0.32 0.20
@@ -83,6 +88,37 @@
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
     visible         1
 
+#define BUTTON_RECT_BASE_COLOR(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    name            _name \
+    style           WINDOW_STYLE_FILLED \
+    rect            DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin          orgX orgY \
+    backcolor       _backColor \
+    foreColor       _foreColor \
+    type            ITEM_TYPE_BUTTON \
+    textfont        _font \
+    textscale       _txtScale \
+    textalign       ITEM_ALIGN_MIDDLE_LEFT \
+    textalignx      3 \
+    mouseEnter      { setitemcolor _name backcolor BRIGHT_BLUE_COLOR_01; setitemcolor _name foreColor WHITE_COLOR; play "mouse_over" } \
+    mouseExit       { setitemcolor _name backcolor _backColor; setitemcolor _name foreColor WHITE_COLOR } \
+    visible         1
+
+#define BUTTON_RECT_BASE_BG(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    name            _name \
+    style           WINDOW_STYLE_FILLED \
+    rect            DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin          orgX orgY \
+    backcolor       _backColor \
+    foreColor       _foreColor \
+    type            ITEM_TYPE_BUTTON \
+    textfont        _font \
+    textscale       _txtScale \
+    textalign       ITEM_ALIGN_MIDDLE_CENTER \
+    mouseEnter      { setitemcolor _name backcolor HIGHLIGHT_COLOR; setitemcolor _name foreColor WHITE_COLOR; play "mouse_over" } \
+    mouseExit       { setitemcolor _name backcolor NO_COLOR; setitemcolor _name foreColor WHITE_COLOR } \
+    visible         1
+
 #define BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     name            _name \
     style           WINDOW_STYLE_FILLED \
@@ -105,9 +141,15 @@
     visible         1 \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
-#define BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
-    BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+#define BUTTON_RECT_ACTIONBASE_COLOR(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    BUTTON_RECT_BASE_COLOR(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     visible         1 \
+    action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
+
+
+#define BUTTON_RECT_BORDER_ACTIONBASE(_name, _visibility, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    visible         _visibility \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
 #define BUTTON_RECT_BORDER_BASE_VIS(_name, _font, _visibility, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
@@ -134,6 +176,16 @@
         visible         when( _visibility ) \
     }
 
+#define BUTTON_RECT_DVAR_WHEN_COLOR(_name, _dvar, _visibility, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        BUTTON_RECT_ACTIONBASE_COLOR(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        dvar            _dvar \
+        dvartest        _dvar \
+        hidedvar        { "" } \
+        visible         when( _visibility ) \
+    }
+
 #define BUTTON_RECT_TXT(_name, _text, _onAction, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
@@ -144,7 +196,14 @@
 #define BUTTON_RECT_BORDER_TXT(_name, _text, _onAction, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     itemDef \
     { \
-        BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+        BUTTON_RECT_BORDER_ACTIONBASE(_name, 1, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+        text            _text \
+    }
+
+#define BUTTON_RECT_BORDER_TXT_WHEN(_name, _visibility, _text, _onAction, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    itemDef \
+    { \
+        BUTTON_RECT_BORDER_ACTIONBASE(_name, when(_visibility), _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
         text            _text \
     }
 
@@ -158,6 +217,14 @@
     itemDef \
     { \
         BUTTON_RECT_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        action          { _action } \
+        text            _text \
+    }
+//With hover BACKGROUND
+#define BUTTON_RECT_TXT_ACTION_BG(_name, _text, _action, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        BUTTON_RECT_BASE_BG(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
         action          { _action } \
         text            _text \
     }
@@ -195,6 +262,32 @@
     action      { scriptMenuResponse "click_"#_name; play "mouse_click"; _extraAction } \
     mouseEnter  { play "mouse_over" }
 
+#define SEL_SHADER_RECT_BASE_BG(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        name        _name \
+        type        ITEM_TYPE_BUTTON \
+        style       WINDOW_STYLE_FILLED \
+        rect        DEFAULT_RECT(0 0 sizeX sizeY) \
+        origin      orgX orgY \
+        forecolor   WHITE_COLOR \
+        backcolor   NO_COLOR \
+        visible     1 \
+        mouseEnter  { setitemcolor _name backcolor HIGHLIGHT_COLOR; play "mouse_over" } \
+        mouseExit   { setitemcolor _name backcolor NO_COLOR } \
+        action      { scriptMenuResponse "click_"#_name; play "mouse_click"; _extraAction } \
+    } \
+    itemDef \
+    { \
+        name        _name \
+        style       WINDOW_STYLE_SHADER \
+        background  _shader \
+        rect        DEFAULT_RECT(0 0 sizeX sizeY) \
+        origin      orgX orgY \
+        visible     1 \
+        decoration  \
+    }
+
 #define SEL_SHADER_RECT_ALWAYS(_name, _shader, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
@@ -209,6 +302,13 @@
         visible 1 \
     }
 
+#define SEL_SHADER_RECT_ALWAYS_ACTION_BG(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        SEL_SHADER_RECT_BASE_BG(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
+        visible 1 \
+    }
+
 #define SEL_SHADER_RECT_WHEN(_name, _shader, _foreColor, _visibility, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
@@ -217,18 +317,28 @@
         visible     when( _visibility ) \
     }
 
+#define DVARSHADER_RECT_BASE(_name, _dvar, orgX, orgY, sizeX, sizeY) \
+    name        _name \
+    style       WINDOW_STYLE_DVAR_SHADER \
+    rect        DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin      orgX orgY \
+    dvar        _dvar
+
 #define SEL_DVARSHADER_RECT(_name, _dvar, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        name        _name \
-        style       WINDOW_STYLE_DVAR_SHADER \
         type        ITEM_TYPE_BUTTON \
-        rect        DEFAULT_RECT(0 0 sizeX sizeY) \
-        origin      orgX orgY \
-        dvar        _dvar \
+        DVARSHADER_RECT_BASE(_name, _dvar, orgX, orgY, sizeX, sizeY) \
         visible     1 \
         action      { play "mouse_click"; scriptMenuResponse "click_"#_name } \
         onFocus     { play "mouse_over" } \
+    }
+
+#define DVARSHADER_RECT_WHEN(_name, _dvar, _visibility, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        DVARSHADER_RECT_BASE(_name, _dvar, orgX, orgY, sizeX, sizeY) \
+        visible     when( _visibility ) \
     }
 
 #define SHADER_RECT_WHEN(_name, _shader, _visibility, orgX, orgY, sizeX, sizeY) \
@@ -304,6 +414,13 @@
     { \
         FIXED_RECT_BASE_BORDER(_backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
         visible     1 \
+    }
+
+#define FIXED_RECT_BORDER_WHEN(_visibility, _backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        FIXED_RECT_BASE_BORDER(_backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
+        visible     when( _visibility) \
     }
 
 
@@ -417,3 +534,4 @@
 
 #define FIXED_RECT_TXTCENTER_STYLED_WHEN(_visibility, _text, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_TXT(when( _visibility), _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_SHADOWEDMORE, _txtScale, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+

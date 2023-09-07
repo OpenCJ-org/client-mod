@@ -11,6 +11,7 @@ menufile,ui_mp\scriptmenus\opencj_leaderboard.menu
 menufile,ui_mp\scriptmenus\opencj_lb_fps.menu
 menufile,ui_mp\scriptmenus\opencj_endmapvote.menu
 menufile,ui_mp\scriptmenus\opencj_runsboard.menu
+menufile,ui_mp\scriptmenus\opencj_maplist.menu
 material,opencj_key_a
 material,opencj_key_d
 material,opencj_key_s

@@ -39,6 +39,7 @@
 #define ACTION_SPEC            ACTION_COMMON; exec "spectate"
 #define ACTION_RUN             ACTION_COMMON; exec "openrunsboard"
 #define ACTION_LB              ACTION_COMMON; exec "openleaderboard"
+#define ACTION_MAPLIST         ACTION_COMMON; exec "openmaplist"
 
 #define BTN_SIZE_X            (LEFT_FRAME_SIZE_X - (2 * LEFT_SPACING))
 #define BTN_SIZE_Y            20
@@ -203,7 +204,12 @@
         }
         execKey "1" { ACTION_PLAY }
         execKey "2" { ACTION_SPEC }
-        execKey "l" { ACTION_LB }
+        execKey "3" { ACTION_RUN  }
+        execKey "4" { ACTION_LB   }
+
+        execKey "r" { ACTION_RUN  }
+        execKey "l" { ACTION_LB   }
+        execKey "m" { ACTION_MAPLIST }
 
     // Frame background
         FIXED_RECT(BLACK_COLOR, OUTER_FRAME_ORG_X, OUTER_FRAME_ORG_Y, OUTER_FRAME_SIZE_X, OUTER_FRAME_SIZE_Y)
@@ -245,7 +251,7 @@
             // Background
             FIXED_RECT(BLACK_COLOR, GRP4_BG_ORG_X, GRP4_BG_ORG_Y, GRP4_BG_SIZE_X, GRP4_BG_SIZE_Y)
             // Buttons: map list
-        BUTTON_RECT_TXT_ACTION(btn_maplist, "Maplist", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_MAPLIST_ORG_X, BTN_MAPLIST_ORG_Y, BTN_MAPLIST_SIZE_X, BTN_MAPLIST_SIZE_Y)
+        BUTTON_RECT_TXT_ACTION(btn_maplist, "Maplist", ACTION_MAPLIST, BTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_MAPLIST_ORG_X, BTN_MAPLIST_ORG_Y, BTN_MAPLIST_SIZE_X, BTN_MAPLIST_SIZE_Y)
             // Button: servers
         BUTTON_RECT_TXT_ACTION(btn_servers, "Servers", "", IBTN_BACKCOLOR, BTN_FORECOLOR, BTN_FONT, BTN_FONTSIZE, BTN_SERVERS_ORG_X, BTN_SERVERS_ORG_Y, BTN_SERVERS_SIZE_X, BTN_SERVERS_SIZE_Y)
 
