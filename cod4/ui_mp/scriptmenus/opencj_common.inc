@@ -83,6 +83,21 @@
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
     visible         1
 
+#define BUTTON_RECT_BASE_BG(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    name            _name \
+    style           WINDOW_STYLE_FILLED \
+    rect            DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin          orgX orgY \
+    backcolor       _backColor \
+    foreColor       _foreColor \
+    type            ITEM_TYPE_BUTTON \
+    textfont        _font \
+    textscale       _txtScale \
+    textalign       ITEM_ALIGN_MIDDLE_CENTER \
+    mouseEnter      { setitemcolor _name backcolor HIGHLIGHT_COLOR; setitemcolor _name foreColor WHITE_COLOR; play "mouse_over" } \
+    mouseExit       { setitemcolor _name backcolor NO_COLOR; setitemcolor _name foreColor WHITE_COLOR } \
+    visible         1
+
 #define BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     name            _name \
     style           WINDOW_STYLE_FILLED \
@@ -161,6 +176,14 @@
         action          { _action } \
         text            _text \
     }
+//With hover BACKGROUND
+#define BUTTON_RECT_TXT_ACTION_BG(_name, _text, _action, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        BUTTON_RECT_BASE_BG(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        action          { _action } \
+        text            _text \
+    }
 
 #define SORTABLE_RECT(_name, _text, _color, orgX, orgY, sizeX, sizeY) \
     itemDef \
@@ -195,6 +218,32 @@
     action      { scriptMenuResponse "click_"#_name; play "mouse_click"; _extraAction } \
     mouseEnter  { play "mouse_over" }
 
+#define SEL_SHADER_RECT_BASE_BG(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        name        _name \
+        type        ITEM_TYPE_BUTTON \
+        style       WINDOW_STYLE_FILLED \
+        rect        DEFAULT_RECT(0 0 sizeX sizeY) \
+        origin      orgX orgY \
+        forecolor   WHITE_COLOR \
+        backcolor   NO_COLOR \
+        visible     1 \
+        mouseEnter  { setitemcolor _name backcolor HIGHLIGHT_COLOR; play "mouse_over" } \
+        mouseExit   { setitemcolor _name backcolor NO_COLOR } \
+        action      { scriptMenuResponse "click_"#_name; play "mouse_click"; _extraAction } \
+    } \
+    itemDef \
+    { \
+        name        _name \
+        style       WINDOW_STYLE_SHADER \
+        background  _shader \
+        rect        DEFAULT_RECT(0 0 sizeX sizeY) \
+        origin      orgX orgY \
+        visible     1 \
+        decoration  \
+    }
+
 #define SEL_SHADER_RECT_ALWAYS(_name, _shader, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
@@ -206,6 +255,13 @@
     itemDef \
     { \
         SEL_SHADER_RECT_BASE(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
+        visible 1 \
+    }
+
+#define SEL_SHADER_RECT_ALWAYS_ACTION_BG(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        SEL_SHADER_RECT_BASE_BG(_name, _extraAction, _shader, orgX, orgY, sizeX, sizeY) \
         visible 1 \
     }
 

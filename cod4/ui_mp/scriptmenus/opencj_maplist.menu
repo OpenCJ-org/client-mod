@@ -1,0 +1,238 @@
+#include "ui/menudef.h"
+#include "ui_mp/scriptmenus/opencj_common.inc"
+
+#define ADDPREFIX(val)          OPENCJDVAR("maplist_")val
+
+// Exit button
+#define ACTION_COMMON           play "mouse_click"; close self
+#define EXITBTN_RUN             ACTION_COMMON; exec "menu_open_ingame ingame_menu"
+#define EXITBTN_ORG_X           (OUTER_FRAME_ORG_X + OUTER_FRAME_SIZE_X - EXITBTN_SIZE_X - 10)
+#define EXITBTN_ORG_Y           (OUTER_FRAME_ORG_Y + (H_SEP_ORG_Y / 2) - (EXITBTN_SIZE_Y / 2) )
+#define EXITBTN_SIZE_X          100
+#define EXITBTN_SIZE_Y          20
+
+#define SPACER                  10
+
+#define SEARCHBAR_SIZE_Y        20
+
+#define LEFT_CONTENT_Y          (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y + SEARCHBAR_SIZE_Y + (SPACER * 2) )
+#define LEFT_CONTENT_X          (OUTER_FRAME_ORG_X + 10)
+#define LEFT_CONTENT_X_SIZE     350
+#define LEFT_CONTENT_Y_SIZE     225
+
+#define PAGING_CONTENT_Y        (LEFT_CONTENT_Y + LEFT_CONTENT_Y_SIZE + 5)
+#define PAGING_CONTENT_X        LEFT_CONTENT_X
+
+#define BOARD_PREV_PAGE_BTN_ORG_X      (LEFT_CONTENT_X+(LEFT_CONTENT_X_SIZE/2)-(80/2))
+#define BOARD_PREV_PAGE_BTN_ORG_Y      (PAGING_CONTENT_Y - (10/2) + (30/2)) //(10/2) Image half. (30/2) Row half.
+#define BOARD_NEXT_PAGE_BTN_ORG_X      (BOARD_PREV_PAGE_BTN_ORG_X + 70)  
+#define BOARD_NEXT_PAGE_BTN_ORG_Y      BOARD_PREV_PAGE_BTN_ORG_Y
+#define BOARD_PAGE_TXT_ORG_X           (BOARD_PREV_PAGE_BTN_ORG_X)
+#define BOARD_PAGE_TXT_ORG_Y           BOARD_NEXT_PAGE_BTN_ORG_Y
+
+#define RIGHT_CONTENT_Y         LEFT_CONTENT_Y
+#define RIGHT_CONTENT_X         (OUTER_FRAME_ORG_X + 350 + 20)
+#define RIGHT_CONTENT_X_SIZE    220
+#define RIGHT_CONTENT_Y_SIZE    260
+
+#define MAPLIST_ENTRY_SIZE_Y    21
+
+// MAPLIST column 1
+#define MAP_COL_ORG_X                (LEFT_CONTENT_X + 3) // Border_fix
+#define MAP_COL_ORG_Y                (LEFT_CONTENT_Y + 4) // Border_fix
+#define MAP_CELL_SIZE_X              172
+#define MAP_CELL_SIZE_Y              MAPLIST_ENTRY_SIZE_Y
+#define MAP_COL_ORG_X_IDX(_idx)      (MAP_COL_ORG_X)
+#define MAP_COL_ORG_Y_IDX(_idx)      (MAP_COL_ORG_Y+(MAPLIST_ENTRY_SIZE_Y*_idx)+_idx)
+
+// MAPLIST column 2
+#define MAP2_COL_ORG_X                (LEFT_CONTENT_X + MAP_CELL_SIZE_X + 5) // Border_fix
+#define MAP2_COL_ORG_Y                (LEFT_CONTENT_Y + 4) // Border_fix
+#define MAP2_CELL_SIZE_X              MAP_CELL_SIZE_X
+#define MAP2_CELL_SIZE_Y              MAP_CELL_SIZE_Y
+#define MAP2_COL_ORG_X_IDX(_idx)      (MAP2_COL_ORG_X)
+#define MAP2_COL_ORG_Y_IDX(_idx)      (MAP2_COL_ORG_Y+(MAPLIST_ENTRY_SIZE_Y*_idx)+_idx)
+
+#define MAPIMAGE_X_SIZE                 218
+#define MAPIMAGE_Y_SIZE                 120
+
+#define MAP_DEC_X                       (RIGHT_CONTENT_X + 2)
+#define MAP_DEC_Y                       (RIGHT_CONTENT_Y + 2 + MAPIMAGE_Y_SIZE)
+
+#define MAPLIST_BTN_PLAY_ORG_Y          (MAP_DEC_Y + 90) 
+#define MAPLIST_BTN_PLAY_ORG_X          (RIGHT_CONTENT_X + SPACER) 
+
+#define MAPLIST_BTN_SIZE_X              (RIGHT_CONTENT_X_SIZE / 2 - (SPACER*2))
+#define MAPLIST_BTN_SIZE_Y              15
+#define MAPLIST_BTN_SPACING             1
+#define MAPLIST_BTN_GROUP_SPACING       10
+// For active buttons:
+#define MAPLIST_BTN_BACKCOLOR           NO_COLOR
+#define MAPLIST_BTN_FORECOLOR           WHITE_COLOR
+#define MAPLIST_BTN_FONT                UI_FONT_NORMAL
+#define MAPLIST_BTN_FONTSIZE            0.24
+// For inactive buttons:
+#define IBTN_BACKCOLOR                  LIGHTGREY_COLOR
+
+//Fix for now to chang the size because someone just changed it...
+#undef OUTER_FRAME_SIZE_X
+#define OUTER_FRAME_SIZE_X  600
+
+#undef OUTER_FRAME_SIZE_Y
+#define OUTER_FRAME_SIZE_Y  360
+
+{
+    menuDef
+    {
+        name        opencj_maplist
+        rect        DEFAULT_RECT(0 0 FULLSCREEN_X FULLSCREEN_Y)
+        focuscolor  COLOR_UNFOCUSED
+        style       WINDOW_STYLE_EMPTY
+        blurWorld   5.0
+        onOpen
+        {
+            scriptMenuResponse "open_maplist"
+        }
+        onEsc
+        {
+            close self;
+        }
+
+        // Background
+        FIXED_RECT(BG_COLOR, OUTER_FRAME_ORG_X, OUTER_FRAME_ORG_Y, OUTER_FRAME_SIZE_X, OUTER_FRAME_SIZE_Y)
+        
+        // Header Bar Blue
+        itemDef
+        {
+            style       WINDOW_STYLE_FILLED
+            backcolor   HIGHLIGHT_COLOR
+            rect        DEFAULT_RECT(0 0 OUTER_FRAME_SIZE_X 5)
+            origin      OUTER_FRAME_ORG_X (OUTER_FRAME_ORG_Y - 5)
+            visible     1
+            decoration
+        }
+        //Header text
+        FIXED_RECT_TXTLEFT_SCALED("Maplist", 0.40, NO_COLOR, WHITE_COLOR, OUTER_FRAME_ORG_X, (OUTER_FRAME_ORG_Y) , 300, 50)
+
+        //Return button
+        BUTTON_RECT_BORDER_TXT(exit, "Back", EXITBTN_RUN , BT_COLOR, WHITE_COLOR, UI_FONT_DEFAULT, 0.30, EXITBTN_ORG_X, EXITBTN_ORG_Y, EXITBTN_SIZE_X, EXITBTN_SIZE_Y,WHITE_TRANSPARENT_COLOR , 0.5)
+
+        //Header Sep
+        FIXED_RECT(BG_NAVSEP_COLOR, OUTER_FRAME_ORG_X, (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y), OUTER_FRAME_SIZE_X, 1)
+        
+        //****************************************************************************************************************//
+        //
+        //  LEFT CONTENT // MAPPLIST
+        //
+        //****************************************************************************************************************//
+
+        //Content Border
+        FIXED_RECT_BORDER(NO_COLOR, 1, WHITE_TRANSPARENT_COLOR, LEFT_CONTENT_X, LEFT_CONTENT_Y, LEFT_CONTENT_X_SIZE, LEFT_CONTENT_Y_SIZE)
+
+        //Search box border
+        FIXED_RECT_BORDER(NO_COLOR, 1, WHITE_TRANSPARENT_COLOR, LEFT_CONTENT_X, (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y + 10 ), 200, 20)
+
+        //Search field
+        FIXED_RECT_DVARLEFT_SCALED_BLINK("opencj_ui_maplist_textfield", NO_COLOR, WHITE_COLOR, 0.25, LEFT_CONTENT_X, (OUTER_FRAME_ORG_Y + H_SEP_ORG_Y + 10 ) , 200, SEARCHBAR_SIZE_Y)
+        
+        //****************************************//
+        //
+        // Map entry's (Colums)
+        //
+        //****************************************//
+        // Colum 1
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map0"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(0),  MAP_COL_ORG_Y_IDX(0),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map1"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(1),  MAP_COL_ORG_Y_IDX(1),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map2"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(2),  MAP_COL_ORG_Y_IDX(2),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map3"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(3),  MAP_COL_ORG_Y_IDX(3),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map4"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(4),  MAP_COL_ORG_Y_IDX(4),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map5"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(5),  MAP_COL_ORG_Y_IDX(5),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map6"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(6),  MAP_COL_ORG_Y_IDX(6),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map7"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(7),  MAP_COL_ORG_Y_IDX(7),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map8"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(8),  MAP_COL_ORG_Y_IDX(8),  MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map9"),    BT_COLOR, WHITE_COLOR, MAP_COL_ORG_X_IDX(9), MAP_COL_ORG_Y_IDX(9), MAP_CELL_SIZE_X, MAP_CELL_SIZE_Y)
+        
+        // Colum 2
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map10"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(0),  MAP2_COL_ORG_Y_IDX(0),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map11"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(1),  MAP2_COL_ORG_Y_IDX(1),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map12"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(2),  MAP2_COL_ORG_Y_IDX(2),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map13"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(3),  MAP2_COL_ORG_Y_IDX(3),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map14"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(4),  MAP2_COL_ORG_Y_IDX(4),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map15"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(5),  MAP2_COL_ORG_Y_IDX(5),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map16"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(6),  MAP2_COL_ORG_Y_IDX(6),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map17"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(7),  MAP2_COL_ORG_Y_IDX(7),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map18"),    BT_COLOR, WHITE_COLOR, MAP2_COL_ORG_X_IDX(8),  MAP2_COL_ORG_Y_IDX(8),  MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        FIXED_RECT_DVARLEFT(ADDPREFIX("map19"),    WHITE_TRANSPARENT_COLOR, HIGHLIGHT_COLOR, MAP2_COL_ORG_X_IDX(9), MAP2_COL_ORG_Y_IDX(9), MAP2_CELL_SIZE_X, MAP2_CELL_SIZE_Y)
+        
+        //****************************************//
+        //
+        // Paging control
+        //
+        //****************************************//
+        //Box border
+        FIXED_RECT_BORDER(NO_COLOR, 1, WHITE_TRANSPARENT_COLOR, PAGING_CONTENT_X, PAGING_CONTENT_Y , LEFT_CONTENT_X_SIZE, 30)
+        
+        // Normal prev page button (page > 1) WHEN_LBPAGE_G_ONE
+        SEL_SHADER_RECT_WHEN(prevpage,    "opencj_icon_leftarrow",  WHITE_COLOR, 1,  BOARD_PREV_PAGE_BTN_ORG_X,  BOARD_NEXT_PAGE_BTN_ORG_Y,  12, 12)
+
+        // Normal next page button (page < max) WHEN_LBPAGE_S_MAX
+        SEL_SHADER_RECT_WHEN(nextpage,    "opencj_icon_rightarrow", WHITE_COLOR, 1,  BOARD_NEXT_PAGE_BTN_ORG_X,  BOARD_NEXT_PAGE_BTN_ORG_Y,  12, 12)
+
+        // Page text
+        FIXED_RECT_DVARCENTER_SCALED("opencj_ui_maplist_pagetxt", NO_COLOR, WHITE_COLOR, 0.30, (PAGING_CONTENT_X + 2), (PAGING_CONTENT_Y + 2), (LEFT_CONTENT_X_SIZE - 2), 28)
+
+        //****************************************//
+        //
+        // RIGHT CONTENT // MAPINFO
+        //
+        //****************************************//
+
+        FIXED_RECT_BORDER(NO_COLOR, 1, WHITE_TRANSPARENT_COLOR, RIGHT_CONTENT_X, RIGHT_CONTENT_Y, RIGHT_CONTENT_X_SIZE, RIGHT_CONTENT_Y_SIZE)
+
+        SEL_SHADER_RECT_ALWAYS_ACTION("", "" , loading_screen_mp_race, (RIGHT_CONTENT_X + 2), (RIGHT_CONTENT_Y + 2), MAPIMAGE_X_SIZE, MAPIMAGE_Y_SIZE)
+
+        FIXED_RECT_DVARCENTER_SCALED("opencj_ui_maplist_map_name_selected", BLACK_TRANSPARENT_COLOR, WHITE_COLOR, 0.25, (RIGHT_CONTENT_X + 2), (RIGHT_CONTENT_Y + 2) , (RIGHT_CONTENT_X_SIZE - 2), 20)
+
+        FIXED_RECT_DVARLEFT_SCALED(opencj_ui_maplist_map_name_date, BLACK_TRANSPARENT_COLOR, WHITE_COLOR, 0.25, (RIGHT_CONTENT_X + 2), (RIGHT_CONTENT_Y + 2 + MAPIMAGE_Y_SIZE - 20 ) , ((RIGHT_CONTENT_X_SIZE - 2) / 2)  , 20)
+        FIXED_RECT_DVARRIGHT_SCALED(opencj_ui_maplist_map_name_autor, BLACK_TRANSPARENT_COLOR, WHITE_COLOR, 0.25, (RIGHT_CONTENT_X + 2 + ((RIGHT_CONTENT_X_SIZE - 2) / 2)), (RIGHT_CONTENT_Y + 2 + MAPIMAGE_Y_SIZE - 20 ) , ((RIGHT_CONTENT_X_SIZE - 2) / 2)  , 20)
+
+        FIXED_RECT_DVARLEFT_SCALED(opencj_ui_maplist_map_name_desc, BT_COLOR, WHITE_COLOR, 0.18, MAP_DEC_X, MAP_DEC_Y , (RIGHT_CONTENT_X_SIZE - 2) , 20)
+
+        BUTTON_RECT_BORDER_TXT(map_list_vote, "Vote", "nothing", MAPLIST_BTN_BACKCOLOR, MAPLIST_BTN_FORECOLOR, MAPLIST_BTN_FONT, MAPLIST_BTN_FONTSIZE, MAPLIST_BTN_PLAY_ORG_X, MAPLIST_BTN_PLAY_ORG_Y, MAPLIST_BTN_SIZE_X, MAPLIST_BTN_SIZE_Y, WHITE_TRANSPARENT_COLOR , 0.5)
+        BUTTON_RECT_BORDER_TXT(map_list_nominate, "Nominate", "nothing", MAPLIST_BTN_BACKCOLOR, MAPLIST_BTN_FORECOLOR, MAPLIST_BTN_FONT, MAPLIST_BTN_FONTSIZE, (MAPLIST_BTN_PLAY_ORG_X + SPACER + SPACER + MAPLIST_BTN_SIZE_X), MAPLIST_BTN_PLAY_ORG_Y, MAPLIST_BTN_SIZE_X, MAPLIST_BTN_SIZE_Y, WHITE_TRANSPARENT_COLOR , 0.5)
+        BUTTON_RECT_BORDER_TXT(map_list_showrecords, "Show Records", "nothing", MAPLIST_BTN_BACKCOLOR, MAPLIST_BTN_FORECOLOR, MAPLIST_BTN_FONT, MAPLIST_BTN_FONTSIZE, MAPLIST_BTN_PLAY_ORG_X, (MAPLIST_BTN_PLAY_ORG_Y + SPACER + MAPLIST_BTN_SIZE_Y), MAPLIST_BTN_SIZE_X, MAPLIST_BTN_SIZE_Y, WHITE_TRANSPARENT_COLOR , 0.5)
+        BUTTON_RECT_BORDER_TXT(map_list_soon, "Soon", "nothing", MAPLIST_BTN_BACKCOLOR, MAPLIST_BTN_FORECOLOR, MAPLIST_BTN_FONT, MAPLIST_BTN_FONTSIZE, (MAPLIST_BTN_PLAY_ORG_X + SPACER + SPACER + MAPLIST_BTN_SIZE_X), (MAPLIST_BTN_PLAY_ORG_Y + SPACER + MAPLIST_BTN_SIZE_Y), MAPLIST_BTN_SIZE_X, MAPLIST_BTN_SIZE_Y, WHITE_TRANSPARENT_COLOR , 0.5)
+        
+        itemDef
+		{
+			name                        "update_button"
+			text                        "Reload menu"
+			style                       WINDOW_STYLE_FILLED
+			border                      WINDOW_BORDER_FULL
+			borderSize                  0
+			foreColor                   0.8 0.8 0.8 1
+			backcolor                   0.00 0.80 0.85 0.1
+			borderColor                 0 0 0 0.05
+			outlineColor                0 0 0 0
+			type                        1
+			rect                        0 0 80 25 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+			origin                      221 25
+			style                       1
+			textfont                    UI_FONT_DEFAULT
+			textscale                   0.24
+			textalign                   1
+			textaligny                  17 
+			textstyle                   3
+			visible                     1
+
+			mouseEnter                  { play "mouse_over"; }
+			mouseExit                   { }
+			action                      
+			{
+				play "mouse_click";
+				execnow "menu_closebyname opencj_maplist; menu_loadlist_raw raw.txt; menu_open_ingame opencj_maplist";
+			}
+		}
+
+    } // menuDef
+}
