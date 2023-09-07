@@ -11,9 +11,10 @@
 #define MID_BLUE_COLOR      .0 .8 1.0 .8
 #define BLUE_COLOR          .0 .1 0.5 1
 #define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.7
-#define WHITE_TRANSPARENT_COLOR  1.0 1.0 1.0 0.1
 
+#define WHITE_TRANSPARENT_COLOR  1.0 1.0 1.0 0.1
 #define BLACK_TRANSPARENT_COLOR  0 0 0 .5
+#define BLACK_TRANSPARENT_COLOR_03  0 0 0 .3
 
 #define BG_COLOR            0.13 0.14 0.16 0.70
 #define BT_COLOR            0.26 0.28 0.32 0.20
