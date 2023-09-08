@@ -10,7 +10,9 @@
 #define WHITE_COLOR         1 1 1 1
 #define MID_BLUE_COLOR      .0 .8 1.0 .8
 #define BLUE_COLOR          .0 .1 0.5 1
-#define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.7
+#define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.
+
+#define BRIGHT_BLUE_COLOR_02   0.00 0.80 0.85 0.02
 
 #define WHITE_TRANSPARENT_COLOR  1.0 1.0 1.0 0.1
 #define BLACK_TRANSPARENT_COLOR  0 0 0 .5
