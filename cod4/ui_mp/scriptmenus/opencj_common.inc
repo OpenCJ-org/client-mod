@@ -10,9 +10,11 @@
 #define WHITE_COLOR         1 1 1 1
 #define MID_BLUE_COLOR      .0 .8 1.0 .8
 #define BLUE_COLOR          .0 .1 0.5 1
-#define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.
+#define BRIGHT_BLUE_COLOR   0.00 0.80 0.85 0.1
 
 #define BRIGHT_BLUE_COLOR_02   0.00 0.80 0.85 0.02
+#define BRIGHT_BLUE_COLOR_01   0.00 0.80 0.85 0.1
+
 
 #define WHITE_TRANSPARENT_COLOR  1.0 1.0 1.0 0.1
 #define BLACK_TRANSPARENT_COLOR  0 0 0 .5
@@ -86,6 +88,22 @@
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
     visible         1
 
+#define BUTTON_RECT_BASE_MAPLIST(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    name            _name \
+    style           WINDOW_STYLE_FILLED \
+    rect            DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin          orgX orgY \
+    backcolor       _backColor \
+    foreColor       _foreColor \
+    type            ITEM_TYPE_BUTTON \
+    textfont        _font \
+    textscale       _txtScale \
+    textalign       ITEM_ALIGN_MIDDLE_LEFT \
+    textalignx      3 \
+    mouseEnter      { setitemcolor _name backcolor BRIGHT_BLUE_COLOR_01; setitemcolor _name foreColor WHITE_COLOR; play "mouse_over" } \
+    mouseExit       { setitemcolor _name backcolor _backColor; setitemcolor _name foreColor WHITE_COLOR } \
+    visible         1
+
 #define BUTTON_RECT_BASE_BG(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     name            _name \
     style           WINDOW_STYLE_FILLED \
@@ -123,6 +141,12 @@
     visible         1 \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
+#define BUTTON_RECT_ACTIONBASE_MAPLIST(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    BUTTON_RECT_BASE_MAPLIST(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    visible         1 \
+    action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
+
+
 #define BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     visible         1 \
@@ -146,6 +170,16 @@
     itemDef \
     { \
         BUTTON_RECT_ACTIONBASE(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        dvar            _dvar \
+        dvartest        _dvar \
+        hidedvar        { "" } \
+        visible         when( _visibility ) \
+    }
+
+#define BUTTON_RECT_DVAR_WHEN_MAPLIST(_name, _dvar, _visibility, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        BUTTON_RECT_ACTIONBASE_MAPLIST(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
         dvar            _dvar \
         dvartest        _dvar \
         hidedvar        { "" } \
@@ -476,3 +510,4 @@
 
 #define FIXED_RECT_TXTCENTER_STYLED_WHEN(_visibility, _text, _txtScale, _backColor, _foreColor, orgX, orgY, sizeX, sizeY) \
     FIXED_RECT_TXT(when( _visibility), _text, UI_FONT_NORMAL, ITEM_TEXTSTYLE_SHADOWEDMORE, _txtScale, ITEM_ALIGN_MIDDLE_CENTER, 0, 0, _backColor, _foreColor, orgX, orgY, sizeX, sizeY)
+
