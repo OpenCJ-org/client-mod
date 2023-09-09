@@ -88,7 +88,7 @@
     textalign       ITEM_ALIGN_MIDDLE_CENTER \
     visible         1
 
-#define BUTTON_RECT_BASE_MAPLIST(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+#define BUTTON_RECT_BASE_COLOR(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     name            _name \
     style           WINDOW_STYLE_FILLED \
     rect            DEFAULT_RECT(0 0 sizeX sizeY) \
@@ -141,15 +141,15 @@
     visible         1 \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
-#define BUTTON_RECT_ACTIONBASE_MAPLIST(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
-    BUTTON_RECT_BASE_MAPLIST(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+#define BUTTON_RECT_ACTIONBASE_COLOR(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+    BUTTON_RECT_BASE_COLOR(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
     visible         1 \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
 
-#define BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+#define BUTTON_RECT_BORDER_ACTIONBASE(_name, _visibility, _font, _extraAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     BUTTON_RECT_BORDER_BASE(_name, _font, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
-    visible         1 \
+    visible         _visibility \
     action          { play "mouse_click"; scriptMenuResponse "click_"#_name; _extraAction }
 
 #define BUTTON_RECT_BORDER_BASE_VIS(_name, _font, _visibility, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
@@ -176,10 +176,10 @@
         visible         when( _visibility ) \
     }
 
-#define BUTTON_RECT_DVAR_WHEN_MAPLIST(_name, _dvar, _visibility, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
+#define BUTTON_RECT_DVAR_WHEN_COLOR(_name, _dvar, _visibility, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        BUTTON_RECT_ACTIONBASE_MAPLIST(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
+        BUTTON_RECT_ACTIONBASE_COLOR(_name, _font, "", _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY) \
         dvar            _dvar \
         dvartest        _dvar \
         hidedvar        { "" } \
@@ -196,7 +196,14 @@
 #define BUTTON_RECT_BORDER_TXT(_name, _text, _onAction, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
     itemDef \
     { \
-        BUTTON_RECT_BORDER_ACTIONBASE(_name, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+        BUTTON_RECT_BORDER_ACTIONBASE(_name, 1, _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+        text            _text \
+    }
+
+#define BUTTON_RECT_BORDER_TXT_WHEN(_name, _visibility, _text, _onAction, _backColor, _foreColor, _font, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
+    itemDef \
+    { \
+        BUTTON_RECT_BORDER_ACTIONBASE(_name, when(_visibility), _font, _onAction, _backColor, _foreColor, _txtScale, orgX, orgY, sizeX, sizeY, _borderColor, _borderSize) \
         text            _text \
     }
 
@@ -310,18 +317,28 @@
         visible     when( _visibility ) \
     }
 
+#define DVARSHADER_RECT_BASE(_name, _dvar, orgX, orgY, sizeX, sizeY) \
+    name        _name \
+    style       WINDOW_STYLE_DVAR_SHADER \
+    rect        DEFAULT_RECT(0 0 sizeX sizeY) \
+    origin      orgX orgY \
+    dvar        _dvar
+
 #define SEL_DVARSHADER_RECT(_name, _dvar, orgX, orgY, sizeX, sizeY) \
     itemDef \
     { \
-        name        _name \
-        style       WINDOW_STYLE_DVAR_SHADER \
         type        ITEM_TYPE_BUTTON \
-        rect        DEFAULT_RECT(0 0 sizeX sizeY) \
-        origin      orgX orgY \
-        dvar        _dvar \
+        DVARSHADER_RECT_BASE(_name, _dvar, orgX, orgY, sizeX, sizeY) \
         visible     1 \
         action      { play "mouse_click"; scriptMenuResponse "click_"#_name } \
         onFocus     { play "mouse_over" } \
+    }
+
+#define DVARSHADER_RECT_WHEN(_name, _dvar, _visibility, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        DVARSHADER_RECT_BASE(_name, _dvar, orgX, orgY, sizeX, sizeY) \
+        visible     when( _visibility ) \
     }
 
 #define SHADER_RECT_WHEN(_name, _shader, _visibility, orgX, orgY, sizeX, sizeY) \
@@ -397,6 +414,13 @@
     { \
         FIXED_RECT_BASE_BORDER(_backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
         visible     1 \
+    }
+
+#define FIXED_RECT_BORDER_WHEN(_visibility, _backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
+    itemDef \
+    { \
+        FIXED_RECT_BASE_BORDER(_backColor, _borderSize, _borderColor, orgX, orgY, sizeX, sizeY) \
+        visible     when( _visibility) \
     }
 
 
