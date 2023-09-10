@@ -1,10 +1,12 @@
 #include "ui/menudef.h"
 
+#include "ui_mp/scriptmenus/opencj_common.inc"
+
 #define WEAPON_TEXTSCALE .3
 
 // Voting
-#define VOTE_BG_SIZE_X      120
-#define VOTE_BG_SIZE_Y      70
+#define VOTE_BG_SIZE_X      150
+#define VOTE_BG_SIZE_Y      90
 #define VOTE_BG_ORG_X       ((-1 * VOTE_BG_SIZE_X) - 10)
 #define VOTE_BG_ORG_Y       ((-1 * VOTE_BG_SIZE_Y) - 15) //  Progress bar takes up some space
 
@@ -27,7 +29,6 @@
 #define VOTE_IMAGE_SIZE_Y   30
 #define VOTE_IMAGE_ORG_X    (VOTE_BG_ORG_X + VOTE_BG_SIZE_X - VOTE_IMAGE_SIZE_X - 5)
 #define VOTE_IMAGE_ORG_Y    (VOTE_BG_ORG_Y + VOTE_BG_SIZE_Y - VOTE_IMAGE_SIZE_Y - 5)
-
 
 // Menu and itemDefs
 {
@@ -173,17 +174,18 @@
         fullScreen MENU_FALSE
         visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
         rect 0 0 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
+
+		// Background
+        FIXED_RECT(BG_COLOR, VOTE_BG_ORG_X, VOTE_BG_ORG_Y, VOTE_BG_SIZE_X, VOTE_BG_SIZE_Y)
+        
+        // Header Bar Blue
         itemDef
         {
-            name            "openCJ voteBackground"
-            rect            0 0 VOTE_BG_SIZE_X VOTE_BG_SIZE_Y
-            origin          VOTE_BG_ORG_X VOTE_BG_ORG_Y
-            style           WINDOW_STYLE_SHADER
-            background      "white"
-            forecolor       0.1 0.1 0.1 0.9
-            dvartest        "openCJ_voteHeaderString"
-            hidedvar        { "" }
-            visible         MENU_TRUE
+            style       WINDOW_STYLE_FILLED
+            backcolor   HIGHLIGHT_COLOR
+            rect        DEFAULT_RECT(0 0 VOTE_BG_SIZE_X 5)
+            origin      VOTE_BG_ORG_X (VOTE_BG_ORG_Y - 5)
+            visible     MENU_TRUE
             decoration
         }
         itemDef
@@ -198,9 +200,10 @@
             visible     MENU_TRUE
             decoration
         }
+
         itemDef
         {
-            name        "openCJ voteHeaderString"
+            name        "openCJ_voteHeaderString"
             rect        0 0 VOTE_HEADER_SIZE_X VOTE_HEADER_SIZE_Y
             origin      VOTE_HEADER_ORG_X VOTE_HEADER_ORG_Y
             forecolor   1.0 1.0 1.0 1.0
@@ -216,7 +219,7 @@
         }
         itemDef
         {
-            name        "openCJ timeString"
+            name        "openCJ_timeString"
             rect        0 0 VOTE_TIME_SIZE_X VOTE_TIME_SIZE_Y
             origin      VOTE_TIME_ORG_X VOTE_TIME_ORG_Y
             forecolor   1.0 1.0 1.0 1.0
@@ -232,7 +235,7 @@
         }
         itemDef
         {
-            name        "openCJ voteCount"
+            name        "openCJ_voteCount"
             visible     MENU_TRUE
             rect        0 0 VOTE_COUNT_SIZE_X VOTE_COUNT_SIZE_Y
             origin      VOTE_COUNT_ORG_X VOTE_COUNT_ORG_Y
