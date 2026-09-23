@@ -58,7 +58,7 @@ def cmd(cmd_list):
     try:
         result = subprocess.run(cmd_list, capture_output=True, text=True, check=True)
     except subprocess.CalledProcessError as cpe:
-        fatal_exit('Command: {}   failed with error: {}'.format(cmd_list, result.stderr))
+        fatal_exit('Command: {}   failed with error: {}'.format(cmd_list, cpe.stderr))
 
 
 def clear():
