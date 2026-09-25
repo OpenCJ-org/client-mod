@@ -86,7 +86,7 @@ def main():
         if os.path.exists(full_path):
             cp_contents(full_path, raw_subdir)
             folders_copied += 1
-    
+
     # If no folders were copied, this is probably not the right directory
     if folders_copied == 0:
         fatal_exit('None of the .ff folders were found in {}'.format(opencj_cod4_dir))
@@ -95,10 +95,10 @@ def main():
     mod_csv = 'mod.csv'
     mod_csv_path = os.path.join(opencj_cod4_dir, mod_csv)
     try:
-        shutil.copyfile(mod_csv_path, os.path.join(zone_dir, mod_csv))
+        shutil.copyfile(mod_csv_path, os.path.join(zone_source_dir, mod_csv))
     except Exception as e:
         fatal_exit('Could not copy {} to {}'.format(mod_csv_path, zone_dir))
-    
+
     # Now head to the Modtools bin folder and get to work
     cd(bin_dir)
     cmd(['linker_pc.exe', '-language', 'english', '-compress', '-cleanup', 'mod'])
