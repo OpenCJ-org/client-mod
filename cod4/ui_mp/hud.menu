@@ -171,7 +171,7 @@
     {
         name "Vote"
         fullScreen MENU_FALSE
-        visible	when ( !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
+        visible	when ( dvarString("openCJ_voteHeaderString") != "" && !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString( createfx ) != "on") );
         rect 0 0 0 0 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_BOTTOM
         itemDef
         {

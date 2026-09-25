@@ -1,0 +1,235 @@
+#include "ui/menudef.h"
+
+// Registered by ingame.txt so openMenu can find it and acquire the UI mouse.
+{
+    menuDef
+    {
+        name opencj_demo
+        rect 0 0 640 480
+        style WINDOW_STYLE_EMPTY
+        focuscolor 1 1 1 1
+        onOpen { scriptMenuResponse "opened"; }
+        onEsc { close self; }
+        itemDef
+        {
+            name toolbar
+            rect 0 443 640 37 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+            style WINDOW_STYLE_FILLED
+            backcolor 0 0 0 0.82
+            visible 1
+            decoration
+        }
+        itemDef
+        {
+            name status
+            rect 0 0 154 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 124 449.5
+            type ITEM_TYPE_TEXT
+            dvar "opencj_demo_status"
+            textfont UI_FONT_NORMAL
+            textscale 0.23
+            textalign ITEM_ALIGN_MIDDLE_LEFT
+            forecolor 1 1 1 1
+            visible 1
+            decoration
+        }
+        itemDef
+        {
+            name previous
+            rect 0 0 30 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 10 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "|<"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible when (dvarInt("opencj_demo_checkpointed"))
+            mouseEnter { setitemcolor "previous" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "previous" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "previous"; }
+        }
+        itemDef
+        {
+            name pause
+            rect 0 0 36 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 44 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "||"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible when (!dvarInt("opencj_demo_paused"))
+            mouseEnter { setitemcolor "pause" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "pause" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "pause"; }
+        }
+        itemDef
+        {
+            name resume
+            rect 0 0 36 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 44 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text ">"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible when (dvarInt("opencj_demo_paused"))
+            mouseEnter { setitemcolor "resume" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "resume" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "resume"; }
+        }
+        itemDef
+        {
+            name next
+            rect 0 0 30 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 84 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text ">|"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible when (dvarInt("opencj_demo_checkpointed"))
+            mouseEnter { setitemcolor "next" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "next" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "next"; }
+        }
+        itemDef
+        {
+            name reverse4
+            rect 0 0 34 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 286 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "<4x"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible 1
+            mouseEnter { setitemcolor "reverse4" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "reverse4" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "speed_-4"; }
+        }
+        itemDef
+        {
+            name reverse2
+            rect 0 0 34 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 322 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "<2x"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible 1
+            mouseEnter { setitemcolor "reverse2" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "reverse2" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "speed_-2"; }
+        }
+        itemDef
+        {
+            name reverse1
+            rect 0 0 34 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 358 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "<1x"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible 1
+            mouseEnter { setitemcolor "reverse1" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "reverse1" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "speed_-1"; }
+        }
+        itemDef
+        {
+            name forward1
+            rect 0 0 34 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 400 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "1x>"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible 1
+            mouseEnter { setitemcolor "forward1" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "forward1" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "speed_1"; }
+        }
+        itemDef
+        {
+            name forward2
+            rect 0 0 34 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 436 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "2x>"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible 1
+            mouseEnter { setitemcolor "forward2" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "forward2" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "speed_2"; }
+        }
+        itemDef
+        {
+            name forward4
+            rect 0 0 34 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 472 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "4x>"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible 1
+            mouseEnter { setitemcolor "forward4" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "forward4" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "speed_4"; }
+        }
+        itemDef
+        {
+            name exit
+            rect 0 0 68 24 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT
+            origin 560 449.5
+            type ITEM_TYPE_BUTTON
+            style WINDOW_STYLE_FILLED
+            backcolor 1 1 1 0
+            forecolor 1 1 1 1
+            text "Exit"
+            textfont UI_FONT_NORMAL
+            textscale 0.27
+            textalign ITEM_ALIGN_MIDDLE_CENTER
+            visible 1
+            mouseEnter { setitemcolor "exit" backcolor 1 1 1 0.18; }
+            mouseExit { setitemcolor "exit" backcolor 1 1 1 0; }
+            action { scriptMenuResponse "stop"; close self; }
+        }
+    }
+}
