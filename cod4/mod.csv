@@ -70,3 +70,6 @@ material,opencj_checkpoint_lila_obj
 material,opencj_checkpoint_pink
 material,opencj_checkpoint_pink_obj
 menufile,ui_mp\scriptmenus\opencj_demo.menu
+sound,opencj_ui,,all_mp
+fx,misc/lighthaze
+sound,opencj_effects,,all_mp

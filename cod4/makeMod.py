@@ -57,6 +57,10 @@ def cp_contents(src, dst):
 def cmd(cmd_list):
     try:
         result = subprocess.run(cmd_list, capture_output=True, text=True, check=True)
+        if result.stdout:
+            print(result.stdout)
+        if result.stderr:
+            print(result.stderr)
     except subprocess.CalledProcessError as cpe:
         fatal_exit('Command: {}   failed with error: {}'.format(cmd_list, cpe.stderr))
 
