@@ -73,3 +73,5 @@ menufile,ui_mp\scriptmenus\opencj_demo.menu
 sound,opencj_ui,,all_mp
 fx,misc/lighthaze
 sound,opencj_effects,,all_mp
+menufile,ui_mp/scriptmenus/opencj_clips.menu
+menufile,ui_mp/scriptmenus/opencj_graphics.menu

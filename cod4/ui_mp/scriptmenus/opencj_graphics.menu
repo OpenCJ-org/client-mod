@@ -1,0 +1,129 @@
+#include "ui/menudef.h"
+#include "ui_mp/scriptmenus/opencj_common.inc"
+
+// Each row stages a client value; the server applies validated settings on Apply.
+#define GFX_ROW(_key, _label, _values, _action, _x, _y, _hint) \
+    FIXED_RECT_TXT(1, _label, UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.23, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, NO_COLOR, WHITE_COLOR, _x, _y, 140, 20) \
+    itemDef { \
+        name _key \
+        type ITEM_TYPE_MULTI \
+        style WINDOW_STYLE_FILLED \
+        rect DEFAULT_RECT(0 0 96 20) \
+        origin (_x + 144) _y \
+        dvar "opencj_gfx_edit_"#_key \
+        dvarFloatList _values \
+        textfont UI_FONT_NORMAL \
+        textscale 0.23 \
+        textalign ITEM_ALIGN_MIDDLE_CENTER \
+        forecolor WHITE_COLOR \
+        backcolor BLACK_TRANSPARENT_COLOR_03 \
+        visible 1 \
+        mouseEnter { setitemcolor _key backcolor BRIGHT_BLUE_COLOR_01; setdvar opencj_gfx_hint _hint; } \
+        mouseExit { setitemcolor _key backcolor BLACK_TRANSPARENT_COLOR_03; setdvar opencj_gfx_hint ""; } \
+        action { play "mouse_click"; setdvar opencj_gfx_preset "Custom"; _action } \
+    }
+
+// Reset both the preview and pending server edits to the current player settings.
+#define GFX_RESET \
+    scriptMenuResponse "begin"; \
+    setdvar opencj_gfx_preset "Custom"; \
+    setdvar opencj_gfx_hint ""; \
+    execnow "setfromdvar opencj_gfx_edit_fullbright r_fullbright"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_specular r_specular"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_normal r_normal"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_detail r_detail"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_decals r_drawDecals"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_shadows sm_enable"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_glow r_glow_allowed"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_blur opencj_gfx_blur"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_dof r_dof_enable"; \
+    execnow "setfromdvar opencj_gfx_edit_fx fx_enable"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_fog r_fog"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_sun r_drawSun"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_water r_drawWater"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_entities dynEnt_active"; \
+    setdvar opencj_gfx_edit_gfx_lod 3; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_distance r_zfar"; \
+    execnow "setfromdvar opencj_gfx_edit_viewbob bg_bobmax"; \
+    execnow "setfromdvar opencj_gfx_edit_fov opencj_gfx_fov"; \
+    execnow "setfromdvar opencj_gfx_edit_gfx_hidemode opencj_gfx_hidemode"; \
+    execnow "setfromdvar opencj_gfx_edit_hideradius opencj_gfx_hideradius"; \
+    execNowOnDvarIntValue opencj_gfx_specular 2 "set opencj_gfx_edit_gfx_specular 2"; \
+    execNowOnDvarIntValue opencj_gfx_shadows 2 "set opencj_gfx_edit_gfx_shadows 2"; \
+    execNowOnDvarIntValue opencj_gfx_edit_hideradius 0 "set opencj_gfx_edit_hideradius 60";
+
+
+{
+    menuDef
+    {
+        name opencj_graphics
+        rect DEFAULT_RECT(0 0 FULLSCREEN_X FULLSCREEN_Y)
+        style WINDOW_STYLE_EMPTY
+        focuscolor WHITE_COLOR
+        blurWorld 5
+        onOpen { GFX_RESET }
+        onEsc { scriptMenuResponse "cancel"; close self; open opencj_ingame; }
+
+        FIXED_RECT(BLACK_COLOR, 42, 40, 556, 406)
+        FIXED_RECT(BG_NAV_COLOR, 44, 42, 552, 402)
+        FIXED_RECT_TXT(1, "OpenCJ graphics", UI_FONT_DEFAULT, ITEM_TEXTSTYLE_NORMAL, 0.36, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, NO_COLOR, HIGHLIGHT_COLOR, 62, 54, 300, 25)
+        FIXED_RECT_DVARRIGHT(opencj_gfx_preset, NO_COLOR, WHITE_COLOR, 430, 54, 148, 25)
+        FIXED_RECT(HIGHLIGHT_COLOR, 62, 88, 516, 1)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_preset_Ultra, "Ultra", play "mouse_click"; setdvar opencj_gfx_preset "Ultra"; setdvar opencj_gfx_edit_fullbright 0; scriptMenuResponse "fullbright:0"; setdvar opencj_gfx_edit_gfx_specular 2; scriptMenuResponse "gfx_specular:2"; setdvar opencj_gfx_edit_gfx_normal 1; scriptMenuResponse "gfx_normal:1"; setdvar opencj_gfx_edit_gfx_detail 1; scriptMenuResponse "gfx_detail:1"; setdvar opencj_gfx_edit_gfx_decals 1; scriptMenuResponse "gfx_decals:1"; setdvar opencj_gfx_edit_gfx_shadows 2; scriptMenuResponse "gfx_shadows:2"; setdvar opencj_gfx_edit_gfx_glow 1; scriptMenuResponse "gfx_glow:1"; setdvar opencj_gfx_edit_gfx_blur 1; scriptMenuResponse "gfx_blur:1"; setdvar opencj_gfx_edit_gfx_dof 1; scriptMenuResponse "gfx_dof:1"; setdvar opencj_gfx_edit_fx 1; scriptMenuResponse "fx:1"; setdvar opencj_gfx_edit_gfx_fog 1; scriptMenuResponse "gfx_fog:1"; setdvar opencj_gfx_edit_gfx_sun 1; scriptMenuResponse "gfx_sun:1"; setdvar opencj_gfx_edit_gfx_water 1; scriptMenuResponse "gfx_water:1"; setdvar opencj_gfx_edit_gfx_entities 1; scriptMenuResponse "gfx_entities:1"; setdvar opencj_gfx_edit_gfx_lod 0; scriptMenuResponse "gfx_lod:0"; setdvar opencj_gfx_edit_gfx_distance 0; scriptMenuResponse "gfx_distance:0";, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 62, 102, 100, 23)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Ultra", HIGHLIGHT_COLOR, 62, 102, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Ultra", HIGHLIGHT_COLOR, 62, 124, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Ultra", HIGHLIGHT_COLOR, 62, 103, 1, 21)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Ultra", HIGHLIGHT_COLOR, 161, 103, 1, 21)
+        FIXED_RECT_TXTCENTER("Best quality", NO_COLOR, LIGHTGREY_COLOR, 62, 127, 100, 12)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_preset_High, "High", play "mouse_click"; setdvar opencj_gfx_preset "High"; setdvar opencj_gfx_edit_fullbright 0; scriptMenuResponse "fullbright:0"; setdvar opencj_gfx_edit_gfx_specular 1; scriptMenuResponse "gfx_specular:1"; setdvar opencj_gfx_edit_gfx_normal 1; scriptMenuResponse "gfx_normal:1"; setdvar opencj_gfx_edit_gfx_detail 1; scriptMenuResponse "gfx_detail:1"; setdvar opencj_gfx_edit_gfx_decals 1; scriptMenuResponse "gfx_decals:1"; setdvar opencj_gfx_edit_gfx_shadows 0; scriptMenuResponse "gfx_shadows:0"; setdvar opencj_gfx_edit_gfx_glow 1; scriptMenuResponse "gfx_glow:1"; setdvar opencj_gfx_edit_gfx_blur 0; scriptMenuResponse "gfx_blur:0"; setdvar opencj_gfx_edit_gfx_dof 0; scriptMenuResponse "gfx_dof:0"; setdvar opencj_gfx_edit_fx 1; scriptMenuResponse "fx:1"; setdvar opencj_gfx_edit_gfx_fog 1; scriptMenuResponse "gfx_fog:1"; setdvar opencj_gfx_edit_gfx_sun 1; scriptMenuResponse "gfx_sun:1"; setdvar opencj_gfx_edit_gfx_water 1; scriptMenuResponse "gfx_water:1"; setdvar opencj_gfx_edit_gfx_entities 0; scriptMenuResponse "gfx_entities:0"; setdvar opencj_gfx_edit_gfx_lod 0; scriptMenuResponse "gfx_lod:0"; setdvar opencj_gfx_edit_gfx_distance 0; scriptMenuResponse "gfx_distance:0";, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 166, 102, 100, 23)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "High", HIGHLIGHT_COLOR, 166, 102, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "High", HIGHLIGHT_COLOR, 166, 124, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "High", HIGHLIGHT_COLOR, 166, 103, 1, 21)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "High", HIGHLIGHT_COLOR, 265, 103, 1, 21)
+        FIXED_RECT_TXTCENTER("Good quality", NO_COLOR, LIGHTGREY_COLOR, 166, 127, 100, 12)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_preset_Medium, "Medium", play "mouse_click"; setdvar opencj_gfx_preset "Medium"; setdvar opencj_gfx_edit_fullbright 0; scriptMenuResponse "fullbright:0"; setdvar opencj_gfx_edit_gfx_specular 0; scriptMenuResponse "gfx_specular:0"; setdvar opencj_gfx_edit_gfx_normal 1; scriptMenuResponse "gfx_normal:1"; setdvar opencj_gfx_edit_gfx_detail 0; scriptMenuResponse "gfx_detail:0"; setdvar opencj_gfx_edit_gfx_decals 0; scriptMenuResponse "gfx_decals:0"; setdvar opencj_gfx_edit_gfx_shadows 0; scriptMenuResponse "gfx_shadows:0"; setdvar opencj_gfx_edit_gfx_glow 0; scriptMenuResponse "gfx_glow:0"; setdvar opencj_gfx_edit_gfx_blur 0; scriptMenuResponse "gfx_blur:0"; setdvar opencj_gfx_edit_gfx_dof 0; scriptMenuResponse "gfx_dof:0"; setdvar opencj_gfx_edit_fx 0; scriptMenuResponse "fx:0"; setdvar opencj_gfx_edit_gfx_fog 0; scriptMenuResponse "gfx_fog:0"; setdvar opencj_gfx_edit_gfx_sun 0; scriptMenuResponse "gfx_sun:0"; setdvar opencj_gfx_edit_gfx_water 0; scriptMenuResponse "gfx_water:0"; setdvar opencj_gfx_edit_gfx_entities 0; scriptMenuResponse "gfx_entities:0"; setdvar opencj_gfx_edit_gfx_lod 1; scriptMenuResponse "gfx_lod:1"; setdvar opencj_gfx_edit_gfx_distance 0; scriptMenuResponse "gfx_distance:0";, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 270, 102, 100, 23)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Medium", HIGHLIGHT_COLOR, 270, 102, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Medium", HIGHLIGHT_COLOR, 270, 124, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Medium", HIGHLIGHT_COLOR, 270, 103, 1, 21)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Medium", HIGHLIGHT_COLOR, 369, 103, 1, 21)
+        FIXED_RECT_TXTCENTER("Good performance", NO_COLOR, LIGHTGREY_COLOR, 270, 127, 100, 12)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_preset_Low, "Low", play "mouse_click"; setdvar opencj_gfx_preset "Low"; setdvar opencj_gfx_edit_fullbright 1; scriptMenuResponse "fullbright:1"; setdvar opencj_gfx_edit_gfx_specular 0; scriptMenuResponse "gfx_specular:0"; setdvar opencj_gfx_edit_gfx_normal 0; scriptMenuResponse "gfx_normal:0"; setdvar opencj_gfx_edit_gfx_detail 0; scriptMenuResponse "gfx_detail:0"; setdvar opencj_gfx_edit_gfx_decals 0; scriptMenuResponse "gfx_decals:0"; setdvar opencj_gfx_edit_gfx_shadows 0; scriptMenuResponse "gfx_shadows:0"; setdvar opencj_gfx_edit_gfx_glow 0; scriptMenuResponse "gfx_glow:0"; setdvar opencj_gfx_edit_gfx_blur 0; scriptMenuResponse "gfx_blur:0"; setdvar opencj_gfx_edit_gfx_dof 0; scriptMenuResponse "gfx_dof:0"; setdvar opencj_gfx_edit_fx 0; scriptMenuResponse "fx:0"; setdvar opencj_gfx_edit_gfx_fog 0; scriptMenuResponse "gfx_fog:0"; setdvar opencj_gfx_edit_gfx_sun 0; scriptMenuResponse "gfx_sun:0"; setdvar opencj_gfx_edit_gfx_water 0; scriptMenuResponse "gfx_water:0"; setdvar opencj_gfx_edit_gfx_entities 0; scriptMenuResponse "gfx_entities:0"; setdvar opencj_gfx_edit_gfx_lod 2; scriptMenuResponse "gfx_lod:2"; setdvar opencj_gfx_edit_gfx_distance 0; scriptMenuResponse "gfx_distance:0";, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 374, 102, 100, 23)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Low", HIGHLIGHT_COLOR, 374, 102, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Low", HIGHLIGHT_COLOR, 374, 124, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Low", HIGHLIGHT_COLOR, 374, 103, 1, 21)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Low", HIGHLIGHT_COLOR, 473, 103, 1, 21)
+        FIXED_RECT_TXTCENTER("Best performance", NO_COLOR, LIGHTGREY_COLOR, 374, 127, 100, 12)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_preset_Custom, "Custom", play "mouse_click"; GFX_RESET, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 478, 102, 100, 23)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Custom", HIGHLIGHT_COLOR, 478, 102, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Custom", HIGHLIGHT_COLOR, 478, 124, 100, 1)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Custom", HIGHLIGHT_COLOR, 478, 103, 1, 21)
+        FIXED_RECT_WHEN(dvarString("opencj_gfx_preset") == "Custom", HIGHLIGHT_COLOR, 577, 103, 1, 21)
+        FIXED_RECT_TXTCENTER("Keep current", NO_COLOR, LIGHTGREY_COLOR, 478, 127, 100, 12)
+        FIXED_RECT(BG_NAVSEP_COLOR, 319, 151, 1, 219)
+        GFX_ROW(fullbright, "Fullbright", { "Off" 0 "On" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fullbright" 0 "fullbright:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fullbright" 1 "fullbright:1";, 62, 151, "Flat lighting without normal shading.")
+        GFX_ROW(gfx_specular, "Specular", { "Off" 0 "Map" 1 "On" 2 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_specular" 0 "gfx_specular:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_specular" 1 "gfx_specular:1"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_specular" 2 "gfx_specular:2";, 62, 173, "On forces white specular masks; Map uses the original materials.")
+        GFX_ROW(gfx_normal, "Normal maps", { "Off" 0 "On" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_normal" 0 "gfx_normal:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_normal" 1 "gfx_normal:1";, 62, 195, "Allow normal maps for surface lighting detail.")
+        GFX_ROW(gfx_detail, "Detail textures", { "Off" 0 "On" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_detail" 0 "gfx_detail:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_detail" 1 "gfx_detail:1";, 62, 217, "Allow fine detail textures in map materials.")
+        GFX_ROW(gfx_decals, "Decals", { "Off" 0 "On" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_decals" 0 "gfx_decals:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_decals" 1 "gfx_decals:1";, 62, 239, "World decals and effect marks change together.")
+        GFX_ROW(gfx_shadows, "Dynamic shadows", { "Off" 0 "Map" 1 "On" 2 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_shadows" 0 "gfx_shadows:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_shadows" 1 "gfx_shadows:1"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_shadows" 2 "gfx_shadows:2";, 62, 261, "On enables sun and spot shadows; Map restores map shadow switches.")
+        GFX_ROW(gfx_glow, "Glow", { "Off" 0 "Map" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_glow" 0 "gfx_glow:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_glow" 1 "gfx_glow:1";, 62, 283, "Allow the map glow effect.")
+        GFX_ROW(gfx_blur, "Blur", { "Off" 0 "Map" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_blur" 0 "gfx_blur:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_blur" 1 "gfx_blur:1";, 62, 305, "Off clears r_blur; Map restores its value from map entry.")
+        GFX_ROW(gfx_dof, "Depth of field", { "Off" 0 "On" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_dof" 0 "gfx_dof:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_dof" 1 "gfx_dof:1";, 62, 327, "Blur outside the focus range.")
+        GFX_ROW(fx, "Effects", { "Off" 0 "On" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fx" 0 "fx:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fx" 1 "fx:1";, 62, 349, "Particle effects, including smoke and explosions.")
+        GFX_ROW(gfx_fog, "Fog", { "Off" 0 "Map" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_fog" 0 "gfx_fog:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_fog" 1 "gfx_fog:1";, 338, 151, "Use the fog authored by the map.")
+        GFX_ROW(gfx_sun, "Sun", { "Off" 0 "Map" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_sun" 0 "gfx_sun:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_sun" 1 "gfx_sun:1";, 338, 173, "Show the map sun effects.")
+        GFX_ROW(gfx_water, "Water detail", { "Low" 0 "Normal" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_water" 0 "gfx_water:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_water" 1 "gfx_water:1";, 338, 195, "Water quality; Low does not remove water.")
+        GFX_ROW(gfx_entities, "Dynamic entities", { "Off" 0 "Map" 1 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_entities" 0 "gfx_entities:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_entities" 1 "gfx_entities:1";, 338, 217, "Allow reactions of dynamic entities authored by the map.")
+        GFX_ROW(gfx_lod, "Model detail", { "Current" 3 "High" 0 "Medium" 1 "Low" 2 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_lod" 3 "gfx_lod:3"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_lod" 0 "gfx_lod:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_lod" 1 "gfx_lod:1"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_lod" 2 "gfx_lod:2";, 338, 239, "Current keeps the existing four model LOD settings.")
+        GFX_ROW(gfx_distance, "Draw distance", { "Infinite" 0 "1024" 1024 "2048" 2048 "4096" 4096 "8192" 8192 "16384" 16384 "32768" 32768 "65536" 65536 "131072" 131072 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 0 "gfx_distance:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 1024 "gfx_distance:1024"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 2048 "gfx_distance:2048"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 4096 "gfx_distance:4096"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 8192 "gfx_distance:8192"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 16384 "gfx_distance:16384"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 32768 "gfx_distance:32768"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 65536 "gfx_distance:65536"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_distance" 131072 "gfx_distance:131072";, 338, 261, "Infinite removes the extra far-clip override; map limits still apply.")
+        GFX_ROW(viewbob, "Viewbobbing", { "Off" 0 "On" 8 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_viewbob" 0 "viewbob:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_viewbob" 8 "viewbob:1";, 338, 283, "Camera movement while walking.")
+        GFX_ROW(fov, "Field of view", { "65" 65 "70" 70 "75" 75 "80" 80 "85" 85 "90" 90 "95" 95 "100" 100 "105" 105 "110" 110 "115" 115 "120" 120 "130" 130 "140" 140 "150" 150 "160" 160 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 65 "fov:65"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 70 "fov:70"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 75 "fov:75"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 80 "fov:80"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 85 "fov:85"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 90 "fov:90"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 95 "fov:95"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 100 "fov:100"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 105 "fov:105"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 110 "fov:110"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 115 "fov:115"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 120 "fov:120"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 130 "fov:130"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 140 "fov:140"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 150 "fov:150"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_fov" 160 "fov:160";, 338, 305, "Uses the same setting as !fov.")
+        GFX_ROW(gfx_hidemode, "Hide players", { "Off" 0 "Nearby" 1 "Everyone" 2 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_hidemode" 0 "gfx_hidemode:0"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_hidemode" 1 "gfx_hidemode:1"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_gfx_hidemode" 2 "gfx_hidemode:2";, 338, 327, "Nearby uses the radius below. Everyone hides all players.")
+        GFX_ROW(hideradius, "Player hide radius", { "30" 30 "60" 60 "100" 100 "200" 200 "300" 300 "500" 500 "1024" 1024 "2048" 2048 "4096" 4096 }, scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 30 "hideradius:30"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 60 "hideradius:60"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 100 "hideradius:100"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 200 "hideradius:200"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 300 "hideradius:300"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 500 "hideradius:500"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 1024 "hideradius:1024"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 2048 "hideradius:2048"; scriptMenuRespondOnDvarIntValue "opencj_gfx_edit_hideradius" 4096 "hideradius:4096";, 338, 349, "Nearby hiding distance in game units. Use Hide players: Off to disable hiding.")
+        FIXED_RECT_DVARLEFT_SCALED(opencj_gfx_hint, NO_COLOR, LIGHTGREY_COLOR, 0.20, 62, 377, 516, 18)
+        FIXED_RECT(BG_NAVSEP_COLOR, 62, 403, 516, 1)
+        FIXED_RECT_TXTLEFT("Changes take effect only after Apply.", NO_COLOR, LIGHTGREY_COLOR, 62, 414, 304, 22)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_cancel, "Cancel", play "mouse_click"; scriptMenuResponse "cancel"; close self; open opencj_ingame, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 402, 414, 80, 22)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_apply, "Apply", play "mouse_click"; scriptMenuResponse "apply"; close self; open opencj_ingame, BRIGHT_BLUE_COLOR_01, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 498, 414, 80, 22)
+    }
+}

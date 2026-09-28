@@ -1,0 +1,20 @@
+#include "ui/menudef.h"
+#include "ui_mp/scriptmenus/opencj_common.inc"
+
+{
+    menuDef
+    {
+        name opencj_clips
+        rect DEFAULT_RECT(0 0 FULLSCREEN_X FULLSCREEN_Y)
+        style WINDOW_STYLE_EMPTY
+        focuscolor WHITE_COLOR
+        blurWorld 5
+        onEsc { close self; open opencj_ingame; }
+
+        FIXED_RECT(BG_NAV_COLOR, 160, 162, 320, 156)
+        FIXED_RECT_TXT(1, "Clips", UI_FONT_DEFAULT, ITEM_TEXTSTYLE_NORMAL, 0.38, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, NO_COLOR, HIGHLIGHT_COLOR, 178, 176, 284, 24)
+        FIXED_RECT(HIGHLIGHT_COLOR, 178, 207, 284, 1)
+        FIXED_RECT_TXT(1, "The clips browser is coming soon.", UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, NO_COLOR, WHITE_COLOR, 178, 226, 284, 20)
+        BUTTON_RECT_TXT_ACTION_BG(clips_back, "Back", play "mouse_click"; close self; open opencj_ingame, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 278, 278, 84, 24)
+    }
+}
