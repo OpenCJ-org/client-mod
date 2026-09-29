@@ -75,3 +75,4 @@ fx,misc/lighthaze
 sound,opencj_effects,,all_mp
 menufile,ui_mp/scriptmenus/opencj_clips.menu
 menufile,ui_mp/scriptmenus/opencj_graphics.menu
+menufile,ui_mp/scriptmenus/opencj_clipedit.menu

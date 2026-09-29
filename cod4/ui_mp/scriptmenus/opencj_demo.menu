@@ -9,7 +9,7 @@
         style WINDOW_STYLE_EMPTY
         focuscolor 1 1 1 1
         onOpen { scriptMenuResponse "opened"; }
-        onEsc { close self; }
+        onEsc { scriptMenuResponse "stop"; close self; }
         itemDef
         {
             name toolbar

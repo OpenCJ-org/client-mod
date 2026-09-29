@@ -2,19 +2,57 @@
 #include "ui_mp/scriptmenus/opencj_common.inc"
 
 {
-    menuDef
-    {
-        name opencj_clips
-        rect DEFAULT_RECT(0 0 FULLSCREEN_X FULLSCREEN_Y)
-        style WINDOW_STYLE_EMPTY
-        focuscolor WHITE_COLOR
-        blurWorld 5
-        onEsc { close self; open opencj_ingame; }
-
-        FIXED_RECT(BG_NAV_COLOR, 160, 162, 320, 156)
-        FIXED_RECT_TXT(1, "Clips", UI_FONT_DEFAULT, ITEM_TEXTSTYLE_NORMAL, 0.38, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, NO_COLOR, HIGHLIGHT_COLOR, 178, 176, 284, 24)
-        FIXED_RECT(HIGHLIGHT_COLOR, 178, 207, 284, 1)
-        FIXED_RECT_TXT(1, "The clips browser is coming soon.", UI_FONT_NORMAL, ITEM_TEXTSTYLE_NORMAL, 0.24, ITEM_ALIGN_MIDDLE_LEFT, 0, 0, NO_COLOR, WHITE_COLOR, 178, 226, 284, 20)
-        BUTTON_RECT_TXT_ACTION_BG(clips_back, "Back", play "mouse_click"; close self; open opencj_ingame, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 278, 278, 84, 24)
-    }
+ menuDef {
+  name opencj_clips
+  rect 0 0 640 480
+  style WINDOW_STYLE_EMPTY
+  focuscolor WHITE_COLOR
+  onOpen { scriptMenuResponse "open"; }
+  onEsc { scriptMenuResponse "close"; close self; }
+  itemDef { name panel rect 0 0 600 210 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 20 270 style WINDOW_STYLE_FILLED backcolor 0 0 0 .62 visible 1 decoration }
+  itemDef { name accent rect 0 0 600 1 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 20 270 style WINDOW_STYLE_FILLED backcolor 0 .8 .9 1 visible 1 decoration }
+  itemDef { name title rect 0 0 120 26 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 280 type ITEM_TYPE_TEXT text "CLIPS" textfont UI_FONT_NORMAL textscale 0.3 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 0 .8 .9 1 visible 1 decoration }
+  itemDef { name filter rect 0 0 200 22 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 360 282 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED border WINDOW_BORDER_FULL bordersize 1 bordercolor .2 .4 .44 1 backcolor .10 .19 .22 .95 forecolor 1 1 1 1 dvar "opencj_clips_tab" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible 1 mouseEnter { setitemcolor filter backcolor .08 .38 .44 1; } mouseExit { setitemcolor filter backcolor .10 .19 .22 .95; } action { play "mouse_click"; scriptMenuResponse "toggle"; } }
+  itemDef { name close rect 0 0 28 22 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 576 282 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED backcolor .5 .04 .04 .9 forecolor 1 .3 .3 1 text "X" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible 1 mouseEnter { setitemcolor close backcolor 0 0.65 0.75 0.45; } mouseExit { setitemcolor close backcolor .5 .04 .04 .9; } action { play "mouse_click"; scriptMenuResponse "close"; close self; } }
+  itemDef { name separator rect 0 0 568 1 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 310 style WINDOW_STYLE_FILLED backcolor 0 .65 .75 .65 visible 1 decoration }
+  itemDef { name heading0 rect 0 0 44 18 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 314 type ITEM_TYPE_TEXT text "ID" textfont UI_FONT_NORMAL textscale 0.21 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .6 .8 .8 1 visible 1 decoration }
+  itemDef { name heading1 rect 0 0 226 18 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 86 314 type ITEM_TYPE_TEXT text "Description" textfont UI_FONT_NORMAL textscale 0.21 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .6 .8 .8 1 visible 1 decoration }
+  itemDef { name heading2 rect 0 0 90 18 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 322 314 type ITEM_TYPE_TEXT text "Player" textfont UI_FONT_NORMAL textscale 0.21 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .6 .8 .8 1 visible 1 decoration }
+  itemDef { name heading3 rect 0 0 58 18 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 420 314 type ITEM_TYPE_TEXT text "Duration" textfont UI_FONT_NORMAL textscale 0.21 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .6 .8 .8 1 visible 1 decoration }
+  itemDef { name heading4 rect 0 0 118 18 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 486 314 type ITEM_TYPE_TEXT text "Recorded" textfont UI_FONT_NORMAL textscale 0.21 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .6 .8 .8 1 visible 1 decoration }
+  itemDef { name empty0 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 338 style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 visible when (!dvarInt("opencj_clips_exists0")) decoration }
+  itemDef { name row0 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 338 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 forecolor 1 1 1 1 text "" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible when (dvarInt("opencj_clips_exists0")) mouseEnter { setitemcolor row0 backcolor 0 .65 .75 .45; } mouseExit { setitemcolor row0 backcolor 0 0 0 .12; } action { play "mouse_click"; scriptMenuResponse "row:0"; } }
+  itemDef { name cell0_0 rect 0 0 44 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 338 type ITEM_TYPE_TEXT dvar "opencj_clips_cell0_0" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell0_1 rect 0 0 226 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 86 338 type ITEM_TYPE_TEXT dvar "opencj_clips_cell0_1" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell0_2 rect 0 0 90 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 322 338 type ITEM_TYPE_TEXT dvar "opencj_clips_cell0_2" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell0_3 rect 0 0 58 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 420 338 type ITEM_TYPE_TEXT dvar "opencj_clips_cell0_3" textfont UI_FONT_NORMAL textscale 0.19 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell0_4 rect 0 0 118 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 486 338 type ITEM_TYPE_TEXT dvar "opencj_clips_cell0_4" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name empty1 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 360 style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 visible when (!dvarInt("opencj_clips_exists1")) decoration }
+  itemDef { name row1 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 360 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 forecolor 1 1 1 1 text "" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible when (dvarInt("opencj_clips_exists1")) mouseEnter { setitemcolor row1 backcolor 0 .65 .75 .45; } mouseExit { setitemcolor row1 backcolor 0 0 0 .12; } action { play "mouse_click"; scriptMenuResponse "row:1"; } }
+  itemDef { name cell1_0 rect 0 0 44 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 360 type ITEM_TYPE_TEXT dvar "opencj_clips_cell1_0" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell1_1 rect 0 0 226 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 86 360 type ITEM_TYPE_TEXT dvar "opencj_clips_cell1_1" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell1_2 rect 0 0 90 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 322 360 type ITEM_TYPE_TEXT dvar "opencj_clips_cell1_2" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell1_3 rect 0 0 58 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 420 360 type ITEM_TYPE_TEXT dvar "opencj_clips_cell1_3" textfont UI_FONT_NORMAL textscale 0.19 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell1_4 rect 0 0 118 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 486 360 type ITEM_TYPE_TEXT dvar "opencj_clips_cell1_4" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name empty2 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 382 style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 visible when (!dvarInt("opencj_clips_exists2")) decoration }
+  itemDef { name row2 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 382 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 forecolor 1 1 1 1 text "" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible when (dvarInt("opencj_clips_exists2")) mouseEnter { setitemcolor row2 backcolor 0 .65 .75 .45; } mouseExit { setitemcolor row2 backcolor 0 0 0 .12; } action { play "mouse_click"; scriptMenuResponse "row:2"; } }
+  itemDef { name cell2_0 rect 0 0 44 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 382 type ITEM_TYPE_TEXT dvar "opencj_clips_cell2_0" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell2_1 rect 0 0 226 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 86 382 type ITEM_TYPE_TEXT dvar "opencj_clips_cell2_1" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell2_2 rect 0 0 90 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 322 382 type ITEM_TYPE_TEXT dvar "opencj_clips_cell2_2" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell2_3 rect 0 0 58 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 420 382 type ITEM_TYPE_TEXT dvar "opencj_clips_cell2_3" textfont UI_FONT_NORMAL textscale 0.19 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell2_4 rect 0 0 118 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 486 382 type ITEM_TYPE_TEXT dvar "opencj_clips_cell2_4" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name empty3 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 404 style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 visible when (!dvarInt("opencj_clips_exists3")) decoration }
+  itemDef { name row3 rect 0 0 568 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 404 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED backcolor 0 0 0 .12 forecolor 1 1 1 1 text "" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible when (dvarInt("opencj_clips_exists3")) mouseEnter { setitemcolor row3 backcolor 0 .65 .75 .45; } mouseExit { setitemcolor row3 backcolor 0 0 0 .12; } action { play "mouse_click"; scriptMenuResponse "row:3"; } }
+  itemDef { name cell3_0 rect 0 0 44 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 404 type ITEM_TYPE_TEXT dvar "opencj_clips_cell3_0" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell3_1 rect 0 0 226 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 86 404 type ITEM_TYPE_TEXT dvar "opencj_clips_cell3_1" textfont UI_FONT_NORMAL textscale 0.2 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell3_2 rect 0 0 90 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 322 404 type ITEM_TYPE_TEXT dvar "opencj_clips_cell3_2" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell3_3 rect 0 0 58 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 420 404 type ITEM_TYPE_TEXT dvar "opencj_clips_cell3_3" textfont UI_FONT_NORMAL textscale 0.19 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name cell3_4 rect 0 0 118 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 486 404 type ITEM_TYPE_TEXT dvar "opencj_clips_cell3_4" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name previous rect 0 0 88 22 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 434 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED border WINDOW_BORDER_FULL bordersize 1 bordercolor .2 .4 .44 1 backcolor .10 .19 .22 .95 forecolor 1 1 1 1 text "Previous" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible when (dvarInt("opencj_clips_previous")) mouseEnter { setitemcolor previous backcolor .08 .38 .44 1; } mouseExit { setitemcolor previous backcolor .10 .19 .22 .95; } action { play "mouse_click"; scriptMenuResponse "previous"; } }
+  itemDef { name previous_disabled rect 0 0 76 22 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 48 434 type ITEM_TYPE_TEXT text "Previous" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .35 .35 .35 1 visible when (!dvarInt("opencj_clips_previous")) decoration }
+  itemDef { name next rect 0 0 88 22 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 516 434 type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED border WINDOW_BORDER_FULL bordersize 1 bordercolor .2 .4 .44 1 backcolor .10 .19 .22 .95 forecolor 1 1 1 1 text "Next" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_CENTER visible when (dvarInt("opencj_clips_next")) mouseEnter { setitemcolor next backcolor .08 .38 .44 1; } mouseExit { setitemcolor next backcolor .10 .19 .22 .95; } action { play "mouse_click"; scriptMenuResponse "next"; } }
+  itemDef { name next_disabled rect 0 0 76 22 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 528 434 type ITEM_TYPE_TEXT text "Next" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .35 .35 .35 1 visible when (!dvarInt("opencj_clips_next")) decoration }
+  itemDef { name page rect 0 0 140 22 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 266 434 type ITEM_TYPE_TEXT dvar "opencj_clips_page" textfont UI_FONT_NORMAL textscale 0.23 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+  itemDef { name hint rect 0 0 568 18 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT origin 36 460 type ITEM_TYPE_TEXT dvar "opencj_clips_hint" textfont UI_FONT_NORMAL textscale 0.18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 1 1 1 1 visible 1 decoration }
+ }
 }

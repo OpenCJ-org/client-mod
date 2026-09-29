@@ -3,6 +3,7 @@
 {	
  	loadMenu { "ui_mp/scriptmenus/opencj_ingame.menu" }
     loadMenu { "ui_mp/scriptmenus/opencj_demo.menu" }
+    loadMenu { "ui_mp/scriptmenus/opencj_clipedit.menu" }
     loadMenu { "ui_mp/scriptmenus/opencj_clips.menu" }
     loadMenu { "ui_mp/scriptmenus/opencj_graphics.menu" }
 	loadMenu { "ui_mp/scriptmenus/ingame_controls.menu" }
