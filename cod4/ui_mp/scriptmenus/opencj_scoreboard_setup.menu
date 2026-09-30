@@ -1,0 +1,18 @@
+#include "ui/menudef.h"
+{
+ menuDef {
+  name "opencj_scoreboard_setup"
+  rect 0 0 640 480
+  onOpen {
+   // Dvar names must be unquoted: the linker joins adjacent string literals.
+   // Embedded binding quotes must survive both linker and runtime parsing.
+   setDvar opencj_sb_up "set opencj_sb_held 0; setu opencj_sb_active 0; bind TAB vstr opencj_sb_down";
+   setDvar opencj_sb_down "set opencj_sb_held 1; setu opencj_sb_active 1; bind TAB \\\"+scores; vstr opencj_sb_up; set opencj_sb_release\\\"";
+   execNow "set opencj_sb_held 0";
+   execNow "setu opencj_sb_active 0";
+   execNow "bind TAB vstr opencj_sb_down";
+   execNow "setu opencj_sb_ready 3";
+   close opencj_scoreboard_setup;
+  }
+ }
+}

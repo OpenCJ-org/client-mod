@@ -338,7 +338,7 @@
         SEL_SHADER_RECT_ALWAYS_ACTION(btn_settings, close self; open main_options, opencj_icon_gear, BTN_SETTINGS_ORG_X, BTN_SETTINGS_ORG_Y, BTN_SETTINGS_SIZE_X, BTN_SETTINGS_SIZE_Y)
 
         // Button: leave game
-        SEL_SHADER_RECT_ALWAYS_ACTION(btn_leave, exec "disconnect", opencj_icon_exit, BTN_LEAVE_ORG_X, BTN_LEAVE_ORG_Y, BTN_LEAVE_SIZE_X, BTN_LEAVE_SIZE_Y)
+        SEL_SHADER_RECT_ALWAYS_ACTION(btn_leave, execnow "bind TAB +scores"; execnow "set opencj_sb_held 0"; execnow "setu opencj_sb_active 0"; exec "disconnect", opencj_icon_exit, BTN_LEAVE_ORG_X, BTN_LEAVE_ORG_Y, BTN_LEAVE_SIZE_X, BTN_LEAVE_SIZE_Y)
 
     } // menuDef
 }

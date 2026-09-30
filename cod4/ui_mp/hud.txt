@@ -2,4 +2,5 @@
 // 
 {
 	loadMenu { "ui_mp/hud.menu" }
+    loadMenu { "ui_mp/opencj_scoreboard.menu" }
 }
