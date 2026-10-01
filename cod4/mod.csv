@@ -342,3 +342,21 @@ material,opencj_flag_zm
 material,opencj_flag_zw
 
 menufile,ui_mp/scriptmenus/opencj_scoreboard_setup.menu
+
+menufile,ui_mp/scriptmenus/opencj_challenges.menu
+material,opencj_rank_1
+material,opencj_rank_2
+material,opencj_rank_3
+material,opencj_rank_4
+material,opencj_rank_5
+material,opencj_rank_6
+material,opencj_rank_7
+material,opencj_rank_8
+material,opencj_rank_9
+material,opencj_rank_10
+menufile,ui_mp/scriptmenus/opencj_scoreboard_input.menu
+material,opencj_competitive
+material,opencj_ch_row_0
+material,opencj_ch_row_1
+material,opencj_ch_row_2
+material,opencj_ch_row_3

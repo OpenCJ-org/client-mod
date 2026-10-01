@@ -5,6 +5,7 @@
     loadMenu { "ui_mp/scriptmenus/opencj_demo.menu" }
     loadMenu { "ui_mp/scriptmenus/opencj_clipedit.menu" }
     loadMenu { "ui_mp/scriptmenus/opencj_clips.menu" }
+    loadMenu { "ui_mp/scriptmenus/opencj_challenges.menu" }
     loadMenu { "ui_mp/scriptmenus/opencj_graphics.menu" }
 	loadMenu { "ui_mp/scriptmenus/ingame_controls.menu" }
 	loadMenu { "ui_mp/scriptmenus/ingame_options.menu" }
@@ -52,4 +53,5 @@
 	loadMenu { "ui_mp/challenges_ingame.menu" }
 
 	loadMenu { "ui_mp/cdkey.menu" }
+	loadMenu { "ui_mp/scriptmenus/opencj_scoreboard_input.menu" }
 }

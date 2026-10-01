@@ -1,0 +1,19 @@
+#include "ui/menudef.h"
+{
+ menuDef {
+  name "opencj_scoreboard_input"
+  rect 0 0 640 480
+  fullScreen MENU_FALSE
+  style WINDOW_STYLE_EMPTY
+  // cl_bypassMouseInput passes unhandled keys and mouse-look through.
+  // Only the wheel is captured; no player bindings are changed.
+  onOpen {
+   execNow "setfromdvar opencj_sb_previous_bypass cl_bypassMouseInput";
+   setDvar cl_bypassMouseInput "1";
+  }
+  onClose { execNow "setfromdvar cl_bypassMouseInput opencj_sb_previous_bypass"; }
+  onEsc { execNow "vstr opencj_sb_up"; scriptMenuResponse "close"; close self; }
+  execKeyInt 205 { scriptMenuResponse "down"; }
+  execKeyInt 206 { scriptMenuResponse "up"; }
+ }
+}
