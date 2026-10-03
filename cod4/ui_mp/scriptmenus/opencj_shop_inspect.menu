@@ -1,0 +1,9 @@
+#include "ui/menudef.h"
+{
+ menuDef { name opencj_shop_inspect onClose { scriptMenuResponse "inspect_done"; } rect 0 0 640 480 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT style WINDOW_STYLE_EMPTY focuscolor 1 1 1 1 onEsc { scriptMenuResponse "inspect_done"; close self; close opencj_ingame; }
+ itemDef { name bar rect 140 393 360 54 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT style WINDOW_STYLE_FILLED backcolor .015 .025 .03 .9 visible 1 decoration }
+ itemDef { name inspectTitle rect 152 397 240 20 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT type ITEM_TYPE_TEXT text "PREVIEW" textfont UI_FONT_NORMAL textscale .21 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor 0 .85 .95 1 visible 1 decoration }
+ itemDef { name hint rect 152 418 240 18 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT type ITEM_TYPE_TEXT text "Movement and firing are disabled." textfont UI_FONT_NORMAL textscale .18 textalign ITEM_ALIGN_MIDDLE_LEFT forecolor .65 .75 .78 1 visible 1 decoration }
+ itemDef { name done rect 407 407 80 26 HORIZONTAL_ALIGN_DEFAULT VERTICAL_ALIGN_DEFAULT type ITEM_TYPE_BUTTON style WINDOW_STYLE_FILLED backcolor .10 .19 .22 1 forecolor .92 .96 .97 1 text "Done" textfont UI_FONT_NORMAL textscale .21 textalign ITEM_ALIGN_MIDDLE_CENTER visible 1 mouseEnter { setitemcolor done backcolor .08 .38 .44 1; } mouseExit { setitemcolor done backcolor .10 .19 .22 1; } action { play "mouse_click"; scriptMenuResponse "inspect_done"; close self; close opencj_ingame; } }
+ }
+}

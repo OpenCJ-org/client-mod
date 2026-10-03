@@ -360,3 +360,8 @@ material,opencj_ch_row_0
 material,opencj_ch_row_1
 material,opencj_ch_row_2
 material,opencj_ch_row_3
+menufile,ui_mp/scriptmenus/opencj_shop.menu
+material,weapon_desert_eagle
+material,weapon_rpg7
+menufile,ui_mp/scriptmenus/opencj_shop_confirm.menu
+menufile,ui_mp/scriptmenus/opencj_shop_inspect.menu

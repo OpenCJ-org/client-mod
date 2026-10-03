@@ -62,7 +62,7 @@
         focuscolor WHITE_COLOR
         blurWorld 5
         onOpen { GFX_RESET }
-        onEsc { scriptMenuResponse "cancel"; close self; open opencj_ingame; }
+        onEsc { scriptMenuResponse "cancel"; close self; close opencj_ingame; }
 
         FIXED_RECT(BLACK_COLOR, 42, 40, 556, 406)
         FIXED_RECT(BG_NAV_COLOR, 44, 42, 552, 402)
@@ -123,7 +123,7 @@
         FIXED_RECT_DVARLEFT_SCALED(opencj_gfx_hint, NO_COLOR, LIGHTGREY_COLOR, 0.20, 62, 377, 516, 18)
         FIXED_RECT(BG_NAVSEP_COLOR, 62, 403, 516, 1)
         FIXED_RECT_TXTLEFT("Changes take effect only after Apply.", NO_COLOR, LIGHTGREY_COLOR, 62, 414, 304, 22)
-        BUTTON_RECT_TXT_ACTION_BG(gfx_cancel, "Cancel", play "mouse_click"; scriptMenuResponse "cancel"; close self; open opencj_ingame, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 402, 414, 80, 22)
-        BUTTON_RECT_TXT_ACTION_BG(gfx_apply, "Apply", play "mouse_click"; scriptMenuResponse "apply"; close self; open opencj_ingame, BRIGHT_BLUE_COLOR_01, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 498, 414, 80, 22)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_cancel, "Cancel", play "mouse_click"; scriptMenuResponse "cancel"; close self; close opencj_ingame, NO_COLOR, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 402, 414, 80, 22)
+        BUTTON_RECT_TXT_ACTION_BG(gfx_apply, "Apply", play "mouse_click"; scriptMenuResponse "apply"; close self; close opencj_ingame, BRIGHT_BLUE_COLOR_01, WHITE_COLOR, UI_FONT_NORMAL, 0.24, 498, 414, 80, 22)
     }
 }

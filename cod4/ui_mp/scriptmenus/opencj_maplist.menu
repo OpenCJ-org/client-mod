@@ -5,7 +5,7 @@
 
 // Exit button
 #define ACTION_COMMON           play "mouse_click"; close self
-#define EXITBTN_RUN             ACTION_COMMON; open opencj_ingame
+#define EXITBTN_RUN             ACTION_COMMON; close opencj_ingame
 #define EXITBTN_ORG_X           (OUTER_FRAME_ORG_X + OUTER_FRAME_SIZE_X - EXITBTN_SIZE_X - 10)
 #define EXITBTN_ORG_Y           (OUTER_FRAME_ORG_Y + (H_SEP_ORG_Y / 2) - (EXITBTN_SIZE_Y / 2))
 #define EXITBTN_SIZE_X          100

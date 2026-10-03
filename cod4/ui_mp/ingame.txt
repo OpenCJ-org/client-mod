@@ -54,4 +54,7 @@
 
 	loadMenu { "ui_mp/cdkey.menu" }
 	loadMenu { "ui_mp/scriptmenus/opencj_scoreboard_input.menu" }
+ loadMenu { "ui_mp/scriptmenus/opencj_shop.menu" }
+    loadMenu { "ui_mp/scriptmenus/opencj_shop_confirm.menu" }
+    loadMenu { "ui_mp/scriptmenus/opencj_shop_inspect.menu" }
 }
