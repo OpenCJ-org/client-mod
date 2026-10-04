@@ -7,6 +7,7 @@ menufile,ui_mp\scriptmenus\quickresponses.menu
 menufile,ui_mp\scriptmenus\opencj_ingame.menu
 menufile,ui_mp\scriptmenus\opencj_clientcmd.menu
 menufile,ui_mp\scriptmenus\opencj_fps_userinfo.menu
+menufile,ui_mp/scriptmenus/opencj_client_init.menu
 menufile,ui_mp\scriptmenus\opencj_leaderboard.menu
 menufile,ui_mp\scriptmenus\opencj_lb_fps.menu
 menufile,ui_mp\scriptmenus\opencj_endmapvote.menu
