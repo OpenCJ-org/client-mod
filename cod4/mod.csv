@@ -366,3 +366,5 @@ material,weapon_desert_eagle
 material,weapon_rpg7
 menufile,ui_mp/scriptmenus/opencj_shop_confirm.menu
 menufile,ui_mp/scriptmenus/opencj_shop_inspect.menu
+
+sound,opencj_finish,,all_mp
