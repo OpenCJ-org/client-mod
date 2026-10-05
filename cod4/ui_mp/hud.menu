@@ -471,4 +471,35 @@
 			ownerdraw UI_TALKER4
 		}
 	}
+    // Script HUD fontScale is network-limited to 1.4; menu text can be smaller.
+    menuDef
+    {
+        name "OpenCJ CPC properties"
+        fullScreen MENU_FALSE
+        rect 0 0 0 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+        visible when (dvarString(opencj_cpc_properties) != "" && !ui_active());
+        itemDef
+        {
+            name "background"
+            rect 116 0 344 104 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+            exp rect H (dvarFloat("opencj_cpc_panel_height"))
+            style WINDOW_STYLE_FILLED
+            backcolor 0 0 0 0.55
+            visible MENU_TRUE
+            decoration
+        }
+        itemDef
+        {
+            name "properties"
+            rect 282 27 170 72 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
+            visible MENU_TRUE
+            decoration
+            dvar "opencj_cpc_properties"
+            textfont UI_FONT_NORMAL
+            textscale 0.2
+            textaligny 10
+            textstyle ITEM_TEXTSTYLE_SHADOWED
+            forecolor 1 1 1 1
+        }
+    }
 }
