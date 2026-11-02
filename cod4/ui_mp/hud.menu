@@ -477,7 +477,7 @@
         name "OpenCJ CPC properties"
         fullScreen MENU_FALSE
         rect 0 0 0 0 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_TOP
-        visible when (dvarString(opencj_cpc_properties) != "" && !ui_active());
+        visible when (dvarString(opencj_cpc_properties) != "" && !ui_active() && !dvarInt("opencj_sb_held"));
         itemDef
         {
             name "background"
